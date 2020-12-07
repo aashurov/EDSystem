@@ -10,6 +10,7 @@ CurrencyType = [
     ('UZS', 'UZS'),
 ]
 
+
 class CustomerAccountHistoryForm(forms.ModelForm):
     usd = forms.FloatField(label='USD', required=False,
                           widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUS", "onkeyup": "priceCustomUS()"}))
