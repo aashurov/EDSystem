@@ -13,7 +13,7 @@ def customer(request):
 
 
 def listmoney(request):
-    customeraccounthistorys = CustomerAccountHistory.objects.filter(user_id=request.user.id)
+    customeraccounthistorys = CustomerAccountHistory.objects.filter(user_id=request.user.id).order_by('-id')
     customeraccount = CustomerAccount.objects.get(user_id=request.user.id)
     return render(request, 'customer/listmoney.html', {
         "customeraccount": customeraccount,
@@ -72,7 +72,7 @@ def deletemoney(request, uniq_id):
 
 
 def listloan(request):
-    customerloanhistorys = CustomerLoanHistory.objects.filter(user_id=request.user.id)
+    customerloanhistorys = CustomerLoanHistory.objects.filter(user_id=request.user.id).order_by('-id')
     customeraccount = CustomerAccount.objects.get(user_id=request.user.id)
     return render(request, 'customer/listloan.html',
                   {"customerloanhistorys": customerloanhistorys, "customeraccount": customeraccount})
@@ -118,7 +118,7 @@ def deleteloan(request, uniq_id):
 
 
 def listexpenses(request):
-    customerexpenseshistorys = CustomerExpensesHistory.objects.filter(user_id=request.user.id)
+    customerexpenseshistorys = CustomerExpensesHistory.objects.filter(user_id=request.user.id).order_by('-id')
     customeraccount = CustomerAccount.objects.get(user_id=request.user.id)
     return render(request, 'customer/listexpenses.html',
                   {"customerexpenseshistorys": customerexpenseshistorys, "customeraccount": customeraccount})

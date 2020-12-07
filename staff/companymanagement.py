@@ -6,6 +6,8 @@ from main.models import *
 from django.contrib.auth.forms import SetPasswordForm, UserCreationForm
 from userprofile.forms import ProfileUpdateForm, UserUpdateForm
 from company.models import *
+from currency.models import *
+
 
 def companycreate(request):
     companyexpenses = CompanyExpenses()
@@ -19,6 +21,7 @@ def companycreate(request):
     companyaccount.uzs = 1050000
     companyaccount.save()
     return redirect('staff')
+
 
 def companyreset(request):
     companyaccount = CompanyAccount.objects.get(pk=1)
@@ -59,7 +62,7 @@ def companyreset(request):
 
 
 def companymoney(request):
-    companymoneys = CompanyAccountHistory.objects.all()
+    companymoneys = CompanyAccountHistory.objects.all().order_by('-id')
     return render(request, 'staff/companymoney.html', {"companymoneys": companymoneys})
 
 
@@ -70,7 +73,7 @@ def companymoneysum(request):
 
 
 def companyexpenseshistorys(request):
-    companyexpenseshistorys = CompanyExpensesHistory.objects.all()
+    companyexpenseshistorys = CompanyExpensesHistory.objects.all().order_by('-id')
     return render(request, 'staff/companyexpenses.html', {"companyexpenseshistorys": companyexpenseshistorys})
 
 
@@ -149,7 +152,8 @@ def getmoneyfromcustomer(request, user_id):
     else:
         pi = CustomerAccount.objects.get(pk=user_id)
         form = CompanyAccountHistoryForm()
-    return render(request, 'staff/addmoneyy.html', {"form": form, "pi":pi})
+    currency = CurrencyHistory.objects.all().last()
+    return render(request, 'staff/addmoneyy.html', {"form": form, "pi":pi, "currency":currency})
 
 
 def deletemoneyfromcustomer(request, user_id, uniq_id):

@@ -10,7 +10,7 @@ from currency.forms import *
 
 
 def listcurency(request):
-    currencyhistories = CurrencyHistory.objects.all()
+    currencyhistories = CurrencyHistory.objects.all().order_by('-id')
     return render(request, 'currency/listcurrency.html', {"currencyhistories": currencyhistories})
 
 

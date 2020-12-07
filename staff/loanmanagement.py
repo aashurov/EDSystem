@@ -9,7 +9,7 @@ from currency.models import *
 
 
 def listloan(request):
-    loans = CustomerLoanHistory.objects.all()
+    loans = CustomerLoanHistory.objects.all().order_by('-id')
     return render(request, 'staff/listloan.html', {"loans": loans})
 
 

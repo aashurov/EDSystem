@@ -12,7 +12,7 @@ from datetime import datetime
 from currency.models import *
 
 def listmoney(request):
-    listmoneys = CustomerAccountHistory.objects.all().select_related('user')
+    listmoneys = CustomerAccountHistory.objects.all().select_related('user').order_by('-id')
     loans = CustomerLoan.objects.get(user_id=request.user.id)
     randomm = str(random.randint(1000, 9999))
     return render(request, 'staff/listmoney.html', {"listmoneys": listmoneys, "loans": loans, "random": randomm})
