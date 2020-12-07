@@ -10,12 +10,16 @@ function priceCustomUS() {
 
 function priceCustomRU() {
     var priceCustom = parseFloat(document.getElementById('parcelPriceRU').value);
+    var usd_rub = parseFloat(document.getElementById('usd_rub').value);
+    var usd_uzs = parseFloat(document.getElementById('usd_uzs').value);
     document.getElementById('parcelPriceUS').value = (priceCustom / usd_rub).toFixed(0);
     document.getElementById('parcelPriceUZS').value = ((priceCustom / usd_rub) * usd_uzs).toFixed(0);
 }
 
 function priceCustomUZS() {
     var priceCustom = parseFloat(document.getElementById('parcelPriceUZS').value);
+    var usd_rub = parseFloat(document.getElementById('usd_rub').value);
+    var usd_uzs = parseFloat(document.getElementById('usd_uzs').value);
     document.getElementById('parcelPriceUS').value = (priceCustom / usd_uzs).toFixed(5);
     document.getElementById('parcelPriceRU').value = ((priceCustom / usd_uzs) * usd_rub).toFixed(2);
 }
