@@ -13,6 +13,8 @@
 <div class="col">
     <form method="POST">
         {% csrf_token %}
+        <input type="hidden" value="{{currency.usd_rub}}" id="usd_rub" name="usd_rub">
+        <input type="hidden" value="{{currency.usd_uzs}}" id="usd_uzs" name="usd_uzs">
         {{loan.usd}}<br>
         {{loan.rub}}<br>
         {{loan.uzs}}<br>

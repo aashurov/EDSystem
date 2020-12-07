@@ -13,19 +13,10 @@
 <div class="col">
     <form method="POST">
         {% csrf_token %}
-        {{ form.usd }}<br>
-        {{ form.rub }}<br>
-        {{ form.uzs }}<br>
-        {{ form.currency_type }}<br><br>
-        <select name="user_id" id="standard1" style="width: 100%">
-            <option value="" disabled="disabled" selected>Выберите клиента</option>
-            {% for element in objectlist %}
-            <option value={{ element.user.id }}>{{ element.user.userprofile.uniq_id }} {{ element.user.userprofile.phone_number}} {{ element.user.last_name }} {{element.user.first_name }}
-            </option>
-            {% endfor %}
+        {{ currencyhistoryform.usd_rub }}<br>
+        {{ currencyhistoryform.usd_uzs }}<br>
         </select>
-
-<br><br>
+<br>
         <button type="submit">Сохранить</button>
     </form>
 </div>

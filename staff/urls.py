@@ -5,6 +5,7 @@ from .loanmanagement import *
 from .usermanagement import *
 from .companymanagement import *
 from .insertuser import *
+from .currencymanagement import *
 urlpatterns = [
     path('', staff, name='staff'),
     path('addmoney', addmoney, name='staffaddmoney'),
@@ -40,5 +41,10 @@ urlpatterns = [
     path('counting', counting, name='counting'),
     path('userprofileadd', userprofileadd, name='userprofileadd'),
     path('insertuserphone', insertuserphone, name='insertuserphone'),
+
+    path('listcurrency', listcurency, name='stafflistcurrency'),
+    path('addcurrency', addcurrency, name='staffaddcurrency'),
+    path('editcurrency/<int:id>', editcurrency, name='staffeditcurrency'),
+    path('deletecurrency/<int:id>', deletecurrency, name='staffdeletecurrency'),
 
 ]

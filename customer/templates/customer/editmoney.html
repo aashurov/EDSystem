@@ -11,6 +11,8 @@
  <div class="col">
             <form method="POST">
     {% csrf_token %}
+                <input type="hidden" value="{{currency.usd_rub}}" id="usd_rub" name="usd_rub">
+        <input type="hidden" value="{{currency.usd_uzs}}" id="usd_uzs" name="usd_uzs">
     {{customeraccounthistoryform.as_p}}
     <button type="submit">Сохранить</button>
 </form>

@@ -9,7 +9,7 @@ from company.models import *
 import telegram
 from django.conf import settings
 from datetime import datetime
-
+from currency.models import *
 
 def listmoney(request):
     listmoneys = CustomerAccountHistory.objects.all().select_related('user')
@@ -67,8 +67,9 @@ def addmoney(request):
             return redirect('stafflistmoney')
     else:
         form = CustomerAccountHistoryForm()
+        currency = CurrencyHistory.objects.all().last()
         objectlist = UserProfile.objects.filter(role='клиент').select_related('user')
-    return render(request, 'staff/addmoney.html', {"form": form, "objectlist": objectlist})
+    return render(request, 'staff/addmoney.html', {"form": form, "objectlist": objectlist, "currency":currency})
 
 
 def editmoney(request, uniq_id):
@@ -81,7 +82,8 @@ def editmoney(request, uniq_id):
     else:
         pi = CustomerAccountHistory.objects.get(uniq_id=uniq_id)
         money = CustomerAccountHistoryForm(instance=pi)
-    return render(request, 'staff/editmoney.html', {"money": money})
+    currency = CurrencyHistory.objects.all().last()
+    return render(request, 'staff/editmoney.html', {"money": money, "currency":currency})
 
 
 def deletemoney(request, uniq_id):

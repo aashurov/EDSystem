@@ -5,6 +5,7 @@ from django.db import connection
 from main.models import *
 from userprofile.models import *
 from company.models import *
+from currency.models import *
 
 
 def listloan(request):
@@ -52,8 +53,9 @@ def addloan(request):
     else:
         form = CustomerLoanForm()
     objectlist = UserProfile.objects.filter(role='клиент').select_related('user')
+    currency = CurrencyHistory.objects.all().last()
     userloansum = CustomerLoan.objects.get(user_id=request.user.id)
-    return render(request, 'staff/addloan.html', {"form": form, "sum": userloansum, "objectlist": objectlist})
+    return render(request, 'staff/addloan.html', {"form": form, "sum": userloansum, "objectlist": objectlist, "currency":currency})
 
 
 def elistloan(request, uniq_id, user_id, idd):
@@ -167,7 +169,8 @@ def editloan(request, uniq_id):
     else:
         pi = CustomerLoanHistory.objects.get(uniq_id=uniq_id)
         loan = CustomerAccountForm(instance=pi)
-    return render(request, 'staff/editloan.html', {"loan": loan})
+    currency = CurrencyHistory.objects.all().last()
+    return render(request, 'staff/editloan.html', {"loan": loan, "currency":currency})
 
 
 def deleteloan(request, uniq_id):

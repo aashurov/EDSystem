@@ -11,45 +11,20 @@
     <table class="table table-sm table-hover">
         <tr>
             <th>№</th>
-            <th>ФИО</th>
             <th>USD</th>
             <th>RUB</th>
-            <th>UZS</th>
-            <th>Тип валюты</th>
             <th>Дата</th>
-            <th>Статус</th>
-            <th>Состояние</th>
             <th>Действие</th>
         </tr>
-        {% for loan in loans %}
+        {% for currencyhistory in currencyhistories %}
         <tr>
             <td>{{ forloop.counter}}</td>
-            <td>{{ loan.user.last_name }} {{ loan.user.first_name }}</td>
-            <td>{{ loan.usd}}</td>
-            <td>{{ loan.rub }}</td>
-            <td>{{ loan.uzs }}</td>
-            <td>{{ loan.currency_type }}</td>
-            <td>{{ loan.date_created|date:"d.m.Y" }}</td>
-            <td>{{ loan.general_status }}</td>
-            <td>{{ loan.loan_status }}</td>
+            <td>{{ currencyhistory.usd_rub}}</td>
+            <td>{{ currencyhistory.usd_uzs }}</td>
+            <td>{{ currencyhistory.date_created|date:"d.m.Y" }}</td>
             <td>
-                {% if loan.general_status == 'В обработке' %}
-                <a href="{% url 'staffdeleteloan' uniq_id=loan.uniq_id%}">Удалить долг</a>
-                <a href="{% url 'staffeditloan' uniq_id=loan.uniq_id%}">Редактировать долг</a>
-                <strike>Вернуть долг</strike>
-                <a href="{% url 'elistloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id%}">Одобрить долг</a>
-                {% endif%}
-                {% if loan.general_status == 'Одобрено' %}
-                <strike>Удалить долг</strike>
-                <strike>Редактировать долг</strike>
-                {% if loan.loan_status == 'Взял' %}
-                <a href="{% url 'opencloseloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id %}">Вернул</a>
-                {% endif%}
-                {% if loan.loan_status == 'Вернул' %}
-                <a href="{% url 'opencloseloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id %}">Не вернул</a>
-                {% endif%}
-                <a href="{% url 'elistloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id %}">Отменить долг</a>
-                {% endif%}
+                <a href="{% url 'staffdeletecurrency' id=currencyhistory.id %}">Удалить курс</a>
+                <a href="{% url 'staffeditcurrency' id=currencyhistory.id %}">Редактировать курс</a>
             </td>
         </tr>
         {% endfor %}

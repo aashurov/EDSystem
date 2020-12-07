@@ -54,6 +54,7 @@ LOCAL_APPS = [
     'courier.apps.CourierConfig',
     'staff.apps.StaffConfig',
     'userprofile.apps.UserprofileConfig',
+    'currency.apps.CurrencyConfig',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS

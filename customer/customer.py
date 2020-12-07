@@ -4,7 +4,7 @@ from .forms import *
 import telegram
 from django.conf import settings
 from datetime import datetime
-
+from currency.models import *
 
 # Create your views here.
 def customer(request):
@@ -44,7 +44,8 @@ def addmoney(request):
             return redirect('customerlistmoney')
     else:
         customeraccounthistoryform = CustomerAccountHistoryForm()
-    return render(request, 'customer/addmoney.html', {"customeraccounthistoryform": customeraccounthistoryform})
+    currency = CurrencyHistory.objects.all().last()
+    return render(request, 'customer/addmoney.html', {"customeraccounthistoryform": customeraccounthistoryform, "currency":currency})
 
 
 def editmoney(request, uniq_id):
@@ -58,9 +59,10 @@ def editmoney(request, uniq_id):
         customeraccounthistory = CustomerAccountHistory.objects.get(uniq_id=uniq_id)
         customeraccounthistoryform = CustomerAccountHistoryForm(instance=customeraccounthistory)
     customeraccount = CustomerAccount.objects.get(user_id=request.user.id)
+    currency = CurrencyHistory.objects.all().last()
     return render(request, 'customer/editmoney.html',
                   {"customeraccounthistoryform": customeraccounthistoryform,
-                   "customeraccount": customeraccount})
+                   "customeraccount": customeraccount, "currency":currency})
 
 
 def deletemoney(request, uniq_id):
@@ -88,8 +90,9 @@ def addloan(request):
     else:
         customerloanform = CustomerLoanForm()
     customeraccount = CustomerAccount.objects.get(user_id=request.user.id)
+    currency = CurrencyHistory.objects.all().last()
     return render(request, 'customer/addloan.html',
-                  {"customerloanform": customerloanform, "customeraccount": customeraccount})
+                  {"customerloanform": customerloanform, "customeraccount": customeraccount, "currency":currency})
 
 
 def editloan(request, uniq_id):
@@ -103,8 +106,9 @@ def editloan(request, uniq_id):
         pi = CustomerLoanHistory.objects.get(uniq_id=uniq_id)
         customerloanhistoryform = CustomerLoanHistoryForm(instance=pi)
     customeraccount = CustomerAccount.objects.get(user_id=request.user.id)
+    currency = CurrencyHistory.objects.all().last()
     return render(request, 'customer/editloan.html',
-                  {"customerloanhistoryform": customerloanhistoryform, "customeraccount": customeraccount})
+                  {"customerloanhistoryform": customerloanhistoryform, "customeraccount": customeraccount,"currency":currency})
 
 
 def deleteloan(request, uniq_id):
