@@ -8,14 +8,16 @@
 
 {% block content %}
 <div class="col">
-    <table class="table table-sm table-hover">
+    <table id="example" class="display compact" style="width:100%">
+        <thead>
         <tr>
             <th>№</th>
             <th>ФИО</th>
             <th>USD</th>
             <th>RUB</th>
             <th>UZS</th>
-        </tr>
+        </tr></thead>
+        <tbody>
         {% for customerloan in customerloans %}
         <tr>
             <td>{{ forloop.counter}}</td>
@@ -25,7 +27,7 @@
             <td>{{ customerloan.uzs }}</td>
         </tr>
         {% endfor %}
-
+</tbody>
     </table>
 
 </div>

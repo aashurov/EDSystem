@@ -49,16 +49,7 @@ def listcourier(request):
 
 def listuser(request):
     listusers = User.objects.filter(userprofile__role__in=['клиент'])
-    # listusers = Profile.objects.filter(role='клиент').select_related('user')
-    page = request.GET.get('page', 1)
-    paginator = Paginator(listusers, 10)
-    try:
-        users = paginator.page(page)
-    except PageNotAnInteger:
-        users = paginator.page(1)
-    except EmptyPage:
-        users = paginator.page(paginator.num_pages)
-    return render(request, 'staff/listuser.html', {"users": users})
+    return render(request, 'staff/listuser.html', {"listusers": listusers})
 
 
 def deleteuser(request, user_id):
