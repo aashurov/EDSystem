@@ -1,0 +1,47 @@
+{% extends 'base_CUSTOMER.html' %}
+
+{% block sidebar %}
+<div class="col">
+    Мои платежи
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col">
+    <table class="table table-sm table-hover">
+        <tr>
+            <th>№</th>
+            <th>ФИО</th>
+            <!--                <th>Uniq_id</th>-->
+            <th>USD</th>
+            <th>RUB</th>
+            <th>UZS</th>
+            <th>Тип валюты</th>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Действие</th>
+        </tr>
+        {% for customeraccounthistory in customeraccounthistorys %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ customeraccounthistory.user.last_name}} {{ customeraccounthistory.user.first_name}}</td>
+            <!--                <td>{{ customeraccounthistory.uniq_id}}</td>-->
+            <td>{{ customeraccounthistory.usd}}</td>
+            <td>{{ customeraccounthistory.rub }}</td>
+            <td>{{ customeraccounthistory.uzs }}</td>
+            <td>{{ customeraccounthistory.currency_type }}</td>
+            <td>{{ customeraccounthistory.date_created|date:"d.m.Y" }}</td>
+            <td>{{ customeraccounthistory.general_status }}</td>
+            {% if customeraccounthistory.general_status == 'В обработке'%}
+            <td>
+                <a href="{% url 'customerdeletemoney' uniq_id=customeraccounthistory.uniq_id%}">Удалить</a>
+                <a href="{% url 'customereditmoney' uniq_id=customeraccounthistory.uniq_id%}">Редактировать</a></td>
+            {% else %}
+            <td><strike>Удалить</strike><strike>Редактировать</strike></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
+

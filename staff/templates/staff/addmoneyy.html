@@ -1,0 +1,26 @@
+{% extends 'base_STAFF.html' %}
+{% block sidebar %}
+<div class="col">
+    Списать денег с клиента - {{pi.user.last_name}} {{pi.user.first_name}} ({{pi.usd}})
+</div>
+{% endblock %}
+
+{% block content %}
+{% include 'inc/_js.html' %}
+<div class="col">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.usd }}<br>
+        {{ form.rub }}<br>
+        {{ form.uzs }}<br>
+        {{ form.currency_type }}
+        {{ form.service_type }}
+        {{ form.plan_type }}
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+
+{% endblock %}
+
+
+

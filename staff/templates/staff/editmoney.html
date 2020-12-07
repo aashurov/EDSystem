@@ -1,0 +1,22 @@
+{% extends 'base_STAFF.html' %}
+
+{% block sidebar %}
+<div class="col">
+    Редактировать платеж
+</div>
+{% endblock %}
+
+{% block content %}
+{% include 'inc/_js.html' %}
+
+<div class="col">
+    <form method="POST">
+        {% csrf_token %}
+        {{money.usd}}<br>
+        {{money.rub}}<br>
+        {{money.uzs}}<br>
+        {{money.currency_type}}
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+{% endblock %}

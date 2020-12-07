@@ -1,0 +1,19 @@
+{% extends 'base_CUSTOMER.html' %}
+
+{% block sidebar %}
+<div class="col">
+            Редактировать долг
+        </div>
+{% endblock %}
+
+{% block content %}
+{% include 'inc/_js.html' %}
+
+ <div class="col">
+           <form method="POST">
+    {% csrf_token %}
+    {{customerloanhistoryform.as_p}}
+    <button type="submit">Сохранить</button>
+</form>
+        </div>
+{% endblock %}

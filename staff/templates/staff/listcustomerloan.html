@@ -1,0 +1,32 @@
+{% extends 'base_STAFF.html' %}
+
+{% block sidebar %}
+<div class="col">
+    Список долгов клиентов
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col">
+    <table class="table table-sm table-hover">
+        <tr>
+            <th>№</th>
+            <th>ФИО</th>
+            <th>USD</th>
+            <th>RUB</th>
+            <th>UZS</th>
+        </tr>
+        {% for customerloan in customerloans %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ customerloan.user.last_name }} {{ customerloan.user.first_name }}</td>
+            <td>{{ customerloan.usd}}</td>
+            <td>{{ customerloan.rub }}</td>
+            <td>{{ customerloan.uzs }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+{% endblock %}

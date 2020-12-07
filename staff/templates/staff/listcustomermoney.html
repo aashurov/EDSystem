@@ -1,0 +1,36 @@
+{% extends 'base_STAFF.html' %}
+
+{% block sidebar %}
+<div class="col">
+    Список счета клиентов
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col">
+    <table class="table table-sm table-hover">
+        <tr>
+            <th>№</th>
+            <th>ФИО</th>
+            <th>USD</th>
+            <th>RUB</th>
+            <th>UZS</th>
+            <th>Действие</th>
+        </tr>
+        {% for customercashsum in customercashsums %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ customercashsum.user.last_name }} {{ customercashsum.user.first_name }}</td>
+            <td>{{ customercashsum.usd}}</td>
+            <td>{{ customercashsum.rub }}</td>
+            <td>{{ customercashsum.uzs }}</td>
+            <td>
+                <a class="fa fa-pencil" href="{% url 'getmoneyfromcustomer' user_id=customercashsum.id%}">Списать
+                    денег</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base_STAFF.html' %}
+
+{% block sidebar %}
+<div class="col">
+    Список расходов компании
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col">
+    <table class="table table-sm table-hover">
+        <tr>
+            <th>№</th>
+            <th>ФИО</th>
+<!--            <th>Uniq_id</th>-->
+            <th>USD</th>
+            <th>RUB</th>
+            <th>UZS</th>
+            <th>Тип валюты</th>
+            <th>Тип сервиса</th>
+            <th>Дата</th>
+        </tr>
+        {% for companyexpenseshistory in companyexpenseshistorys %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ companyexpenseshistory.user.last_name}} {{ companyexpenseshistory.user.first_name}}</td>
+<!--            <td>{{ companyexpenseshistory.uniq_id}}</td>-->
+            <td>{{ companyexpenseshistory.usd}}</td>
+            <td>{{ companyexpenseshistory.rub }}</td>
+            <td>{{ companyexpenseshistory.uzs }}</td>
+            <td>{{ companyexpenseshistory.currency_type }}</td>
+            <td>{{ companyexpenseshistory.company_expenses_type }}</td>
+            <td>{{ companyexpenseshistory.date_created|date:"d.m.Y" }}</td>
+            <!--<td>{{ clistmoney.date_updated|date:"d.m.Y" }}</td>-->
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock %}
+
+
+
+

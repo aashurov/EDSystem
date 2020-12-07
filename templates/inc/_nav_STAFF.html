@@ -1,0 +1,91 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">{{user.userprofile.role|capfirst}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'staff' %}">Главная <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Посылки
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                    <a class="dropdown-item" href="#">Посылка</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Платежи
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                    <a class="dropdown-item" href="{% url 'staffaddmoney' %}">Добавить платеж</a>
+                    <a class="dropdown-item" href="{% url 'stafflistmoney'%}">Платежи</a>
+                </div>
+            </li>
+               <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Долги
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                    <a class="dropdown-item" href="{% url 'staffaddloan'%}">Добавить долг</a>
+                    <a class="dropdown-item" href="{% url 'stafflistloan'%}">Долги</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Пользователи
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                    <a class="dropdown-item" href="{%url 'staffcreateuser' %}">Добавить пользователя</a>
+                    <a class="dropdown-item" href="{%url 'stafflistuser' %}">Клиенты</a>
+                    <a class="dropdown-item" href="{%url 'stafflistcourier' %}">Куреры</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown4" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Счета клиентов
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown4">
+                    <a class="dropdown-item" href="{% url 'stafflistcustomermoney' %}">Счета клиентов</a>
+                    <a class="dropdown-item" href="{% url 'stafflistcustomerloan' %}">Долги клиентов</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown5" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Счет Компании
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown5">
+                    <a class="dropdown-item" href="{% url 'companymoneysum' %}">Баланс</a>
+                    <a class="dropdown-item" href="{% url 'companymoney' %}">Приходы</a>
+                    <a class="dropdown-item" href="{% url 'companyexpenseshistorys' %}">Расходы 1</a>
+                    <a class="dropdown-item" href="{% url 'companyexpenseshistorys' %}">Расходы 2</a>
+
+                </div>
+            </li>
+        </ul>
+<!--        <form class="form-inline my-2 my-lg-0">-->
+<!--            <a class="btn btn-outline-success my-2 mr-sm-2 my-sm-0 form-control"-->
+<!--               href="{% url 'profile' user_id=user.id %}">{{user.id}} {{user.username}}</a>-->
+<!--        </form>-->
+        <!--        <form class="form-inline my-2 my-lg-0">-->
+        <!--            <a class="btn btn-outline-success my-2 mr-sm-2 my-sm-0 form-control"-->
+        <!--               href="{% url 'profile' user_id=user.id %}">{{sum.usd}} $ || {{sum.rub}} &#8381; || {{sum.uzs}} UZS </a>-->
+        <!--        </form>-->
+        <form class="form-inline my-2 my-lg-0">
+            <a class="btn btn-outline-success my-2 mr-sm-2 my-sm-0 form-control"
+               href="{% url 'profile' user_id=user.id %}">Профиль</a>
+            <a class="btn btn-outline-success my-2 mr-sm-2 my-sm-0" href="{% url 'logout' %}">Выход</a>
+        </form>
+    </div>
+</nav>

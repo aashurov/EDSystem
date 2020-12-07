@@ -1,0 +1,33 @@
+{% extends 'base_STAFF.html' %}
+
+{% block sidebar %}
+<div class="col">
+    Добавить платеж
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% include 'inc/_js.html' %}
+
+<div class="col">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.usd }}<br>
+        {{ form.rub }}<br>
+        {{ form.uzs }}<br>
+        {{ form.currency_type }}
+        <select name="user_id" id="standard1" style="width: 100%">
+            <option value="" disabled="disabled" selected>Выберите клиента</option>
+
+            {% for element in objectlist %}
+
+            <option value={{ element.user.id }}>{{ element.user.userprofile.uniq_id }} {{ element.user.userprofile.phone_number}} {{ element.user.last_name }} {{element.user.first_name }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+{% endblock %}
+

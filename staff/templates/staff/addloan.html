@@ -1,0 +1,35 @@
+{% extends 'base_STAFF.html' %}
+{% block sidebar %}
+<div class="col">
+    Открыть долг
+</div>
+{% endblock %}
+
+{% block content %}
+{% include 'inc/_js.html' %}
+
+<div class="col">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.usd }}<br>
+        {{ form.rub }}<br>
+        {{ form.uzs }}<br>
+        {{ form.currency_type }}<br>
+        <select name="user_id">
+            {% for element in objectlist %}
+            <option value={{ element.user.id }}>{{ element.user.username }}
+                {% endfor %}
+        </select>
+        <select name="currency_type" id="currency_type">
+            <option value="USD">USD</option>
+            <option value="RUB">RUB</option>
+            <option value="UZS">UZS</option>
+        </select>
+        <button type="submit">Add loan</button>
+    </form>
+</div>
+
+{% endblock %}
+
+
+

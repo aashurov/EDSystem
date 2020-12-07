@@ -1,0 +1,39 @@
+{% extends 'base_STAFF.html' %}
+
+{% block sidebar %}
+<div class="col">
+    Список куреров
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col">
+    <table class="table table-sm table-hover">
+        <tr>
+            <th>№</th>
+            <th>Логин</th>
+            <th>ФИО</th>
+            <th>email</th>
+            <th>Телефон</th>
+            <th>Действие</th>
+        </tr>
+        {% for listcourier in listcouriers %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ listcourier.username }}</td>
+            <td>{{ listcourier.last_name }} {{ listcourier.first_name }}</td>
+            <td>{{ listcourier.email}}</td>
+            <td>{{ listcourier.profile.phone_number}}</td>
+            <td>
+                <a href="{% url 'staffdeleteuser' user_id=listcourier.id %}">Удалить клиента</a>
+                <a href="{% url 'staffediteuser' user_id=listcourier.id %}">Редактировать клиента</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock %}
+
+
+

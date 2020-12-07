@@ -1,0 +1,24 @@
+{% extends 'base_STAFF.html' %}
+
+{% block sidebar %}
+<div class="col">
+    Редактировать долг
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% include 'inc/_js.html' %}
+
+<div class="col">
+    <form method="POST">
+        {% csrf_token %}
+        {{loan.usd}}<br>
+        {{loan.rub}}<br>
+        {{loan.uzs}}<br>
+        {{loan.currency_type}}
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+{% endblock %}
+

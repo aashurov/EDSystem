@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+</head>
+<body>
+<h1>Главная страница</h1>
+<u>
+    {% if not request.user.is_authenticated%}
+    <li>
+        <a href="{% url 'login' %}">Вход</a>
+    </li>
+    <li>
+        <a href="{% url 'signup' %}">Регистрация</a>
+    </li>
+    {% endif %}
+    {% if request.user.is_authenticated%}
+    {% if request.user.userprofile.role == 'менеджер' %}
+     <li>
+        <a href="{% url 'staff' %}">Панель управления</a>
+    </li>
+    {% endif %}
+       {% if request.user.userprofile.role == 'курер' %}
+     <li>
+        <a href="{% url 'courier' %}">Панель управления</a>
+    </li>
+    {% endif %}
+       {% if request.user.userprofile.role == 'клиент' %}
+     <li>
+        <a href="{% url 'customer' %}">Панель управления</a>
+    </li>
+    {% endif %}
+    <li>
+        <a href="{% url 'profile' user_id=request.user.id %}">Личный кабинет</a>
+    </li>
+    <li>
+        <a href="{% url 'logout' %}">Выход</a>
+    </li>
+    {% endif %}
+</u>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends 'base_STAFF.html' %}
+
+{% block sidebar %}
+<div class="col">
+    Общий баланс
+</div>
+<div class="col">
+    Общий расход
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col">
+    <table class="table table-sm table-hover">
+        <tr>
+            <th>№</th>
+            <th>USD</th>
+            <th>RUB</th>
+            <th>UZS</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>{{ companyaccount.usd}}</td>
+            <td>{{ companyaccount.rub }}</td>
+            <td>{{ companyaccount.uzs }}</td>
+        </tr>
+    </table>
+
+</div>
+<div class="col">
+    <table class="table table-sm table-hover">
+        <tr>
+            <th>№</th>
+            <th>USD</th>
+            <th>RUB</th>
+            <th>UZS</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>{{ companyexpenses.usd}}</td>
+            <td>{{ companyexpenses.rub }}</td>
+            <td>{{ companyexpenses.uzs }}</td>
+        </tr>
+    </table>
+
+</div>
+
+{% endblock %}
+
+
+

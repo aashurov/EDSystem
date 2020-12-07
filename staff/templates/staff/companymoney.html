@@ -1,0 +1,53 @@
+{% extends 'base_STAFF.html' %}
+
+{% block sidebar %}
+<div class="col">
+    Список приходов компании
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col">
+    <table class="table table-sm table-hover">
+        <tr>
+            <th>№</th>
+            <th>ФИО</th>
+            <th>Uniq_id</th>
+            <th>USD</th>
+            <th>RUB</th>
+            <th>UZS</th>
+            <th>Тип валюты</th>
+            <th>Тип сервиса</th>
+            <th>Тарифный план</th>
+            <th>Дата</th>
+            <th>Действие</th>
+
+        </tr>
+        {% for companymoney in companymoneys %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ companymoney.user.last_name}} {{ companymoney.user.first_name}}</td>
+            <td>{{ companymoney.uniq_id}}</td>
+            <td>{{ companymoney.usd}}</td>
+            <td>{{ companymoney.rub }}</td>
+            <td>{{ companymoney.uzs }}</td>
+            <td>{{ companymoney.currency_type }}</td>
+            <td>{{ companymoney.service_type }}</td>
+            <td>{{ companymoney.plan_type }}</td>
+            <td>{{ companymoney.date_created|date:"d.m.Y" }}</td>
+            <!--<td>{{ clistmoney.date_updated|date:"d.m.Y" }}</td>-->
+            <td>
+                {% if companymoney.plan_type != '00'%}
+                <a href="{% url 'getmoneyfromcustomer' user_id=companymoney.user.id uniq_id=companymoney.uniq_id%}">Удалить</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock %}
+
+
+
+

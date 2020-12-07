@@ -1,0 +1,45 @@
+{% extends 'base_CUSTOMER.html' %}
+
+{% block sidebar %}
+<div class="col">
+    Мои долги
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col">
+    <table class="table table-sm table-hover">
+        <tr>
+            <th>№</th>
+            <th>ФИО</th>
+            <th>USD</th>
+            <th>RUB</th>
+            <th>UZS</th>
+            <th>Тип валюты</th>
+            <th>Дата платежа</th>
+            <th>Статус</th>
+            <th>Статус</th>
+            <th>Действие</th>
+        </tr>
+        {% for customerloanhistory in customerloanhistorys %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ customerloanhistory.user.last_name}} {{ customerloanhistory.user.first_name}}</td>
+            <td>{{ customerloanhistory.usd}}</td>
+            <td>{{ customerloanhistory.rub }}</td>
+            <td>{{ customerloanhistory.uzs }}</td>
+            <td>{{ customerloanhistory.currency_type }}</td>
+            <td>{{ customerloanhistory.date_created|date:"d.m.Y" }}</td>
+            <td>{{ customerloanhistory.general_status }}</td>
+            <td>{{ customerloanhistory.loan_status }}</td>
+            {% if customerloanhistory.general_status == 'В обработке'%}
+            <td><a href="{% url 'customerdeleteloan' uniq_id=customerloanhistory.uniq_id%}">Удалить</a><a
+                    href="{% url 'customereditloan' uniq_id=customerloanhistory.uniq_id%}">Редактировать</a></td>
+            {% else %}
+            <td><strike>Удалить</strike><strike>Редактировать</strike></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base_STAFF.html' %}
+{% block sidebar %}
+<div class="col">
+    Список платежей клиентов
+</div>
+{% endblock %}
+{% block content %}
+<div class="col">
+    <table class="table table-sm table-hover">
+        <tr>
+            <th>№</th>
+            <th>ФИО</th>
+            <th>USD</th>
+            <th>RUB</th>
+            <th>UZS</th>
+            <th>Тип валюты</th>
+            <th>Дата платежа</th>
+            <th>Статус</th>
+            <th>Действие</th>
+        </tr>
+        {% for listmoney in listmoneys %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ listmoney.user.last_name }} {{ listmoney.user.first_name }}</td>
+            <td>{{ listmoney.usd}}</td>
+            <td>{{ listmoney.rub }}</td>
+            <td>{{ listmoney.uzs }}</td>
+            <td>{{ listmoney.currency_type }}</td>
+            <td>{{ listmoney.date_created|date:"d.m.Y" }}</td>
+            <td>{{ listmoney.general_status }}</td>
+            <td>
+                {% if listmoney.general_status == 'В обработке' %}
+                <a href="{% url 'staffdeletemoney' uniq_id=listmoney.uniq_id%}">Удалить платеж</a>
+                <a href="{% url 'staffeditmoney' uniq_id=listmoney.uniq_id%}">Редактировать платеж</a>
+                <a href="{% url 'elistmoney' uniq_id=listmoney.uniq_id user_id=listmoney.user_id%}">Одобрить
+                    платеж</a>
+                {% endif%}
+                {% if listmoney.general_status == 'Одобрено' %}
+                <strike>Удалить платеж</strike>
+                <strike>Редактировать платеж</strike>
+                <a href="{% url 'elistmoney' uniq_id=listmoney.uniq_id user_id=listmoney.user_id %}">Отменить
+                    платеж</a></td>
+            {% endif%}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock %}
+
