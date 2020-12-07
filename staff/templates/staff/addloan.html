@@ -15,16 +15,17 @@
         {{ form.rub }}<br>
         {{ form.uzs }}<br>
         {{ form.currency_type }}<br>
-        <select name="user_id">
+        <br>
+        <select name="user_id" id="standard1" style="width: 100%">
+            <option value="" disabled="disabled" selected>Выберите клиента</option>
             {% for element in objectlist %}
-            <option value={{ element.user.id }}>{{ element.user.username }}
-                {% endfor %}
+            <option value={{ element.user.id }}>{{ element.user.userprofile.uniq_id }} {{
+                element.user.userprofile.phone_number}} {{ element.user.last_name }} {{element.user.first_name }}
+            </option>
+            {% endfor %}
         </select>
-        <select name="currency_type" id="currency_type">
-            <option value="USD">USD</option>
-            <option value="RUB">RUB</option>
-            <option value="UZS">UZS</option>
-        </select>
+        <br>
+        <br>
         <button type="submit">Add loan</button>
     </form>
 </div>
