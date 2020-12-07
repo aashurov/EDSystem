@@ -11,7 +11,7 @@
     <table class="table table-sm table-hover">
         <tr>
             <th>№</th>
-            <th>ФИО</th>
+<!--            <th>ФИО</th>-->
             <!--                <th>Uniq_id</th>-->
             <th>USD</th>
             <th>RUB</th>
@@ -24,7 +24,7 @@
         {% for customeraccounthistory in customeraccounthistorys %}
         <tr>
             <td>{{ forloop.counter}}</td>
-            <td>{{ customeraccounthistory.user.last_name}} {{ customeraccounthistory.user.first_name}}</td>
+<!--            <td>{{ customeraccounthistory.user.last_name}} {{ customeraccounthistory.user.first_name}}</td>-->
             <!--                <td>{{ customeraccounthistory.uniq_id}}</td>-->
             <td>{{ customeraccounthistory.usd}}</td>
             <td>{{ customeraccounthistory.rub }}</td>

@@ -11,8 +11,8 @@ class SetpasswordLogin(SetPasswordForm):
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField()
-    password = forms.CharField()
+    username = forms.CharField(label='', widget=forms.TextInput(attrs={"placeholder": "Username"}))
+    password = forms.CharField(label='', widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Password"}))
 
 
 class UserUpdateForm(forms.ModelForm):
