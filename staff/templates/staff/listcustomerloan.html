@@ -12,6 +12,7 @@
         <thead>
         <tr>
             <th>№</th>
+            <th>UNIQ_ID</th>
             <th>ФИО</th>
             <th>USD</th>
             <th>RUB</th>
@@ -21,6 +22,7 @@
         {% for customerloan in customerloans %}
         <tr>
             <td>{{ forloop.counter}}</td>
+            <td>{{ customerloan.user.userprofile.uniq_id}}</td>
             <td>{{ customerloan.user.last_name }} {{ customerloan.user.first_name }}</td>
             <td>{{ customerloan.usd}}</td>
             <td>{{ customerloan.rub }}</td>

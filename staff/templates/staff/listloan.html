@@ -37,14 +37,15 @@
             <td>{{ loan.loan_status }}</td>
             <td>
                 {% if loan.general_status == 'В обработке' %}
-                <a href="{% url 'staffdeleteloan' uniq_id=loan.uniq_id%}">Удалить долг</a>
+
                 <a href="{% url 'staffeditloan' uniq_id=loan.uniq_id%}">Редактировать долг</a>
-                <strike>Вернуть долг</strike>
+<!--                <strike>Вернуть долг</strike>-->
                 <a href="{% url 'elistloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id%}">Одобрить долг</a>
+                <a href="{% url 'staffdeleteloan' uniq_id=loan.uniq_id%}">Удалить долг</a>
                 {% endif%}
                 {% if loan.general_status == 'Одобрено' %}
-                <strike>Удалить долг</strike>
-                <strike>Редактировать долг</strike>
+<!--                <strike>Удалить долг</strike>-->
+<!--                <strike>Редактировать долг</strike>-->
                 {% if loan.loan_status == 'Взял' %}
                 <a href="{% url 'opencloseloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id %}">Вернул</a>
                 {% endif%}

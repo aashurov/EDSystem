@@ -12,6 +12,7 @@
               <thead>
         <tr>
             <th>№</th>
+            <th>UNIQ_ID</th>
             <th>ФИО</th>
             <th>USD</th>
             <th>RUB</th>
@@ -23,13 +24,13 @@
         {% for customercashsum in customercashsums %}
         <tr>
             <td>{{ forloop.counter}}</td>
+            <td>{{ customercashsum.user.userprofile.uniq_id}}</td>
             <td>{{ customercashsum.user.last_name }} {{ customercashsum.user.first_name }}</td>
             <td>{{ customercashsum.usd}}</td>
             <td>{{ customercashsum.rub }}</td>
             <td>{{ customercashsum.uzs }}</td>
             <td>
-                <a class="fa fa-pencil" href="{% url 'getmoneyfromcustomer' user_id=customercashsum.id%}">Списать
-                    денег</a>
+                <a   href="{% url 'getmoneyfromcustomer' user_id=customercashsum.id%}" ><i class="fa fa-money"></i></a>
             </td>
         </tr>
         {% endfor %}

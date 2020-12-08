@@ -12,6 +12,7 @@
         <thead>
         <tr>
             <th>№</th>
+            <th>UNIQ_ID</th>
             <th>Логин</th>
             <th>ФИО</th>
             <th>email</th>
@@ -23,13 +24,14 @@
         {% for listcourier in listcouriers %}
         <tr>
             <td>{{ forloop.counter}}</td>
+            <td>{{ listcourier.user.userprofile.uniq_id}}</td>
             <td>{{ listcourier.username }}</td>
             <td>{{ listcourier.last_name }} {{ listcourier.first_name }}</td>
             <td>{{ listcourier.email}}</td>
             <td>{{ listcourier.profile.phone_number}}</td>
             <td>
-                <a href="{% url 'staffdeleteuser' user_id=listcourier.id %}">Удалить клиента</a>
-                <a href="{% url 'staffediteuser' user_id=listcourier.id %}">Редактировать клиента</a>
+                <a href="{% url 'staffdeleteuser' user_id=listcourier.id %}"><i class="fa fa-trash"></i></a>
+                <a href="{% url 'staffediteuser' user_id=listcourier.id %}"><i class="fa fa-pencil"></i></a>
             </td>
         </tr>
         {% endfor %}

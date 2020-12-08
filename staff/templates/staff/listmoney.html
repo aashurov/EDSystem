@@ -7,7 +7,7 @@
 {% block content %}
 <div class="col">
     <table id="example" class="display compact" style="width:100%">
-      <thead>
+        <thead>
         <tr>
             <th>№</th>
             <th>FIO</th>
@@ -33,16 +33,15 @@
             <td>{{ listmoney.general_status }}</td>
             <td>
                 {% if listmoney.general_status == 'В обработке' %}
-                <a href="{% url 'staffdeletemoney' uniq_id=listmoney.uniq_id%}">Удалить платеж</a>
-                <a href="{% url 'staffeditmoney' uniq_id=listmoney.uniq_id%}">Редактировать платеж</a>
-                <a href="{% url 'elistmoney' uniq_id=listmoney.uniq_id user_id=listmoney.user_id%}">Одобрить
-                    платеж</a>
+                <a href="{% url 'elistmoney' uniq_id=listmoney.uniq_id user_id=listmoney.user_id%}"><i class="fa fa-check"></i></a>
+                <a href="{% url 'staffeditmoney' uniq_id=listmoney.uniq_id%}"><i class="fa fa-pencil"></i></a>
+                <a href="{% url 'staffdeletemoney' uniq_id=listmoney.uniq_id%}"><i class="fa fa-trash"></i></a>
                 {% endif%}
                 {% if listmoney.general_status == 'Одобрено' %}
-                <strike>Удалить платеж</strike>
-                <strike>Редактировать платеж</strike>
-                <a href="{% url 'elistmoney' uniq_id=listmoney.uniq_id user_id=listmoney.user_id %}">Отменить
-                    платеж</a></td>
+                <a href="{% url 'elistmoney' uniq_id=listmoney.uniq_id user_id=listmoney.user_id %}"><i class="fa fa-times"></i></a>
+<!--                <strike><i class="fa fa-pencil"></i></strike>-->
+<!--                <strike><i class="fa fa-trash"></i></strike>-->
+            </td>
             {% endif%}
             </td>
         </tr>
