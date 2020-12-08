@@ -8,7 +8,8 @@
 
 {% block content %}
 <div class="col">
-    <table class="table table-sm table-hover">
+        <table id="example" class="display compact" style="width:100%">
+            <thead>
         <tr>
             <th>№</th>
             <th>USD-RUB</th>
@@ -16,6 +17,8 @@
             <th>Дата</th>
             <th>Действие</th>
         </tr>
+        </thead>
+            <tbody>
         {% for currencyhistory in currencyhistories %}
         <tr>
             <td>{{ forloop.counter}}</td>
@@ -28,6 +31,7 @@
             </td>
         </tr>
         {% endfor %}
+            </tbody>
     </table>
 </div>
 {% endblock %}

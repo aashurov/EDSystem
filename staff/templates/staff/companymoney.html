@@ -8,7 +8,8 @@
 
 {% block content %}
 <div class="col">
-    <table class="table table-sm table-hover">
+    <table id="example" class="display compact" style="width:100%">
+        <thead>
         <tr>
             <th>№</th>
             <th>ФИО</th>
@@ -21,7 +22,8 @@
             <th>Тарифный план</th>
             <th>Дата</th>
             <th>Действие</th>
-
+        </thead>
+<tbody>
         </tr>
         {% for companymoney in companymoneys %}
         <tr>
@@ -43,6 +45,7 @@
             </td>
         </tr>
         {% endfor %}
+        </tbody>
     </table>
 
 </div>

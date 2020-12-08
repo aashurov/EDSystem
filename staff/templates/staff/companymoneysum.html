@@ -12,18 +12,22 @@
 {% block content %}
 <div class="col">
     <table class="table table-sm table-hover">
+        <thead>
         <tr>
             <th>№</th>
             <th>USD</th>
             <th>RUB</th>
             <th>UZS</th>
         </tr>
+                </thead>
+<tbody>
         <tr>
             <td>1</td>
             <td>{{ companyaccount.usd}}</td>
             <td>{{ companyaccount.rub }}</td>
             <td>{{ companyaccount.uzs }}</td>
         </tr>
+        </tbody>
     </table>
 
 </div>

@@ -8,6 +8,7 @@ from userprofile.forms import ProfileUpdateForm, UserUpdateForm
 from userprofile.models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
 def createuser(request):
     form = UserCreationForm(request.POST)
     if form.is_valid():
@@ -86,10 +87,10 @@ def edituser(request, user_id):
 
 
 def listcustomermoney(request):
-    customeraccount = CustomerAccount.objects.filter(user__userprofile__role='клиент')
+    customeraccount = CustomerAccount.objects.filter(user__userprofile__role='клиент').order_by('-usd')
     return render(request, 'staff/listcustomermoney.html', {"customercashsums": customeraccount})
 
 
 def listcustomerloan(request):
-    customerloans = CustomerLoan.objects.filter(user__userprofile__role='клиент')
+    customerloans = CustomerLoan.objects.filter(user__userprofile__role='клиент').order_by('-usd')
     return render(request, 'staff/listcustomerloan.html', {"customerloans": customerloans})

@@ -11,6 +11,7 @@ from django.conf import settings
 from datetime import datetime
 from currency.models import *
 
+
 def listmoney(request):
     listmoneys = CustomerAccountHistory.objects.all().select_related('user').order_by('-id')
     loans = CustomerLoan.objects.get(user_id=request.user.id)

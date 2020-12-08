@@ -8,7 +8,8 @@
 
 {% block content %}
 <div class="col">
-    <table class="table table-sm table-hover">
+    <table id="example" class="display compact" style="width:100%">
+        <thead>
         <tr>
             <th>№</th>
             <th>ФИО</th>
@@ -20,6 +21,8 @@
             <th>Тип сервиса</th>
             <th>Дата</th>
         </tr>
+        </thead>
+        <tbody>
         {% for companyexpenseshistory in companyexpenseshistorys %}
         <tr>
             <td>{{ forloop.counter}}</td>
@@ -34,6 +37,7 @@
             <!--<td>{{ clistmoney.date_updated|date:"d.m.Y" }}</td>-->
         </tr>
         {% endfor %}
+        </tbody>
     </table>
 
 </div>
