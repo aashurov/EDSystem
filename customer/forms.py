@@ -13,11 +13,11 @@ CurrencyType = [
 
 class CustomerAccountHistoryForm(forms.ModelForm):
     usd = forms.FloatField(label='USD', required=False,
-                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUS", "onkeyup": "priceCustomUS()"}))
+                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUS", "onkeyup": "priceCustomUS()", "required":"required"}))
     rub = forms.FloatField(label='RUB', required=False,
-                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceRU", "onkeyup": "priceCustomRU()"}))
+                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceRU", "onkeyup": "priceCustomRU()", "required":"required"}))
     uzs = forms.FloatField(label='UZS', required=False,
-                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUZS", "onkeyup": "priceCustomUZS()"}))
+                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUZS", "onkeyup": "priceCustomUZS()", "required":"required"}))
     currency_type = forms.ChoiceField(label='CurrencyType', widget=forms.Select, choices=CurrencyType)
 
     class Meta:
@@ -27,11 +27,11 @@ class CustomerAccountHistoryForm(forms.ModelForm):
 
 class CustomerAccountForm(forms.ModelForm):
     usd = forms.FloatField(label='USD', required=False,
-                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUS", "onkeyup": "priceCustomUS()"}))
+                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUS", "onkeyup": "priceCustomUS()", "required":"required"}))
     rub = forms.FloatField(label='RUB', required=False,
-                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceRU", "onkeyup": "priceCustomRU()"}))
+                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceRU", "onkeyup": "priceCustomRU()", "required":"required"}))
     uzs = forms.FloatField(label='UZS', required=False,
-                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUZS", "onkeyup": "priceCustomUZS()"}))
+                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUZS", "onkeyup": "priceCustomUZS()", "required":"required"}))
 
     class Meta:
         model = CustomerAccount
@@ -40,11 +40,11 @@ class CustomerAccountForm(forms.ModelForm):
 
 class CustomerLoanHistoryForm(forms.ModelForm):
     usd = forms.FloatField(label='USD', required=False,
-                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUS", "onkeyup": "priceCustomUS()"}))
+                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUS", "onkeyup": "priceCustomUS()", "required":"required"}))
     rub = forms.FloatField(label='RUB', required=False,
-                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceRU", "onkeyup": "priceCustomRU()"}))
+                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceRU", "onkeyup": "priceCustomRU()", "required":"required"}))
     uzs = forms.FloatField(label='UZS', required=False,
-                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUZS", "onkeyup": "priceCustomUZS()"}))
+                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUZS", "onkeyup": "priceCustomUZS()", "required":"required"}))
     currency_type = forms.ChoiceField(label='CurrencyType', widget=forms.Select, choices=CurrencyType)
 
     class Meta:
@@ -54,11 +54,11 @@ class CustomerLoanHistoryForm(forms.ModelForm):
 
 class CustomerLoanForm(forms.ModelForm):
     usd = forms.FloatField(label='USD', required=False,
-                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUS", "onkeyup": "priceCustomUS()"}))
+                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUS", "onkeyup": "priceCustomUS()", "required":"required"}))
     rub = forms.FloatField(label='RUB', required=False,
-                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceRU", "onkeyup": "priceCustomRU()"}))
+                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceRU", "onkeyup": "priceCustomRU()", "required":"required"}))
     uzs = forms.FloatField(label='UZS', required=False,
-                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUZS", "onkeyup": "priceCustomUZS()"}))
+                          widget=forms.NumberInput(attrs={"class": "form-control", "id": "parcelPriceUZS", "onkeyup": "priceCustomUZS()", "required":"required"}))
     currency_type = forms.ChoiceField(label='CurrencyType', widget=forms.Select, choices=CurrencyType)
 
     class Meta:
