@@ -7,7 +7,7 @@ from django.contrib.auth.forms import SetPasswordForm, UserCreationForm
 from userprofile.forms import ProfileUpdateForm, UserUpdateForm
 from company.models import *
 from currency.models import *
-
+from userprofile.models import *
 
 def companycreate(request):
     companyexpenses = CompanyExpenses()
@@ -26,12 +26,13 @@ def companycreate(request):
 def companyreset(request):
     companyaccount = CompanyAccount.objects.get(pk=1)
     companyaccount.usd = 10000
-    companyaccount.rub = 7700
-    companyaccount.uzs = 1050000
+    companyaccount.rub = 738000
+    companyaccount.uzs = 105000000
     companyaccount.save()
     CustomerLoanHistory.objects.all().delete()
     CustomerAccountHistory.objects.all().delete()
     CustomerExpensesHistory.objects.all().delete()
+    CompanyOwnExpensesHistory.objects.all().delete()
     CompanyAccountHistory.objects.all().delete()
     companyexpenses = CompanyExpenses.objects.all()
     for x in companyexpenses:
@@ -57,7 +58,6 @@ def companyreset(request):
         x.rub = 0
         x.uzs = 0
         x.save()
-    user = User.objects.all()
     return redirect('staff')
 
 
@@ -75,6 +75,11 @@ def companymoneysum(request):
 def companyexpenseshistorys(request):
     companyexpenseshistorys = CompanyExpensesHistory.objects.all().order_by('-id')
     return render(request, 'staff/companyexpenses.html', {"companyexpenseshistorys": companyexpenseshistorys})
+
+
+def companyownexpenseshistorys(request):
+    companyownexpenseshistorys = CompanyOwnExpensesHistory.objects.all().order_by('-id')
+    return render(request, 'staff/companyownexpenses.html', {"companyownexpenseshistorys": companyownexpenseshistorys})
 
 
 def getmoneyfromcustomer(request, user_id):
@@ -200,3 +205,25 @@ def deletemoneyfromcustomer(request, user_id, uniq_id):
         customerexpenseshistory.delete()
         companyaccounthistory.delete()
     return redirect('companymoney')
+
+
+def addcompanyownexpenses(request):
+    if request.method == 'POST':
+        form = CompanyOwnExpensesHistoryForm(request.POST)
+        companyaccount = CompanyAccount.objects.get(pk=1)
+        if form.is_valid():
+            companyaccount.usd = companyaccount.usd - float(request.POST['usd'])
+            companyaccount.rub = companyaccount.rub - float(request.POST['rub'])
+            companyaccount.uzs = companyaccount.uzs - float(request.POST['uzs'])
+            companyaccount.save()
+            obj = form.save(commit=False)
+            obj.uniq_id = str(random.randint(1000, 9999))
+            obj.user_id = request.POST['user_id']
+            obj.save()
+            return redirect('companyownexpenseshistorys')
+    else:
+        form = CompanyOwnExpensesHistoryForm()
+        currency = CurrencyHistory.objects.all().last()
+        objectlist = UserProfile.objects.exclude(role='клиент').select_related('user')
+    return render(request, 'staff/addcompanyexpenses.html', {"form":form, "currency":currency, "objectlist":objectlist})
+

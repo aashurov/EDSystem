@@ -93,6 +93,22 @@ class CompanyExpensesHistory(models.Model):
         return str(self.user)
 
 
+# companydan ketgan pullar-harajatlar istoriyasi
+class CompanyOwnExpensesHistory(models.Model):
+    uniq_id = models.CharField(max_length=50, default='00')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    usd = models.FloatField(max_length=255, default='00')
+    rub = models.FloatField(max_length=255, default='00')
+    uzs = models.FloatField(max_length=255, default='00')
+    currency_type = models.CharField(max_length=50, choices=CurrencyType, null=False, default=True)
+    company_expenses_type = models.CharField(max_length=50, choices=CompanyExpensesType, default='00')
+    date_created = models.DateField(auto_now_add=True, blank=True)
+    date_updated = models.DateField(auto_now=True, blank=True)
+
+    def __str__(self):
+        return str(self.user)
+
+
 # companyning umumiy harajati tepadagi janvalni yigindisi
 class CompanyExpenses(models.Model):
     # uniq_id = models.CharField(max_length=50, default=str(random.randint(1000,9999)))
