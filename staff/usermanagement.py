@@ -87,10 +87,10 @@ def edituser(request, user_id):
 
 
 def listcustomermoney(request):
-    customeraccount = CustomerAccount.objects.filter(user__userprofile__role='клиент').order_by('-usd')
+    customeraccount = CustomerAccount.objects.filter(user__userprofile__role='клиент').exclude(usd=0).order_by('-usd')
     return render(request, 'staff/listcustomermoney.html', {"customercashsums": customeraccount})
 
 
 def listcustomerloan(request):
-    customerloans = CustomerLoan.objects.filter(user__userprofile__role='клиент').order_by('-usd')
+    customerloans = CustomerLoan.objects.filter(user__userprofile__role='клиент').exclude(usd=0).order_by('-usd')
     return render(request, 'staff/listcustomerloan.html', {"customerloans": customerloans})
