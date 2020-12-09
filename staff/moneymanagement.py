@@ -54,15 +54,18 @@ def addmoney(request):
             obj.user_id = request.POST['user_id']
             obj.save()
             customername = User.objects.get(pk=request.POST['user_id'])
+            customerbalance = CustomerAccount.objects.get(user_id=request.POST['user_id'])
             message = "--------Пополнение баланса-------\nКлиент: {} {}" \
-                      "\nВ Долларах: {}\nВ Рублях: {}\nВ Сумах: {}\nВалюты: {}" \
-                      "\nДата: {}".format(customername.last_name,
+                      "\nВ Долларах: {}\nВ Рублях: {}\nВ Сумах: {}\nВалюта: {}" \
+                      "\nТекущий баланс: {}\nДата: {}".format(customername.last_name,
                                           customername.first_name,
                                           request.POST['usd'],
                                           request.POST['rub'],
                                           request.POST['uzs'],
                                           request.POST['currency_type'],
-                                          datetime.today().strftime('%Y-%m-%d'))
+                                                      customerbalance.usd,
+
+                                                      datetime.today().strftime('%Y-%m-%d'))
             bot = telegram.Bot(token=settings.BOT_TOKEN)
             bot.sendMessage(chat_id=settings.BOT_CHAT_ID, text=message)
             return redirect('stafflistmoney')

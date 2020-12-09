@@ -30,7 +30,13 @@ ALLOWED_HOSTS = []
 BOT_TOKEN = '1437200177:AAGT1FeRk-S7TSnDhSAl8FHys4u_qP9kxzs'
 BOT_URL = "https://api.telegram.org/bot%s/"%BOT_TOKEN
 BOT_CHAT_ID = '-422044074'
+
+BOT_TOKEN_EXP = '1473251788:AAHqdDilS2QdRE2Je2zkKZ7o7o4nKE8fY_w'
+BOT_URL_EXP = "https://api.telegram.org/bot%s/"%BOT_TOKEN
+BOT_CHAT_ID_EXP = '-374360760'
+
 #https://api.telegram.org/bot1437200177:AAGT1FeRk-S7TSnDhSAl8FHys4u_qP9kxzs/getUpdates
+#https://api.telegram.org/bot1473251788:AAHqdDilS2QdRE2Je2zkKZ7o7o4nKE8fY_w/getUpdates
 
 # Application definition
 

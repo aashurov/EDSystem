@@ -8,6 +8,10 @@ from userprofile.forms import ProfileUpdateForm, UserUpdateForm
 from company.models import *
 from currency.models import *
 from userprofile.models import *
+import telegram
+from django.conf import settings
+from datetime import datetime
+
 
 def companycreate(request):
     companyexpenses = CompanyExpenses()
@@ -211,15 +215,32 @@ def addcompanyownexpenses(request):
     if request.method == 'POST':
         form = CompanyOwnExpensesHistoryForm(request.POST)
         companyaccount = CompanyAccount.objects.get(pk=1)
+        companyexpenses = CompanyExpenses.objects.get(pk=1)
         if form.is_valid():
             companyaccount.usd = companyaccount.usd - float(request.POST['usd'])
             companyaccount.rub = companyaccount.rub - float(request.POST['rub'])
             companyaccount.uzs = companyaccount.uzs - float(request.POST['uzs'])
+            companyexpenses.usd = companyexpenses.usd + float(request.POST['usd'])
+            companyexpenses.rub = companyexpenses.rub + float(request.POST['rub'])
+            companyexpenses.uzs = companyexpenses.uzs + float(request.POST['uzs'])
+            companyexpenses.save()
             companyaccount.save()
             obj = form.save(commit=False)
             obj.uniq_id = str(random.randint(1000, 9999))
             obj.user_id = request.POST['user_id']
             obj.save()
+            couriername = User.objects.get(pk=request.POST['user_id'])
+            message = "--------Затрата-------\nКурер: {} {}" \
+                      "\nВ Долларах: {}\nВ Рублях: {}\nВ Сумах: {}\nВалюта: {}" \
+                      "\nДата: {}".format(couriername.last_name,
+                                                              couriername.first_name,
+                                                              request.POST['usd'],
+                                                              request.POST['rub'],
+                                                              request.POST['uzs'],
+                                                              request.POST['currency_type'],
+                                                              datetime.today().strftime('%Y-%m-%d'))
+            bot = telegram.Bot(token=settings.BOT_TOKEN_EXP)
+            bot.sendMessage(chat_id=settings.BOT_CHAT_ID_EXP, text=message)
             return redirect('companyownexpenseshistorys')
     else:
         form = CompanyOwnExpensesHistoryForm()
