@@ -8,19 +8,27 @@
 
 {% block content %}
 
-{% include 'inc/_js.html' %}
-
 <div class="col">
     <form method="POST">
         {% csrf_token %}
         <input type="hidden" value="{{currency.usd_rub}}" id="usd_rub" name="usd_rub">
         <input type="hidden" value="{{currency.usd_uzs}}" id="usd_uzs" name="usd_uzs">
         {{loan.usd}}<br>
-        {{loan.rub}}<br>
-        {{loan.uzs}}<br>
-        {{loan.currency_type}}
+               <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <textarea class="form-control" name="description" rows="3"
+                              value="" placeholder="Введите коментарии">{{description.description}}</textarea>
+                </div>
+            </div>
+
+        </div>
         <button type="submit">Сохранить</button>
     </form>
 </div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+$("#standard1").val('{{description.user_id}}').change();
+</script>
 {% endblock %}
 

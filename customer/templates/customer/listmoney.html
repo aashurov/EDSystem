@@ -11,12 +11,7 @@
     <table class="table table-sm table-hover">
         <tr>
             <th>№</th>
-<!--            <th>ФИО</th>-->
-            <!--                <th>Uniq_id</th>-->
             <th>USD</th>
-            <th>RUB</th>
-            <th>UZS</th>
-            <th>Тип валюты</th>
             <th>Дата</th>
             <th>Статус</th>
             <th>Действие</th>
@@ -24,12 +19,7 @@
         {% for customeraccounthistory in customeraccounthistorys %}
         <tr>
             <td>{{ forloop.counter}}</td>
-<!--            <td>{{ customeraccounthistory.user.last_name}} {{ customeraccounthistory.user.first_name}}</td>-->
-            <!--                <td>{{ customeraccounthistory.uniq_id}}</td>-->
-            <td>{{ customeraccounthistory.usd}}</td>
-            <td>{{ customeraccounthistory.rub }}</td>
-            <td>{{ customeraccounthistory.uzs }}</td>
-            <td>{{ customeraccounthistory.currency_type }}</td>
+            <td>{{ customeraccounthistory.usd|stringformat:".2f"}}</td>
             <td>{{ customeraccounthistory.date_created|date:"d.m.Y" }}</td>
             <td>{{ customeraccounthistory.general_status }}</td>
             {% if customeraccounthistory.general_status == 'В обработке'%}

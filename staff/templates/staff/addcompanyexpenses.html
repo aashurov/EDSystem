@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-{% include 'inc/_js.html' %}
+
 
 <div class="col">
     <form method="POST">
@@ -14,19 +14,26 @@
         <input type="hidden" value="{{currency.usd_rub}}" id="usd_rub" name="usd_rub">
         <input type="hidden" value="{{currency.usd_uzs}}" id="usd_uzs" name="usd_uzs">
         {{ form.usd }}<br>
-        {{ form.rub }}<br>
-        {{ form.uzs }}<br>
-        {{ form.currency_type }}<br>
-        {{ form.company_expenses_type }}<br>
+        {{ form.company_expenses_type}}<br>
         <br>
         <select name="user_id" id="standard1" style="width: 100%" required>
-            <option value="" disabled="disabled" selected>Выберите клиента</option>
+            <option value="" disabled="disabled" selected>Выберите сотрудника</option>
             {% for element in objectlist %}
             <option value={{ element.user.id }}>{{ element.user.userprofile.uniq_id }} {{ element.user.userprofile.phone_number}} {{ element.user.last_name }} {{element.user.first_name }}
             </option>
             {% endfor %}
         </select>
-        <button type="submit">Add loan</button>
+        <br><br>
+           <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <textarea class="form-control" name="description" rows="3"
+                              placeholder="Введите коментарии"></textarea>
+                </div>
+            </div>
+
+        </div>
+        <button type="submit">Сохранить</button>
     </form>
 </div>
 

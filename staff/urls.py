@@ -6,6 +6,7 @@ from .usermanagement import *
 from .companymanagement import *
 from .insertuser import *
 from .currencymanagement import *
+from .customerexpenseshistory import *
 urlpatterns = [
     path('', staff, name='staff'),
     path('addmoney', addmoney, name='staffaddmoney'),
@@ -31,13 +32,14 @@ urlpatterns = [
     #
     path('companymoney', companymoney, name='companymoney'),
     path('companymoneysum', companymoneysum, name='companymoneysum'),
-    # path('getmoneyfromcustomer', getmoneyfromcustomer, name='getmoneyfromcustomer'),
     path('companyexpenseshistorys', companyexpenseshistorys, name='companyexpenseshistorys'),
     path('companyownexpenseshistorys', companyownexpenseshistorys, name='companyownexpenseshistorys'),
     path('companyreset', companyreset, name='companyreset'),
     path('getmoneyfromcustomer/<int:user_id>', getmoneyfromcustomer, name='getmoneyfromcustomer'),
-    path('deletemoneyfromcustomer/<int:user_id>/<int:uniq_id>', deletemoneyfromcustomer, name='getmoneyfromcustomer'),
+    path('deletemoneyfromcustomer/<int:user_id>/<int:uniq_id>', deletemoneyfromcustomer, name='deletemoneyfromcustomer'),
     path('addcompanyownexpenses', addcompanyownexpenses, name='addcompanyownexpenses'),
+    path('editcompanyownexpenses/<int:id>', editcompanyownexpenses, name='editcompanyownexpenses'),
+    path('deletemoneyfromownexpenses/<int:id>', deletemoneyfromownexpenses, name='deletemoneyfromownexpenses'),
     path('insertuser', insertusero, name='insertuser'),
     path('companycreate', companycreate, name='companycreate'),
     path('counting', counting, name='counting'),
@@ -48,5 +50,11 @@ urlpatterns = [
     path('addcurrency', addcurrency, name='staffaddcurrency'),
     path('editcurrency/<int:id>', editcurrency, name='staffeditcurrency'),
     path('deletecurrency/<int:id>', deletecurrency, name='staffdeletecurrency'),
+    path('listcustomerexpenseshistory', listcustomerexpenseshistory, name='stafflistcustomerexpenseshistory'),
+    path('customeraccounthistoryview/<int:id>', customeraccounthistoryview, name='staffcustomeraccounthistoryview'),
+    path('customerloanhistoryview/<int:id>', customerloanhistoryview, name='staffcustomerloanhistoryview'),
+    path('customerexpenseshistoryview/<int:id>', companyexpenseshistorysview, name='staffcustomerexpenseshistoryview'),
+    path('companyownexpenseshistorysview/<int:id>', companyownexpenseshistorysview, name='companyownexpenseshistorysview'),
+    path('companyaccounthistorysview/<int:id>', companyaccounthistorysview, name='companyaccounthistorysview'),
 
 ]

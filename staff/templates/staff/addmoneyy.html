@@ -6,18 +6,24 @@
 {% endblock %}
 
 {% block content %}
-{% include 'inc/_js.html' %}
 <div class="col">
     <form method="POST">
         {% csrf_token %}
         <input type="hidden" value="{{currency.usd_rub}}" id="usd_rub" name="usd_rub">
         <input type="hidden" value="{{currency.usd_uzs}}" id="usd_uzs" name="usd_uzs">
         {{ form.usd }}<br>
-        {{ form.rub }}<br>
-        {{ form.uzs }}<br>
-        {{ form.currency_type }}
         {{ form.service_type }}
         {{ form.plan_type }}
+        <br><br>
+           <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <textarea class="form-control" name="description" rows="3"
+                              placeholder="Введите коментарии"></textarea>
+                </div>
+            </div>
+
+        </div>
         <button type="submit">Сохранить</button>
     </form>
 </div>

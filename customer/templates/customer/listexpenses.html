@@ -11,10 +11,7 @@
     <table class="table table-sm table-hover">
         <tr>
             <th>№</th>
-<!--        <th>ФИО</th>-->
             <th>USD</th>
-            <th>RUB</th>
-            <th>UZS</th>
             <th>Тип валюты</th>
             <th>Тип сервиса</th>
             <th>Тарифный план</th>
@@ -23,10 +20,7 @@
         {% for customerexpenseshistory in customerexpenseshistorys %}
         <tr>
             <td>{{ forloop.counter}}</td>
-<!--            <td>{{ customerexpenseshistory.user.last_name}} {{ customerexpenseshistory.user.first_name}}</td>-->
-            <td>{{ customerexpenseshistory.usd}}</td>
-            <td>{{ customerexpenseshistory.rub }}</td>
-            <td>{{ customerexpenseshistory.uzs }}</td>
+            <td>{{ customerexpenseshistory.usd|stringformat:".2f"}}</td>
             <td>{{ customerexpenseshistory.currency_type }}</td>
             <td>{{ customerexpenseshistory.service_type }}</td>
             <td>{{ customerexpenseshistory.plan_type }}</td>

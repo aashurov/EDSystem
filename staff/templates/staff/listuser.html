@@ -30,8 +30,8 @@
 <!--            <td>{{ user.email}}</td>-->
             <td>{{ listuser.userprofile.phone_number}}</td>
             <td>
-                <a href="{% url 'staffdeleteuser' user_id=listuser.id %}">Удалить</a>
-                <a href="{% url 'staffediteuser' user_id=listuser.id %}">Редактировать</a>
+                <a data-toggle="tooltip" data-placement="top" title="Удалить пользвателя" href="{% url 'staffdeleteuser' user_id=listuser.id %}">Удалить</a>
+                <a data-toggle="tooltip" data-placement="top" title="Редактировать пользователя" href="{% url 'staffediteuser' user_id=listuser.id %}">Редактировать</a>
             </td>
         </tr>
         {% endfor %}

@@ -8,28 +8,58 @@
 
 {% block content %}
 
-{% include 'inc/_js.html' %}
-
-<div class="col">
+<div class="container">
     <form method="POST">
         {% csrf_token %}
         <input type="hidden" value="{{currency.usd_rub}}" id="usd_rub" name="usd_rub">
         <input type="hidden" value="{{currency.usd_uzs}}" id="usd_uzs" name="usd_uzs">
-        {{ form.usd }}<br>
-        {{ form.rub }}<br>
-        {{ form.uzs }}<br>
-        {{ form.currency_type }}<br><br>
-        <select name="user_id" id="standard1" style="width: 100%" required>
-            <option value="" disabled="disabled" selected>Выберите клиента</option>
-            {% for element in objectlist %}
-            <option value={{ element.user.id }}>{{ element.user.userprofile.uniq_id }} {{ element.user.userprofile.phone_number}} {{ element.user.last_name }} {{element.user.first_name }}
-            </option>
-            {% endfor %}
-        </select>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    {{ form.usd }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <select name="customer_id" id="standard1" style="width: 100%" required>
+                        <option value="" disabled="disabled" selected>Выберите клиента</option>
+                        {% for customer in customerlist %}
+                        <option value={{ customer.user.id }}>{{ customer.user.userprofile.uniq_id }} {{ customer.user.userprofile.phone_number}} {{ customer.user.last_name }}
+                            {{customer.user.first_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
 
-<br><br>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <select name="courier_id" id="standard2" style="width: 100%" required>
+                        <option value="" disabled="disabled" selected>Выберите курера</option>
+                        {% for courier in courierlist %}
+                        <option value={{ courier.user.id }}>{{ courier.user.userprofile.uniq_id }} {{ courier.user.userprofile.phone_number}} {{ courier.user.last_name }}
+                            {{courier.user.first_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <textarea class="form-control" name="description" rows="3"
+                              placeholder="Введите коментарии"></textarea>
+                </div>
+            </div>
+
+        </div>
         <button type="submit">Сохранить</button>
     </form>
 </div>
+
+
 {% endblock %}
 

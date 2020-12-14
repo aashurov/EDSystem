@@ -13,10 +13,7 @@
         <tr>
             <th>№</th>
             <th>ФИО</th>
-            <th>USD</th>
-            <th>RUB</th>
-            <th>UZS</th>
-            <th>Тип валюты</th>
+            <th>Сумма</th>
             <th>Дата</th>
             <th>Статус</th>
             <th>Состояние</th>
@@ -28,36 +25,51 @@
         <tr>
             <td>{{ forloop.counter}}</td>
             <td>{{ loan.user.last_name }} {{ loan.user.first_name }}</td>
-            <td>{{ loan.usd}}</td>
-            <td>{{ loan.rub }}</td>
-            <td>{{ loan.uzs }}</td>
-            <td>{{ loan.currency_type }}</td>
+            <td>{{ loan.usd|stringformat:".2f"}}</td>
             <td>{{ loan.date_created|date:"d.m.Y" }}</td>
             <td>{{ loan.general_status }}</td>
             <td>{{ loan.loan_status }}</td>
             <td>
+                  <a data-toggle="tooltip" data-placement="top" title="Быстрый просмотр" class="open-modal" data-href="{% url 'staffcustomerloanhistoryview' id=loan.id %}" ><i class="fa fa-eye"></i></a>
                 {% if loan.general_status == 'В обработке' %}
 
-                <a href="{% url 'staffeditloan' uniq_id=loan.uniq_id%}">Редактировать долг</a>
-<!--                <strike>Вернуть долг</strike>-->
-                <a href="{% url 'elistloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id%}">Одобрить долг</a>
-                <a href="{% url 'staffdeleteloan' uniq_id=loan.uniq_id%}">Удалить долг</a>
-                {% endif%}
+                <a data-toggle="tooltip" data-placement="top" title="Редактировать долг" href="{% url 'staffeditloan' uniq_id=loan.uniq_id%}">Редактировать долг</a>
+                <a data-toggle="tooltip" data-placement="top" title="Одобрить долг" href="{% url 'elistloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id%}">Одобрить долг</a>
+                <a data-toggle="tooltip" data-placement="top" title="Удалить платеж" href="{% url 'staffdeleteloan' uniq_id=loan.uniq_id%}">Удалить долг</a>
+
+                {% endif %}
+
                 {% if loan.general_status == 'Одобрено' %}
-<!--                <strike>Удалить долг</strike>-->
-<!--                <strike>Редактировать долг</strike>-->
+
                 {% if loan.loan_status == 'Взял' %}
-                <a href="{% url 'opencloseloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id %}">Вернул</a>
+                <a data-toggle="tooltip" data-placement="top" title="Вернул" href="{% url 'opencloseloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id %}">Вернул</a>
                 {% endif%}
+
                 {% if loan.loan_status == 'Вернул' %}
-                <a href="{% url 'opencloseloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id %}">Не вернул</a>
+                <a data-toggle="tooltip" data-placement="top" title="Не вернул" href="{% url 'opencloseloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id %}">Не вернул</a>
                 {% endif%}
-                <a href="{% url 'elistloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id %}">Отменить долг</a>
+
+                <a data-toggle="tooltip" data-placement="top" title="Отменить долг" href="{% url 'elistloan' uniq_id=loan.uniq_id user_id=loan.user_id idd=loan.id %}">Отменить долг</a>
                 {% endif%}
             </td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
+    <div id="modal-div"></div>
 </div>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script>
+var modalDiv = $("#modal-div");
+$(".open-modal").on("click", function() {
+$.ajax({
+url: $(this).attr("data-href"),
+success: function(data) {
+modalDiv.html(data);
+$("#myEdit").modal();
+    }
+  });
+});
+</script>
 {% endblock %}

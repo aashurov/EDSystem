@@ -14,9 +14,7 @@
             <th>№</th>
             <th>UNIQ_ID</th>
             <th>ФИО</th>
-            <th>USD</th>
-            <th>RUB</th>
-            <th>UZS</th>
+            <th>Сумма</th>
             <th>Действие</th>
         </tr>
         <thead>
@@ -26,11 +24,9 @@
             <td>{{ forloop.counter}}</td>
             <td>{{ customercashsum.user.userprofile.uniq_id}}</td>
             <td>{{ customercashsum.user.last_name }} {{ customercashsum.user.first_name }}</td>
-            <td>{{ customercashsum.usd}}</td>
-            <td>{{ customercashsum.rub }}</td>
-            <td>{{ customercashsum.uzs }}</td>
+            <td>{{ customercashsum.usd|stringformat:".2f"}}</td>
             <td>
-                <a   href="{% url 'getmoneyfromcustomer' user_id=customercashsum.id%}" ><i class="fa fa-money"></i></a>
+                <a   data-toggle="tooltip" data-placement="top" title="Списать денег" href="{% url 'getmoneyfromcustomer' user_id=customercashsum.id%}" ><i class="fa fa-money"></i></a>
             </td>
         </tr>
         {% endfor %}

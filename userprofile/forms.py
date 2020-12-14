@@ -5,6 +5,21 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 
 
+class UserForm(UserCreationForm):
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'username', 'password1', 'password2')
+
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+
+        for fieldname in ['username', 'password1', 'password2']:
+            self.fields[fieldname].help_text = None
+
+
 class SetpasswordLogin(SetPasswordForm):
     new_password1 = forms.CharField(label='Новый пароль', widget=forms.PasswordInput(attrs={"class": "form-control"}))
     new_password2 = forms.CharField(label='Потверждение', widget=forms.PasswordInput(attrs={"class": "form-control"}))
@@ -59,8 +74,8 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ['uniq_id', 'phone_number', 'address_first', 'address_second', 'passport_number',
                   'passport_date_first', 'passport_date_second', 'passport_organization', 'user_organization',
                   'avatar_image', 'passport_image', 'passport_image_behind']
-
-
-class SetpasswordLogin(SetPasswordForm):
-    new_password1 = forms.CharField(label='Новый пароль', widget=forms.PasswordInput(attrs={"class": "form-control"}))
-    new_password2 = forms.CharField(label='Потверждение', widget=forms.PasswordInput(attrs={"class": "form-control"}))
+#
+#
+# class SetpasswordLogin(SetPasswordForm):
+#     new_password1 = forms.CharField(label='Новый пароль', widget=forms.PasswordInput(attrs={"class": "form-control"}))
+#     new_password2 = forms.CharField(label='Потверждение', widget=forms.PasswordInput(attrs={"class": "form-control"}))

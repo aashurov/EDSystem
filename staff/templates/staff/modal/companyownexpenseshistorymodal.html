@@ -1,0 +1,24 @@
+<div class="modal fade" id="myEdit" role="dialog">
+    <div class="modal-dialog">
+        <form class="well contact-form" method="post" action="{% url 'up'}">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Информация о расходе сотрудника</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>ФИО сотрудника: {{ customerLFName.last_name }} {{ customerLFName.first_name }}</label><br>
+                    <label>Сумма платежа: {{ companyownexpenseshistorysview.usd }}</label><br>
+                    <label>Тип сервиса: {{ companyownexpenseshistorysview.company_expenses_type }}</label><br>
+                    <label>Дата расхода: {{ companyownexpenseshistorysview.date_created }}</label><br>
+                    <label>ФИО сотрудника: {{ staffLFName.last_name }} {{ staffLFName.first_name }}</label><br>
+                    <label>Коментарии: {{ companyownexpenseshistorysview.description }}</label><br>
+                </div>
+                <div class="modal-footer">
+                    <button value="" type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

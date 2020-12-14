@@ -14,10 +14,7 @@
             <th>№</th>
             <th>ФИО</th>
             <th>Uniq_id</th>
-            <th>USD</th>
-            <th>RUB</th>
-            <th>UZS</th>
-            <th>Тип валюты</th>
+            <th>Сумма</th>
             <th>Тип сервиса</th>
             <th>Тарифный план</th>
             <th>Дата</th>
@@ -30,25 +27,34 @@
             <td>{{ forloop.counter}}</td>
             <td>{{ companymoney.user.last_name}} {{ companymoney.user.first_name}}</td>
             <td>{{ companymoney.uniq_id}}</td>
-            <td>{{ companymoney.usd}}</td>
-            <td>{{ companymoney.rub }}</td>
-            <td>{{ companymoney.uzs }}</td>
-            <td>{{ companymoney.currency_type }}</td>
+            <td>{{ companymoney.usd|stringformat:".2f"}}</td>
             <td>{{ companymoney.service_type }}</td>
             <td>{{ companymoney.plan_type }}</td>
             <td>{{ companymoney.date_created|date:"d.m.Y" }}</td>
-            <!--<td>{{ clistmoney.date_updated|date:"d.m.Y" }}</td>-->
             <td>
-                {% if companymoney.plan_type != '00'%}
-                <a href="{% url 'getmoneyfromcustomer' user_id=companymoney.user.id uniq_id=companymoney.uniq_id%}"><i class="fa fa-trash"></i></a>
-                {% endif %}
+                <a data-toggle="tooltip" data-placement="top" title="Быстрый просмотр" class="open-modal" data-href="{% url 'companyaccounthistorysview' id=companymoney.id %}" ><i class="fa fa-eye"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Одобрить платеж" href="{% url 'deletemoneyfromcustomer' user_id=companymoney.user.id uniq_id=companymoney.uniq_id%}"><i class="fa fa-trash"></i></a>
             </td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
-
+<div id="modal-div"></div>
 </div>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script>
+var modalDiv = $("#modal-div");
+$(".open-modal").on("click", function() {
+$.ajax({
+url: $(this).attr("data-href"),
+success: function(data) {
+modalDiv.html(data);
+$("#myEdit").modal();
+    }
+  });
+});
+</script>
 {% endblock %}
 
 

@@ -43,9 +43,12 @@ class CustomerAccountHistory(models.Model):
     uniq_id = models.CharField(max_length=50, default='00')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     usd = models.FloatField(max_length=255, default='00')
-    rub = models.FloatField(max_length=255, default='00')
-    uzs = models.FloatField(max_length=255, default='00')
-    currency_type = models.CharField(max_length=50, choices=CurrencyType, null=False, default=True)
+    # rub = models.FloatField(max_length=255, default='00')
+    # uzs = models.FloatField(max_length=255, default='00')
+    staff_id = models.CharField(max_length=50, default='00')
+    courier_id = models.CharField(max_length=50, default='00')
+    description = models.CharField(max_length=255, default='00')
+    # currency_type = models.CharField(max_length=50, choices=CurrencyType, null=False, default=True)
     general_status = models.CharField(max_length=50, choices=GeneralStatus, default='В обработке')
     date_created = models.DateField(auto_now_add=True, blank=True)
     date_updated = models.DateField(auto_now=True, blank=True)
@@ -56,11 +59,8 @@ class CustomerAccountHistory(models.Model):
 
 # customerning umumiy balans puli tepadagi tablisa yigindisi-summasi
 class CustomerAccount(models.Model):
-    # uniq_id = models.CharField(max_length=50, default=str(random.randint(1000,9999)))
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     usd = models.FloatField(max_length=255, default='00')
-    rub = models.FloatField(max_length=255, default='00')
-    uzs = models.FloatField(max_length=255, default='00')
     date_created = models.DateField(auto_now_add=True, blank=True)
     date_updated = models.DateField(auto_now=True, blank=True)
 
@@ -73,9 +73,8 @@ class CustomerExpensesHistory(models.Model):
     uniq_id = models.CharField(max_length=50, default='00')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     usd = models.FloatField(max_length=255, default='00')
-    rub = models.FloatField(max_length=255, default='00')
-    uzs = models.FloatField(max_length=255, default='00')
-    currency_type = models.CharField(max_length=50, choices=CurrencyType, null=False, default=True)
+    staff_id = models.CharField(max_length=50, default='00')
+    description = models.CharField(max_length=255, default='00')
     service_type = models.CharField(max_length=50, choices=ServiceType, default='00')
     plan_type = models.CharField(max_length=50, choices=PlanType, default='00')
     date_created = models.DateField(auto_now_add=True, blank=True)
@@ -87,11 +86,8 @@ class CustomerExpensesHistory(models.Model):
 
 # customerning umumiy harajati tepadagi janvalni yigindisi
 class CustomerExpenses(models.Model):
-    # uniq_id = models.CharField(max_length=50, default=str(random.randint(1000,9999)))
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     usd = models.FloatField(max_length=255, default='00')
-    rub = models.FloatField(max_length=255, default='00')
-    uzs = models.FloatField(max_length=255, default='00')
     date_created = models.DateField(auto_now_add=True, blank=True)
     date_updated = models.DateField(auto_now=True, blank=True)
 
@@ -104,9 +100,8 @@ class CustomerLoanHistory(models.Model):
     uniq_id = models.CharField(max_length=50, default='00')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     usd = models.FloatField(max_length=255, default='00')
-    rub = models.FloatField(max_length=255, default='00')
-    uzs = models.FloatField(max_length=255, default='00')
-    currency_type = models.CharField(max_length=50, choices=CurrencyType, null=False, default=True)
+    staff_id = models.CharField(max_length=50, default='00')
+    description = models.CharField(max_length=255, default='00')
     general_status = models.CharField(max_length=50, choices=GeneralStatus, null=False, default='В обработке')
     loan_status = models.CharField(max_length=50, choices=LoanStatus, default='Взял')
     date_created = models.DateField(auto_now_add=True, blank=True)
@@ -118,11 +113,8 @@ class CustomerLoanHistory(models.Model):
 
 # customerning umumiy qarzlari yigindisi
 class CustomerLoan(models.Model):
-    # uniq_id = models.CharField(max_length=50, default=str(random.randint(1000,9999)))
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     usd = models.FloatField(max_length=255, default='00')
-    rub = models.FloatField(max_length=255, default='00')
-    uzs = models.FloatField(max_length=255, default='00')
     date_created = models.DateField(auto_now_add=True, blank=True)
     date_updated = models.DateField(auto_now=True, blank=True)
 

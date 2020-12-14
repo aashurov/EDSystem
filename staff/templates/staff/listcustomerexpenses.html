@@ -1,0 +1,54 @@
+{% extends 'base_STAFF.html' %}
+
+{% block sidebar %}
+<div class="col">
+    Список расходы клиентов
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col">
+    <table id="example" class="display compact" style="width:100%">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>UNIQ_ID</th>
+            <th>ФИО</th>
+            <th>Сумма</th>
+            <th>Тариф</th>
+            <th>Тип сервиса</th>
+            <th>Действие</th>
+
+        </tr></thead>
+        <tbody>
+        {% for customerexpenseshistory in customerexpenseshistoryes %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ customerexpenseshistory.user.userprofile.uniq_id}}</td>
+            <td>{{ customerexpenseshistory.user.last_name }} {{ customerexpenseshistory.user.first_name }}</td>
+            <td>{{ customerexpenseshistory.usd|stringformat:".2f"}}</td>
+            <td>{{ customerexpenseshistory.plan_type}}</td>
+            <td>{{ customerexpenseshistory.service_type}}</td>
+            <td><a data-toggle="tooltip" data-placement="top" title="Быстрый просмотр" class="open-modal" data-href="{% url 'staffcustomerexpenseshistoryview' id=customerexpenseshistory.id %}" ><i class="fa fa-eye"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+</tbody>
+    </table>
+<div id="modal-div"></div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script>
+var modalDiv = $("#modal-div");
+$(".open-modal").on("click", function() {
+$.ajax({
+url: $(this).attr("data-href"),
+success: function(data) {
+modalDiv.html(data);
+$("#myEdit").modal();
+    }
+  });
+});
+</script>
+{% endblock %}

@@ -2,7 +2,7 @@
 
 {% block sidebar %}
 <div class="col">
-    Список расходов самой компании
+    Список расходов самой компании (на сотрудников)
 </div>
 {% endblock %}
 
@@ -13,13 +13,11 @@
         <tr>
             <th>№</th>
             <th>ФИО</th>
-<!--            <th>Uniq_id</th>-->
             <th>USD</th>
-            <th>RUB</th>
-            <th>UZS</th>
-            <th>Тип валюты</th>
-            <th>Тип сервиса</th>
+            <th>Тип расхода</th>
             <th>Дата</th>
+                        <th>Действие</th>
+
         </tr>
         </thead>
         <tbody>
@@ -27,20 +25,33 @@
         <tr>
             <td>{{ forloop.counter}}</td>
             <td>{{ companyownexpenseshistory.user.last_name}} {{ companyownexpenseshistory.user.first_name}}</td>
-<!--            <td>{{ companyexpenseshistory.uniq_id}}</td>-->
-            <td>{{ companyownexpenseshistory.usd}}</td>
-            <td>{{ companyownexpenseshistory.rub }}</td>
-            <td>{{ companyownexpenseshistory.uzs }}</td>
-            <td>{{ companyownexpenseshistory.currency_type }}</td>
+            <td>{{ companyownexpenseshistory.usd|stringformat:".2f"}}</td>
             <td>{{ companyownexpenseshistory.company_expenses_type }}</td>
             <td>{{ companyownexpenseshistory.date_created|date:"d.m.Y" }}</td>
-            <!--<td>{{ clistmoney.date_updated|date:"d.m.Y" }}</td>-->
+            <td><a data-toggle="tooltip" data-placement="top" title="Быстрый просмотр" class="open-modal" data-href="{% url 'companyownexpenseshistorysview' id=companyownexpenseshistory.id %}" ><i class="fa fa-eye"></i></a>
+                   <a data-toggle="tooltip" data-placement="top" title="Редактировать расход" href="{% url 'editcompanyownexpenses' id=companyownexpenseshistory.id %}" ><i class="fa fa-pencil"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Удалить расход" href="{% url 'deletemoneyfromownexpenses' id=companyownexpenseshistory.id %}" ><i class="fa fa-trash"></i></a>
+            </td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
-
+<div id="modal-div"></div>
 </div>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script>
+var modalDiv = $("#modal-div");
+$(".open-modal").on("click", function() {
+$.ajax({
+url: $(this).attr("data-href"),
+success: function(data) {
+modalDiv.html(data);
+$("#myEdit").modal();
+    }
+  });
+});
+</script>
 {% endblock %}
 
 

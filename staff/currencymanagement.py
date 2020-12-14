@@ -1,11 +1,4 @@
 from django.shortcuts import render, redirect
-from customer.models import *
-from customer.forms import *
-from django.db import connection
-from main.models import *
-from userprofile.models import *
-from company.models import *
-from currency.models import *
 from currency.forms import *
 
 

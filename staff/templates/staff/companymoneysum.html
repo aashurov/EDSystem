@@ -4,9 +4,7 @@
 <div class="col">
     Общий баланс
 </div>
-<div class="col">
-    Общий расход
-</div>
+
 {% endblock %}
 
 {% block content %}
@@ -15,39 +13,21 @@
         <thead>
         <tr>
             <th>№</th>
-            <th>USD</th>
-            <th>RUB</th>
-            <th>UZS</th>
+            <th>Общий баланс</th>
+                        <th>Общий расход</th>
         </tr>
                 </thead>
 <tbody>
         <tr>
             <td>1</td>
-            <td>{{ companyaccount.usd}}</td>
-            <td>{{ companyaccount.rub }}</td>
-            <td>{{ companyaccount.uzs }}</td>
+            <td>{{ companyaccount.usd|stringformat:".2f"}}</td>
+            <td>{{ companyexpenses.usd|stringformat:".2f"}}</td>
         </tr>
         </tbody>
     </table>
 
 </div>
-<div class="col">
-    <table class="table table-sm table-hover">
-        <tr>
-            <th>№</th>
-            <th>USD</th>
-            <th>RUB</th>
-            <th>UZS</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>{{ companyexpenses.usd}}</td>
-            <td>{{ companyexpenses.rub }}</td>
-            <td>{{ companyexpenses.uzs }}</td>
-        </tr>
-    </table>
 
-</div>
 
 {% endblock %}
 

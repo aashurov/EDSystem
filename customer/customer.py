@@ -6,6 +6,7 @@ from django.conf import settings
 from datetime import datetime
 from currency.models import *
 
+
 # Create your views here.
 def customer(request):
     customeraccount = CustomerAccount.objects.get(user_id=request.user.id)
@@ -24,7 +25,6 @@ def addmoney(request):
     if request.method == 'POST':
         customeraccounthistoryform = CustomerAccountHistoryForm(request.POST)
         if customeraccounthistoryform.is_valid():
-            print(request.POST)
             obj = customeraccounthistoryform.save(commit=False)
             obj.user_id = request.user.id
             obj.uniq_id = str(random.randint(1000, 9999))
@@ -45,7 +45,8 @@ def addmoney(request):
     else:
         customeraccounthistoryform = CustomerAccountHistoryForm()
     currency = CurrencyHistory.objects.all().last()
-    return render(request, 'customer/addmoney.html', {"customeraccounthistoryform": customeraccounthistoryform, "currency":currency})
+    return render(request, 'customer/addmoney.html',
+                  {"customeraccounthistoryform": customeraccounthistoryform, "currency": currency})
 
 
 def editmoney(request, uniq_id):
@@ -62,7 +63,7 @@ def editmoney(request, uniq_id):
     currency = CurrencyHistory.objects.all().last()
     return render(request, 'customer/editmoney.html',
                   {"customeraccounthistoryform": customeraccounthistoryform,
-                   "customeraccount": customeraccount, "currency":currency})
+                   "customeraccount": customeraccount, "currency": currency})
 
 
 def deletemoney(request, uniq_id):
@@ -92,7 +93,7 @@ def addloan(request):
     customeraccount = CustomerAccount.objects.get(user_id=request.user.id)
     currency = CurrencyHistory.objects.all().last()
     return render(request, 'customer/addloan.html',
-                  {"customerloanform": customerloanform, "customeraccount": customeraccount, "currency":currency})
+                  {"customerloanform": customerloanform, "customeraccount": customeraccount, "currency": currency})
 
 
 def editloan(request, uniq_id):
@@ -108,7 +109,8 @@ def editloan(request, uniq_id):
     customeraccount = CustomerAccount.objects.get(user_id=request.user.id)
     currency = CurrencyHistory.objects.all().last()
     return render(request, 'customer/editloan.html',
-                  {"customerloanhistoryform": customerloanhistoryform, "customeraccount": customeraccount,"currency":currency})
+                  {"customerloanhistoryform": customerloanhistoryform, "customeraccount": customeraccount,
+                   "currency": currency})
 
 
 def deleteloan(request, uniq_id):

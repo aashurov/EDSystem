@@ -1,14 +1,6 @@
 from django.shortcuts import render, redirect
-from customer.models import *
-from customer.forms import *
-from django.db import connection
-from main.models import *
 from userprofile.models import *
 from company.models import *
-import telegram
-from django.conf import settings
-from datetime import datetime
-# from customer.models import *
 
 
 def insertusero(request):
@@ -43,5 +35,4 @@ def counting(request):
     # print('%05d' % 210)
     for i in range(2, 436):
         uniq_id = '{0:0>5}'.format(i)
-        print(uniq_id)
     return redirect('staff')

@@ -7,17 +7,23 @@
 {% endblock %}
 
 {% block content %}
-{% include 'inc/_js.html' %}
 
 <div class="col">
     <form method="POST">
         {% csrf_token %}
-        <input type="hidden" value="{{currency.usd_rub}}" id="usd_rub" name="usd_rub">
+         <input type="hidden" value="{{currency.usd_rub}}" id="usd_rub" name="usd_rub">
         <input type="hidden" value="{{currency.usd_uzs}}" id="usd_uzs" name="usd_uzs">
         {{money.usd}}<br>
-        {{money.rub}}<br>
-        {{money.uzs}}<br>
-        {{money.currency_type}}
+        {{money.courier_id}}<br>
+           <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <textarea class="form-control" name="description" rows="3"
+                              value="" placeholder="Введите коментарии">{{description.description}}</textarea>
+                </div>
+            </div>
+
+        </div>
         <button type="submit">Сохранить</button>
     </form>
 </div>
