@@ -1,0 +1,53 @@
+{% extends 'base_STAFF.html' %}
+{% block sidebar %}
+<div class="col">
+    Список платежей клиентов
+</div>
+{% endblock %}
+{% block content %}
+<div class="col">
+    <table id="example" class="display compact" style="width:100%">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>ФИО</th>
+            <th>Сумма</th>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for listmoney in listmoneys %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ listmoney.user.last_name }} {{ listmoney.user.first_name }}</td>
+            <td>{{ listmoney.usd|stringformat:".2f"}}</td>
+            <td>{{ listmoney.date_created|date:"d.m.Y" }}</td>
+            <td>{{ listmoney.general_status }}</td>
+            <td>
+                <a data-toggle="tooltip" data-placement="top" title="Быстрый просмотр" class="open-modal" data-href="{% url 'staffcustomeraccounthistoryview' id=listmoney.id %}" ><i class="fa fa-eye"></i></a>
+
+                {% if listmoney.general_status == 'В обработке' %}
+                <a data-toggle="tooltip" data-placement="top" title="Одобрить платеж" href="{% url 'elistmoney' uniq_id=listmoney.uniq_id user_id=listmoney.user_id%}"><i class="fa fa-check"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Редактировать платеж" href="{% url 'staffeditmoney' uniq_id=listmoney.uniq_id%}"><i class="fa fa-pencil"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Удалить платеж" href="{% url 'staffdeletemoney' uniq_id=listmoney.uniq_id%}"><i class="fa fa-trash"></i></a>
+                {% endif%}
+                {% if listmoney.general_status == 'Одобрено' %}
+                <a data-toggle="tooltip" data-placement="top" title="Отменить платеж" href="{% url 'elistmoney' uniq_id=listmoney.uniq_id user_id=listmoney.user_id %}"><i
+                        class="fa fa-times"></i></a>
+                {% endif%}
+
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div id="modal-div"></div>
+
+</div>
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script src="{% static 'modalview.js' %}"> </script>
+{% endblock %}
+

@@ -1,0 +1,96 @@
+{% extends 'base_STAFF.html' %}
+{% block sidebar %}
+<div class="col">
+    Список посылок
+</div>
+{% endblock %}
+{% block content %}
+<div class="col">
+                        <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ФИО получателя</th>
+                            <th>Адрес получателя</th>
+                            <th>Паспорт получателя</th>
+                            <th>ФИО отправителя</th>
+                            <th>Адрес отправителя</th>
+                            <th>Паспорт отправителя</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <td>ФИО получателя</td>
+                            <td>Адрес получателя</td>
+                            <td>Паспорт получателя</td>
+                            <td>ФИО отправителя</td>
+                            <td>Адрес отправителя</td>
+                            <td>Паспорт отправителя</td>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>Накладная</th>
+                            <th>Длина </th>
+                            <th>Ширина </th>
+                            <th>Высота </th>
+                            <th>Габарит </th>
+                            <th>Вес </th>
+                            <th>Стоимость </th>
+                            <th>Статус </th>
+                            <th>Дата </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <td>Номер посылки</td>
+                            <td>Длина </td>
+                            <td>Ширина </td>
+                            <td>Высота </td>
+                            <td>Габарит </td>
+                            <td>Вес </td>
+                            <td>Стоимость </td>
+                            <td>Статус </td>
+                            <td>Дата </td>
+                        </tbody>
+                    </table>
+                    <label>Содиржимое посылки: </label><br>
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Ссылка на товар</th>
+                            <th>Количество</th>
+                            <th>Цена (за шт)</th>
+                            <th>ТНВЭД</th>
+                            <th>Вес</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <td>Название</td>
+                            <td>Ссылка на товар</td>
+                            <td>Количество</td>
+                            <td>Цена (за шт)</td>
+                            <td>ТНВЭД</td>
+                            <td>Вес</td>
+                        </tbody>
+                    </table>
+                    <label>Содиржимое посылки: </label><br>
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>Статус посылки</th>
+                            <th>Дата</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <td>Статус посылки</td>
+                            <td>Дата</td>
+                        </tbody>
+                    </table>
+    <div id="modal-div"></div>
+
+</div>
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script src="{% static 'modalview.js' %}"> </script>
+{% endblock %}
+

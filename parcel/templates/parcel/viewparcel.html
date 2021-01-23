@@ -1,0 +1,50 @@
+{% extends 'base_STAFF.html' %}
+{% block sidebar %}
+<div class="col">
+    Список посылок
+</div>
+{% endblock %}
+{% block content %}
+<div class="col">
+    <table id="example" class="display compact" style="width:100%">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>Накладная</th>
+            <th>Получатель</th>
+<!--            <th>Отправитель</th>-->
+            <th>Направление</th>
+            <th>Стоимость</th>
+            <th>Статус</th>
+            <th>Дата</th>
+            <th>..</th>
+        </tr>
+        </thead>
+        <tbody>
+    {% for parcelmainmodel in parcelmainmodels %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ parcelmainmodel.uniq_id }} </td>
+            <td>{{ parcelmainmodel.sender.userprofile.uniq_id }} {{ parcelmainmodel.sender.last_name }} {{ parcelmainmodel.sender.first_name }} </td>
+<!--            <td>{{ parcelmainmodel.recipient.userprofile.uniq_id }} {{ parcelmainmodel.recipient.last_name }} {{ parcelmainmodel.recipient.first_name }}</td>-->
+            <td>{{ parcelmainmodel.parcel_from}}</td>
+            <td style='text-align:center;vertical-align:middle'>{{ parcelmainmodel.parcel_cost}}</td>
+            <td>{{ parcelmainmodel.parcel_status}}</td>
+            <td>{{ parcelmainmodel.date_created|date:"d.m.Y" }} <img src="{{parcelmainmodel.parcel_image.url}}" width="25px" height="25px"><img src="{{parcelmainmodel.parcel_report_image.url}}" width="25px" height="25px"></td>
+            <td>
+            <a data-toggle="tooltip" data-placement="top" title="Быстрый просмотр" class="open-modal" data-href="{% url 'parcelview' id=parcelmainmodel.id %}" ><i class="fa fa-eye"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Редактировать платеж" href="#"><i class="fa fa-pencil"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Удалить посылку" href="{% url 'deleteparcel' id=parcelmainmodel.id %}"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div id="modal-div"></div>
+
+</div>
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script src="{% static 'modalview.js' %}"> </script>
+{% endblock %}
+

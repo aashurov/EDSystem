@@ -1,0 +1,320 @@
+{% extends 'base_STAFF.html' %}
+{% load static %}
+{% block sidebar %}
+<div class="col">
+    Добавить посылку
+</div>
+{% endblock %}
+
+{% block content %}
+<style>
+label.validation-error{
+    color:   red;
+    margin-left: 5px;
+}
+.hide{
+    display:none;
+}
+.paco {
+    border-style: double; /* Стиль линии вокруг параграфа */
+    padding: 5px; /* Поля вокруг текста */
+   }
+
+
+
+</style>
+
+<div class="container-fluid">
+
+    <form method="POST" autocomplete="off" id="myForm" enctype="multipart/form-data">
+        <input type="hidden" value="{{currency.usd_rub}}" id="usd_rub" name="usd_rub">
+        <input type="hidden" value="{{currency.usd_uzs}}" id="usd_uzs" name="usd_uzs">
+        {% csrf_token %}
+        <!--             {{form}}-->
+        <div class="row ">
+            <div class="col-sm ">
+                <div class="form-group">
+                    <select name="sender_id" id="standard1" style="width: 100%">
+                        <option value="" disabled="disabled" selected>Выберите отправителя</option>
+                        {% for customer in customerlist %}
+                        <option value={{ customer.user.id }}>{{ customer.user.userprofile.uniq_id }} {{ customer.user.userprofile.phone_number}} {{ customer.user.last_name }} {{customer.user.first_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <select name="recipient_id" id="standard2" style="width: 100%">
+                        <option value="" disabled="disabled" selected>Выберите получателя</option>
+                        {% for customer in customerlist %}
+                        <option value={{ customer.user.id }}>{{ customer.user.userprofile.uniq_id }} {{ customer.user.userprofile.phone_number}} {{ customer.user.last_name }} {{customer.user.first_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <select onchange="calculate();" name="parcel_plan" id="standard3" class="form-control"
+                            style="width: 100%">
+                        <option value="" disabled="disabled" selected>Выберите тариф</option>
+                        {% for parcelplan in parcelplans %}
+                        <option value={{ parcelplan.id }}>{{ parcelplan.parcel_name }} ({{ parcelplan.parcel_price}} $)
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-check">
+                    <!--                                      {{ form.parcel_dostavka }}-->
+
+                    <input onchange="calculate();" type="checkbox" class="form-check-input" id="parcel_zabor"
+                           name="parcel_zabor">
+                    <label class="form-check-label" for="parcel_zabor">Забор посылки</label>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-check">
+                    <!--                      {{ form.parcel_dostavka }}-->
+                    <input onchange="calculate();" type="checkbox" class="form-check-input" id="parcel_dostavka"
+                           name="parcel_dostavka">
+                    <label class="form-check-label" for="parcel_dostavka">Доставка</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <!--                {{ form.parcel_length }}-->
+                    <input type="text" class="form-control" name="parcel_length" id="parcel_length"
+                           placeholder="Длина: (см)" onchange="calculate();" onkeyup="calculate();"
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <!--                {{form.parcel_width}}-->
+                    <input type="text" class="form-control" name="parcel_width" id="parcel_width"
+                           placeholder="Ширина: (см)" onchange="calculate();" onkeyup="calculate();"
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <!--                {{form.parcel_height}}-->
+                    <input type="text" class="form-control" name="parcel_height" id="parcel_height"
+                           placeholder="Высота: (см)" onchange="calculate();" onkeyup="calculate();"
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <!--                {{form.parcel_dimension}}-->
+                    <input readonly type="text" class="form-control" name="parcel_dimension" id="parcel_dimension"
+                           placeholder="Габарит: (см)" onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                           min="1">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <!--                {{form.parcel_weight}}-->
+                    <input onkeyup="calculate();" onchange="calculate();" type="text" class="form-control"
+                           name="parcel_weight" id="parcel_weight" placeholder="Весь: (кг)" readonly
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <!--                {{form.parcel_cost}}-->
+                    <input type="text" class="form-control" name="parcel_cost" id="parcel_cost" placeholder="Цена: ($)"
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <input type="file" name="parcel_image" id="parcel_image" class="file" data-preview-file-type="text">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <input type="file" name="parcel_report_image" id="parcel_report_image" class="file" data-preview-file-type="text">
+                </div>
+            </div>
+        </div>
+
+        <label class="validation-error hide" id="fullNameValidationError">Это поле обязательно к заполнению.</label>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <input class="form-control" type="text" id="prod_name" data-bind="textInput: prod_name"
+                           placeholder="Оригинальное название из карточки товара">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <input class="form-control" placeholder="Ссылка на товар (https://www...)" type="text"
+                           id="prod_url" data-bind="textInput: prod_url">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <input class="form-control" placeholder="Количество (шт)" type="text" id="prod_cnt"
+                           data-bind="textInput: prod_cnt"
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <input class="form-control" placeholder="Цена за шт (руб)" type="text" id="prod_cost"
+                           data-bind="textInput: prod_cost"
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <input class="form-control" placeholder="ТНВЭД" type="text" id="prod_tnved"
+                           data-bind="textInput: prod_tnved"
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <input class="form-control" placeholder="Вес: (кг)" type="text" id="prod_weight"
+                           data-bind="textInput: prod_weight"
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+        </div>
+<!--        <div class="row">-->
+<!--            <div class="col-sm">-->
+<!--                <div class="form-group row">-->
+<!--                    <div class="col-sm">-->
+<!--                        <input type="file" name="image[]" id="prod_images" class="file" data-preview-file-type="text">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-sm">-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <input type="submit" onclick="event.preventDefault();onFormSubmit();sum();calculate();" value="Добавить товар">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <table class="table table-sm" id="employeeList">
+                        <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Ссылка на товар</th>
+                            <th>Количество</th>
+                            <th>Цена (за шт)</th>
+                            <th>ТНВЭД</th>
+                            <th>Вес</th>
+                            <th>Изображение</th>
+                            <th>Действие</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <textarea class="form-control" name="parcel_description" id="parcel_description" rows="3" placeholder="Введите коментарии"></textarea>
+                </div>
+            </div>
+
+        </div>
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    const form = document.getElementById('myForm');
+    form.addEventListener('submit', submitHandler);
+    function submitHandler(e) {
+    var myRows = [];
+    var $headers = $("th");
+    var $rows = $("tbody tr").each(function(index) {
+    $cells = $(this).find("td");
+    myRows[index] = {};
+    $cells.each(function(cellIndex) {
+    myRows[index][$($headers[cellIndex]).html()] = $(this).html();
+  });
+});
+                var myObj = {};
+                myObj.myRows = myRows;
+                var formData = new FormData(form),
+                obj = {};
+                for (var entry of formData.entries()){
+                    obj[entry[0]] = entry[1];
+                }
+                var token = $('input[name="csrfmiddlewaretoken"]').prop('value');
+
+           var data = new FormData($('#myForm').get(0));
+          data.append('sender_id', document.getElementById('standard1').value);
+          data.append('recipient_id', document.getElementById('standard2').value);
+          data.append('parcel_plan_id', document.getElementById('standard3').value);
+          data.append('parcel_zabor', document.getElementById('parcel_zabor').value);
+          data.append('parcel_dostavka', document.getElementById('parcel_dostavka').value);
+          data.append('parcel_length', document.getElementById('parcel_length').value);
+          data.append('parcel_width', document.getElementById('parcel_width').value);
+          data.append('parcel_height', document.getElementById('parcel_height').value);
+          data.append('parcel_dimension', document.getElementById('parcel_dimension').value);
+          data.append('parcel_weight', document.getElementById('parcel_weight').value);
+          data.append('parcel_cost', document.getElementById('parcel_cost').value);
+          data.append('parcel_description', document.getElementById('parcel_description').value);
+<!--          data.append('parcel_image', document.getElementById('parcel_image').files[0].name);-->
+<!--          data.append('parcel_report_image', document.getElementById('parcel_report_image').files[0].name);-->
+
+          data.append('html_data', JSON.stringify(myObj));
+
+
+<!--        alert(JSON.stringify(data));-->
+        e.preventDefault();
+
+        $.ajax({
+            type        : 'POST',
+            url         : '{% url 'addparcel' %}',
+            headers:{
+                "X-CSRFToken": token
+                },
+            data        : data,
+<!--            dataType    : 'json',-->
+            contentType : false,
+            processData: false,
+            success     : successFunction
+        });
+    }
+
+    function successFunction(msg) {
+        if (msg.message === 'success') {
+            alert('Сохранено!');
+            window.location.href = '{% url 'listparcel'%}';
+            }
+    }
+
+
+
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/fileinput.min.js"></script>
+<script src="{% static 'calculate.js' %}"></script>
+{% endblock %}
+
