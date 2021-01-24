@@ -8,7 +8,18 @@ var $rows = $("tbody tr").each(function(index) {
     myRows[index][$($headers[cellIndex]).html()] = $(this).html();
   });
 });
+
 var myObj = {};
 myObj.myrows = myRows;
-alert(JSON.stringify(myObj));
+var formData = JSON.stringify($("#myForm").serializeArray());
+
+var myForm = document.getElementById("myForm");
+                var formData = new FormData(myForm),
+                obj = {};
+                for (var entry of formData.entries()){
+                    obj[entry[0]] = entry[1];
+                }
+                console.log(obj);
+alert(JSON.stringify(myObj), obj);
+
 }

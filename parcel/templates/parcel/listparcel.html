@@ -1,7 +1,7 @@
 {% extends 'base_STAFF.html' %}
 {% block sidebar %}
 <div class="col">
-    Список платежей клиентов
+    Список посылок
 </div>
 {% endblock %}
 {% block content %}
@@ -10,34 +10,30 @@
         <thead>
         <tr>
             <th>№</th>
-            <th>ФИО</th>
-            <th>Сумма</th>
-            <th>Дата</th>
+            <th>Накладная</th>
+            <th>Получатель</th>
+            <th>Направление</th>
+            <th>Стоимость</th>
             <th>Статус</th>
-            <th>Действие</th>
+            <th>Дата</th>
+            <th>..</th>
         </tr>
         </thead>
         <tbody>
-        {% for listmoney in listmoneys %}
+    {% for parcelmainmodel in parcelmainmodels %}
         <tr>
             <td>{{ forloop.counter}}</td>
-            <td>{{ listmoney.user.last_name }} {{ listmoney.user.first_name }}</td>
-            <td>{{ listmoney.usd|stringformat:".2f"}}</td>
-            <td>{{ listmoney.date_created|date:"d.m.Y" }}</td>
-            <td>{{ listmoney.general_status }}</td>
+            <td>{{ parcelmainmodel.uniq_id }} </td>
+            <td>{{ parcelmainmodel.sender.userprofile.uniq_id }} {{ parcelmainmodel.sender.last_name }} {{ parcelmainmodel.sender.first_name }} </td>
+<!--            <td>{{ parcelmainmodel.recipient.userprofile.uniq_id }} {{ parcelmainmodel.recipient.last_name }} {{ parcelmainmodel.recipient.first_name }}</td>-->
+            <td>{{ parcelmainmodel.parcel_from}}</td>
+            <td style='text-align:center;vertical-align:middle'>{{ parcelmainmodel.parcel_cost}}</td>
+            <td>{{ parcelmainmodel.parcel_status}}</td>
+            <td>{{ parcelmainmodel.date_created|date:"d.m.Y" }} <img src="{{parcelmainmodel.parcel_image.url}}" width="25px" height="25px"><img src="{{parcelmainmodel.parcel_report_image.url}}" width="25px" height="25px"></td>
             <td>
-                <a data-toggle="tooltip" data-placement="top" title="Быстрый просмотр" class="open-modal" data-href="{% url 'staffcustomeraccounthistoryview' id=listmoney.id %}" ><i class="fa fa-eye"></i></a>
-
-                {% if listmoney.general_status == 'В обработке' %}
-                <a data-toggle="tooltip" data-placement="top" title="Одобрить платеж" href="{% url 'elistmoney' uniq_id=listmoney.uniq_id user_id=listmoney.user_id%}"><i class="fa fa-check"></i></a>
-                <a data-toggle="tooltip" data-placement="top" title="Редактировать платеж" href="{% url 'staffeditmoney' uniq_id=listmoney.uniq_id%}"><i class="fa fa-pencil"></i></a>
-                <a data-toggle="tooltip" data-placement="top" title="Удалить платеж" href="{% url 'staffdeletemoney' uniq_id=listmoney.uniq_id%}"><i class="fa fa-trash"></i></a>
-                {% endif%}
-                {% if listmoney.general_status == 'Одобрено' %}
-                <a data-toggle="tooltip" data-placement="top" title="Отменить платеж" href="{% url 'elistmoney' uniq_id=listmoney.uniq_id user_id=listmoney.user_id %}"><i
-                        class="fa fa-times"></i></a>
-                {% endif%}
-
+            <a data-toggle="tooltip" data-placement="top" title="Быстрый просмотр" class="open-modal" href="{% url 'parcelview' id=parcelmainmodel.id %}" ><i class="fa fa-eye"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Редактировать посылку" href="{% url 'editparcel' id=parcelmainmodel.id %}"><i class="fa fa-pencil"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Удалить посылку" href="{% url 'deleteparcel' id=parcelmainmodel.id %}"><i class="fa fa-trash"></i></a>
             </td>
         </tr>
         {% endfor %}

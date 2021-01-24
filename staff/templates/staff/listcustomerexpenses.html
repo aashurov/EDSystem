@@ -37,18 +37,7 @@
     </table>
 <div id="modal-div"></div>
 </div>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
-<script>
-var modalDiv = $("#modal-div");
-$(".open-modal").on("click", function() {
-$.ajax({
-url: $(this).attr("data-href"),
-success: function(data) {
-modalDiv.html(data);
-$("#myEdit").modal();
-    }
-  });
-});
-</script>
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script src="{% static 'modalview.js' %}"> </script>
 {% endblock %}

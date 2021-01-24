@@ -7,7 +7,11 @@ from .companymanagement import *
 from .insertuser import *
 from .currencymanagement import *
 from .customerexpenseshistory import *
+from parcel.parcelmanagement import *
+
+
 urlpatterns = [
+
     path('', staff, name='staff'),
     path('addmoney', addmoney, name='staffaddmoney'),
     path('listmoney', listmoney, name='stafflistmoney'),
@@ -56,5 +60,12 @@ urlpatterns = [
     path('customerexpenseshistoryview/<int:id>', companyexpenseshistorysview, name='staffcustomerexpenseshistoryview'),
     path('companyownexpenseshistorysview/<int:id>', companyownexpenseshistorysview, name='companyownexpenseshistorysview'),
     path('companyaccounthistorysview/<int:id>', companyaccounthistorysview, name='companyaccounthistorysview'),
+
+
+    path('listparcel', listparcel, name='listparcel'),
+    path('addparcel', addparcel, name='addparcel'),
+    path('parcelview/<int:id>', parcelview, name='parcelview'),
+    path('deleteparcel/<int:id>', deleteparcel, name='deleteparcel'),
+    path('editparcel/<int:id>', editparcel, name='editparcel'),
 
 ]

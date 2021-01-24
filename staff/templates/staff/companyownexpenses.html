@@ -29,7 +29,7 @@
             <td>{{ companyownexpenseshistory.company_expenses_type }}</td>
             <td>{{ companyownexpenseshistory.date_created|date:"d.m.Y" }}</td>
             <td><a data-toggle="tooltip" data-placement="top" title="Быстрый просмотр" class="open-modal" data-href="{% url 'companyownexpenseshistorysview' id=companyownexpenseshistory.id %}" ><i class="fa fa-eye"></i></a>
-                   <a data-toggle="tooltip" data-placement="top" title="Редактировать расход" href="{% url 'editcompanyownexpenses' id=companyownexpenseshistory.id %}" ><i class="fa fa-pencil"></i></a>
+<!--                   <a data-toggle="tooltip" data-placement="top" title="Редактировать расход" href="{% url 'editcompanyownexpenses' id=companyownexpenseshistory.id %}" ><i class="fa fa-pencil"></i></a>-->
                 <a data-toggle="tooltip" data-placement="top" title="Удалить расход" href="{% url 'deletemoneyfromownexpenses' id=companyownexpenseshistory.id %}" ><i class="fa fa-trash"></i></a>
             </td>
         </tr>

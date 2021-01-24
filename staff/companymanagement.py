@@ -73,35 +73,39 @@ def getmoneyfromcustomer(request, user_id):
         customeraccount = CustomerAccount.objects.get(pk=user_id)
         form = CompanyAccountHistoryForm(request.POST)
         if form.is_valid():
-            if request.POST['service_type'] == 'За Товар':
-                obj = form.save(commit=False)
-                obj.user_id = user_id
-                general_uniq_id = str(random.randint(1000, 9999))
-                obj.uniq_id = general_uniq_id
-                obj.usd = float(request.POST['usd']) / 100
-                obj.plan_type = '00'
-                obj.staff_id = request.user.id
-                obj.description = request.POST['description'] + " || " + str(request.POST['usd_rub'] + " || " + request.POST['usd_uzs'])
-                obj.save()
-                companyaccaount = CompanyAccount.objects.get(pk=1)
-                companyaccaount.usd = companyaccaount.usd + float(request.POST['usd']) / 100
-                companyaccaount.save()
-                customeraccount.usd = customeraccount.usd - float(request.POST['usd']) - float(
-                    request.POST['usd']) / 100
+            if request.POST['service_type'] == 'Вернуть клиенту':
+                customeraccount.usd = customeraccount.usd - float(request.POST['usd'])
                 customeraccount.save()
+                general_uniq_id = str(random.randint(1000, 9999))
                 customerexpenseshistory = CustomerExpensesHistory()
                 customerexpenseshistory.user_id = user_id
                 customerexpenseshistory.uniq_id = general_uniq_id
-                customerexpenseshistory.usd = float(request.POST['usd']) + float(request.POST['usd']) / 100
+                customerexpenseshistory.usd = float(request.POST['usd'])
                 customerexpenseshistory.plan_type = '00'
+                customerexpenseshistory.service_type = request.POST['service_type']
                 customerexpenseshistory.staff_id = request.user.id
                 customerexpenseshistory.description = request.POST['description'] + " || " + str(
-                request.POST['usd_rub'] + " || " + request.POST['usd_uzs'])
-                customerexpenseshistory.service_type = request.POST['service_type']
+                    request.POST['usd_rub'] + " || " + request.POST['usd_uzs'])
                 customerexpenseshistory.save()
                 customerexpenses = CustomerExpenses.objects.get(user_id=user_id)
-                customerexpenses.usd = float(request.POST['usd']) + float(request.POST['usd']) / 100
+                customerexpenses.usd = customerexpenses.usd + float(request.POST['usd'])
                 customerexpenses.save()
+            elif request.POST['service_type'] == 'За Товар':
+                if customeraccount.usd>float(request.POST['usd']) or customeraccount.usd!=float(request.POST['usd']):
+                    obj = form.save(commit=False)
+                    obj.user_id = user_id
+                    general_uniq_id = str(random.randint(1000, 9999))
+                    obj.uniq_id = general_uniq_id
+                    obj.usd = float(request.POST['usd']) / 100
+                    obj.plan_type = '00'
+                    obj.staff_id = request.user.id
+                    obj.description = request.POST['description'] + " || " + str(request.POST['usd_rub'] + " || " + request.POST['usd_uzs'])
+                    obj.save()
+                    companyaccaount = CompanyAccount.objects.get(pk=1)
+                    companyaccaount.usd = companyaccaount.usd + float(request.POST['usd']) / 100
+                    companyaccaount.save()
+                    customeraccount.usd = customeraccount.usd - float(request.POST['usd']) - float(request.POST['usd']) / 100
+                    customeraccount.save()
             else:
                 obj = form.save(commit=False)
                 obj.user_id = user_id
@@ -127,7 +131,7 @@ def getmoneyfromcustomer(request, user_id):
                 request.POST['usd_rub'] + " || " + request.POST['usd_uzs'])
                 customerexpenseshistory.save()
                 customerexpenses = CustomerExpenses.objects.get(user_id=user_id)
-                customerexpenses.usd = float(request.POST['usd'])
+                customerexpenses.usd = customerexpenses.usd + float(request.POST['usd'])
                 customerexpenses.save()
             return redirect('stafflistcustomermoney')
     else:
@@ -207,7 +211,8 @@ def addcompanyownexpenses(request):
 
 def editcompanyownexpenses(request, id):
     if request.method == 'POST':
-        pi = CompanyOwnExpensesHistory.objects.get(id=id)
+        pi = CompanyOwnExpensesHistory.objects.get(pk=id)
+        print(pi.usd)
         money = CompanyOwnExpensesHistoryForm(request.POST, instance=pi)
         if money.is_valid():
             obj = money.save(commit=False)

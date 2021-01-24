@@ -38,6 +38,18 @@ def addloan(request):
             companyaccount = CompanyAccount.objects.get(pk=1)
             companyaccount.usd = companyaccount.usd - float(request.POST['usd'])
             companyaccount.save()
+            customeraccount = CustomerAccount.objects.get(user_id=request.POST['user_id'])
+            customeraccount.usd = customeraccount.usd + float(request.POST['usd'])
+            customeraccount.save()
+            customeraccounthistory = CustomerAccountHistory()
+            customeraccounthistory.uniq_id = str(random.randint(1000, 9999))
+            customeraccounthistory.usd = float(request.POST['usd'])
+            customeraccounthistory.user_id = request.POST['user_id']
+            customeraccounthistory.general_status = 'Одобрено'
+            customeraccounthistory.description = request.POST['description'] + " || " + str(request.POST['usd_rub'] + " || " + request.POST['usd_uzs'])
+            customeraccounthistory.staff_id = request.user.id
+            customeraccounthistory.courier_id = '00'
+            customeraccounthistory.save()
             return redirect('stafflistloan')
     else:
         form = CustomerLoanForm()

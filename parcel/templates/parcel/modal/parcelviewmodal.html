@@ -1,22 +1,95 @@
 <div class="modal fade" id="myEdit" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl ">
         <form class="well contact-form" method="post" action="{% url 'up'}">
             {% csrf_token %}
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Информация о приходе</h4>
+                    <h4 class="modal-title">Информация о посылке</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <label>ФИО клиента: {{ customerLFName.last_name }} {{ customerLFName.first_name }}</label><br>
-                    <label>Сумма прихода: {{ companyaccounthistorysview.usd }}</label><br>
-                    <label>Тип сервиса: {{ companyaccounthistorysview.service_type }}</label><br>
-                    {% if  companyaccounthistorysview.service_type != 'За Товар'%}
-                    <label>Тарифный план: {{ companyaccounthistorysview.plan_type }}</label><br>
-                    {% endif %}
-                    <label>Дата расхода: {{ companyaccounthistorysview.date_created }}</label><br>
-                    <label>ФИО сотрудника: {{ staffLFName.last_name }} {{ staffLFName.first_name }}</label><br>
-                    <label>Коментарии: {{ companyaccounthistorysview.description }}</label><br>
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ФИО получателя</th>
+                            <th>Адрес получателя</th>
+                            <th>Паспорт получателя</th>
+                            <th>ФИО отправителя</th>
+                            <th>Адрес отправителя</th>
+                            <th>Паспорт отправителя</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for parcelmainmodel in parcelmainmodels %}
+                        <td>{{ forloop.counter}}</td>
+                            <td>ФИО получателя</td>
+                            <td>Адрес получателя</td>
+                            <td>Паспорт получателя</td>
+                            <td>ФИО отправителя</td>
+                            <td>Адрес отправителя</td>
+                            <td>Паспорт отправителя</td>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>Накладная</th>
+                            <th>Длина </th>
+                            <th>Ширина </th>
+                            <th>Высота </th>
+                            <th>Габарит </th>
+                            <th>Вес </th>
+                            <th>Стоимость </th>
+                            <th>Статус </th>
+                            <th>Дата </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <td>Номер посылки</td>
+                            <td>Длина </td>
+                            <td>Ширина </td>
+                            <td>Высота </td>
+                            <td>Габарит </td>
+                            <td>Вес </td>
+                            <td>Стоимость </td>
+                            <td>Статус </td>
+                            <td>Дата </td>
+                        </tbody>
+                    </table>
+                    <label>Содиржимое посылки: </label><br>
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Ссылка на товар</th>
+                            <th>Количество</th>
+                            <th>Цена (за шт)</th>
+                            <th>ТНВЭД</th>
+                            <th>Вес</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <td>Название</td>
+                            <td>Ссылка на товар</td>
+                            <td>Количество</td>
+                            <td>Цена (за шт)</td>
+                            <td>ТНВЭД</td>
+                            <td>Вес</td>
+                        </tbody>
+                    </table>
+                    <label>Содиржимое посылки: </label><br>
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>Статус посылки</th>
+                            <th>Дата</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <td>Статус посылки</td>
+                            <td>Дата</td>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button value="" type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>

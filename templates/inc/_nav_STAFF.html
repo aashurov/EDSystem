@@ -13,10 +13,11 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    Посылки
+                    Посылка
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                    <a class="dropdown-item" href="#">Посылка</a>
+                    <a class="dropdown-item" href="{% url 'listparcel' %}">Посылки</a>
+                    <a class="dropdown-item" href="{% url 'addparcel' %}">Добавить посылку</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -29,7 +30,7 @@
                     <a class="dropdown-item" href="{% url 'stafflistmoney'%}">Платежи</a>
                 </div>
             </li>
-               <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     Долги
@@ -58,7 +59,8 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown4">
                     <a class="dropdown-item" href="{% url 'stafflistcustomermoney' %}">Счета клиентов</a>
                     <a class="dropdown-item" href="{% url 'stafflistcustomerloan' %}">Долги клиентов</a>
-                    <a class="dropdown-item" href="{% url 'stafflistcustomerexpenseshistory' %}">Список расходов клиентов</a>
+                    <a class="dropdown-item" href="{% url 'stafflistcustomerexpenseshistory' %}">Список расходов
+                        клиентов</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -74,7 +76,7 @@
                     <a class="dropdown-item" href="{% url 'companyownexpenseshistorys' %}">Расходы сотрудников</a>
                 </div>
             </li>
-                <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown6" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     Курс валюты
@@ -85,10 +87,10 @@
                 </div>
             </li>
         </ul>
-<!--        <form class="form-inline my-2 my-lg-0">-->
-<!--            <a class="btn btn-outline-success my-2 mr-sm-2 my-sm-0 form-control"-->
-<!--               href="{% url 'profile' user_id=user.id %}">{{user.id}} {{user.username}}</a>-->
-<!--        </form>-->
+        <!--        <form class="form-inline my-2 my-lg-0">-->
+        <!--            <a class="btn btn-outline-success my-2 mr-sm-2 my-sm-0 form-control"-->
+        <!--               href="{% url 'profile' user_id=user.id %}">{{user.id}} {{user.username}}</a>-->
+        <!--        </form>-->
         <!--        <form class="form-inline my-2 my-lg-0">-->
         <!--            <a class="btn btn-outline-success my-2 mr-sm-2 my-sm-0 form-control"-->
         <!--               href="{% url 'profile' user_id=user.id %}">{{sum.usd}} $ || {{sum.rub}} &#8381; || {{sum.uzs}} UZS </a>-->

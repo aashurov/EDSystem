@@ -34,10 +34,13 @@ label.validation-error{
         <div class="row ">
             <div class="col-sm ">
                 <div class="form-group">
-                    <select name="sender_id" id="standard1" style="width: 100%">
-                        <option value="" disabled="disabled" selected>Выберите отправителя</option>
+<!--                     <input readonly type="text" class="form-control" name="" id=""-->
+<!--                           placeholder=""  value="Отправитель: {{parcelmainmodel.sender.last_name}} {{parcelmainmodel.sender.first_name}}">-->
+
+<select name="sender_id" id="standard1" style="width: 100%" disabled="true">
+                        <option value="" disabled="disabled" >Выберите отправителя</option>
                         {% for customer in customerlist %}
-                        <option value={{ customer.user.id }}>{{ customer.user.userprofile.uniq_id }} {{ customer.user.userprofile.phone_number}} {{ customer.user.last_name }} {{customer.user.first_name }}
+                        <option  value= {{ customer.user.id }} {% if customer.user.id == parcelmainmodel.sender_id %} selected="selected"{% endif %}>{{ customer.user.userprofile.uniq_id }} {{ customer.user.userprofile.phone_number}} {{ customer.user.last_name }} {{customer.user.first_name }}
                         </option>
                         {% endfor %}
                     </select>
@@ -46,10 +49,10 @@ label.validation-error{
             </div>
             <div class="col-sm">
                 <div class="form-group">
-                    <select name="recipient_id" id="standard2" style="width: 100%">
+                    <select name="recipient_id" id="standard2" style="width: 100%" disabled="true">
                         <option value="" disabled="disabled" selected>Выберите получателя</option>
                         {% for customer in customerlist %}
-                        <option value={{ customer.user.id }}>{{ customer.user.userprofile.uniq_id }} {{ customer.user.userprofile.phone_number}} {{ customer.user.last_name }} {{customer.user.first_name }}
+                   <option  value= {{ customer.user.id }} {% if customer.user.id == parcelmainmodel.recipient_id %} selected="selected"{% endif %}>{{ customer.user.userprofile.uniq_id }} {{ customer.user.userprofile.phone_number}} {{ customer.user.last_name }} {{customer.user.first_name }}
                         </option>
                         {% endfor %}
                     </select>
@@ -58,21 +61,55 @@ label.validation-error{
             <div class="col-sm">
                 <div class="form-group">
                     <select onchange="calculate();" name="parcel_plan" id="standard3" class="form-control"
-                            style="width: 100%">
+                            style="width: 100%" disabled="true">
                         <option value="" disabled="disabled" selected>Выберите тариф</option>
                         {% for parcelplan in parcelplans %}
-                        <option value={{ parcelplan.id }}>{{ parcelplan.parcel_name }} ({{ parcelplan.parcel_price}} $)
+                        <option value={{ parcelplan.id }} {% if parcelplan.id == parcelmainmodel.parcel_plan_id %} selected="selected"{% endif %}>{{ parcelplan.parcel_name }} ({{ parcelplan.parcel_price}} $)
+
+
                         </option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
+               <div class="col-sm">
+                <div class="form-group">
+                    <select onchange="eventstatus();"  name="parcel_status" id="standard4" class="form-control"
+                            style="width: 100%">
+                        <option value="" disabled="disabled" selected>Выберите статус</option>
+                        {% for parcelstatus in parcelstatuses %}
+                        <option value={{ parcelstatus.id }} {% if parcelstatus.id == parcelmainmodel.parcel_status_id%} selected="selected" {% endif %}>{{ parcelstatus.parcel_status }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+
+<!--            <div class="col-sm">-->
+<!--                <div class="form-check">-->
+<!--                    &lt;!&ndash;                                      {{ form.parcel_dostavka }}&ndash;&gt;-->
+<!--                    <input onchange="calculate();" type="checkbox" class="form-check-input" id="parcel_zabor"-->
+<!--                           name="parcel_zabor">-->
+<!--                    <label class="form-check-label" for="parcel_zabor">Забор посылки</label>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-sm">-->
+<!--                <div class="form-check">-->
+<!--                    &lt;!&ndash;                      {{ form.parcel_dostavka }}&ndash;&gt;-->
+<!--                    <input onchange="calculate();" type="checkbox" class="form-check-input" id="parcel_dostavka"-->
+<!--                           name="parcel_dostavka">-->
+<!--                    <label class="form-check-label" for="parcel_dostavka">Доставка</label>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+        <div class="row">
             <div class="col-sm">
                 <div class="form-check">
                     <!--                                      {{ form.parcel_dostavka }}-->
 
                     <input onchange="calculate();" type="checkbox" class="form-check-input" id="parcel_zabor"
-                           name="parcel_zabor">
+                           name="parcel_zabor" value= {{ parcelmainmodel.parcel_zabor}} {% if parcelmainmodel.parcel_zabor == 'on' %} checked="checked" {% endif %}>
                     <label class="form-check-label" for="parcel_zabor">Забор посылки</label>
                 </div>
             </div>
@@ -80,8 +117,39 @@ label.validation-error{
                 <div class="form-check">
                     <!--                      {{ form.parcel_dostavka }}-->
                     <input onchange="calculate();" type="checkbox" class="form-check-input" id="parcel_dostavka"
-                           name="parcel_dostavka">
+                           name="parcel_dostavka" value= {{ parcelmainmodel.parcel_dostavka}} {% if parcelmainmodel.parcel_dostavka == 'on' %} checked="checked" {% endif %}>
                     <label class="form-check-label" for="parcel_dostavka">Доставка</label>
+                </div>
+            </div>
+  <div class="col-sm">
+                <div class="form-check">
+                    <!--                      {{ form.parcel_dostavka }}-->
+                    <input   type="checkbox" class="form-check-input" id="parcel_getmoney_foritem"
+                           name="parcel_getmoney_foritem" value= {{ parcelmainmodel.parcel_getmoney_foritem}} {% if parcelmainmodel.parcel_getmoney_foritem == 'on' %} checked="checked" {% endif %}>
+                    <label class="form-check-label" for="parcel_getmoney_foritem">Изять за товар</label>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <select name="parcel_zabor_courier_id" id="standard5" class="form-control"
+                            style="width: 100%">
+                        <option value="" disabled="disabled" selected>Курера для забора</option>
+                        {% for parcel_courier in parcel_couriers %}
+                        <option  value= {{ parcel_courier.user.id }} {% if parcel_courier.user.id == parcelmainmodel.courier_zabor_id %} selected="selected"{% endif %}>   {{ parcel_courier.user.last_name }} {{parcel_courier.user.first_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <select   name="parcel_dostavka_courier_id" id="standard6" class="form-control" style="width: 100%">
+                        <option value="" disabled="disabled" selected>Курера для доставки</option>
+                        {% for parcel_courier in parcel_couriers %}
+                         <option  value= {{ parcel_courier.user.id }} {% if parcel_courier.user.id == parcelmainmodel.courier_dostavka_id %} selected="selected"{% endif %}>   {{ parcel_courier.user.last_name }} {{parcel_courier.user.first_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
         </div>
@@ -89,25 +157,25 @@ label.validation-error{
             <div class="col-sm">
                 <div class="form-group">
                     <!--                {{ form.parcel_length }}-->
-                    <input type="text" class="form-control" name="parcel_length" id="parcel_length"
+                    <input readonly type="text" class="form-control" name="parcel_length" id="parcel_length"
                            placeholder="Длина: (см)" onchange="calculate();" onkeyup="calculate();"
-                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_length}}">
                 </div>
             </div>
             <div class="col-sm">
                 <div class="form-group">
                     <!--                {{form.parcel_width}}-->
-                    <input type="text" class="form-control" name="parcel_width" id="parcel_width"
+                    <input readonly type="text" class="form-control" name="parcel_width" id="parcel_width"
                            placeholder="Ширина: (см)" onchange="calculate();" onkeyup="calculate();"
-                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_width}}">
                 </div>
             </div>
             <div class="col-sm">
                 <div class="form-group">
                     <!--                {{form.parcel_height}}-->
-                    <input type="text" class="form-control" name="parcel_height" id="parcel_height"
+                    <input readonly type="text" class="form-control" name="parcel_height" id="parcel_height"
                            placeholder="Высота: (см)" onchange="calculate();" onkeyup="calculate();"
-                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_height}}">
                 </div>
             </div>
             <div class="col-sm">
@@ -115,7 +183,7 @@ label.validation-error{
                     <!--                {{form.parcel_dimension}}-->
                     <input readonly type="text" class="form-control" name="parcel_dimension" id="parcel_dimension"
                            placeholder="Габарит: (см)" onkeypress='return event.charCode >= 48 && event.charCode <= 57'
-                           min="1">
+                           min="1" value="{{parcelmainmodel.parcel_dimension}}">
                 </div>
             </div>
             <div class="col-sm">
@@ -123,27 +191,34 @@ label.validation-error{
                     <!--                {{form.parcel_weight}}-->
                     <input onkeyup="calculate();" onchange="calculate();" type="text" class="form-control"
                            name="parcel_weight" id="parcel_weight" placeholder="Весь: (кг)" readonly
-                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_weight}}">
                 </div>
             </div>
             <div class="col-sm">
                 <div class="form-group">
                     <!--                {{form.parcel_cost}}-->
-                    <input type="text" class="form-control" name="parcel_cost" id="parcel_cost" placeholder="Цена: ($)"
-                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                    <input readonly type="text" class="form-control" name="parcel_cost" id="parcel_cost" placeholder="Цена: ($)"
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_cost}}">
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <input type="file" name="parcel_image" id="parcel_image" class="file" data-preview-file-type="text">
+                    <input type="file" name="parcel_image" id="parcel_image" class="file" data-preview-file-type="text" value="{{parcelmainmodel.parcel_image.url}}">
+                    <a href="/media/passport_image.png" target="_blank">
+                        <img   width="25px" height="25px" src="{{parcelmainmodel.parcel_image.url}}" alt=""/></a>
+                    <br>
+                    <a href="{{parcelmainmodel.parcel_image.url}}" target="_blank" >{{parcelmainmodel.parcel_image.url}}</a>
                 </div>
             </div>
             <div class="col-sm">
                 <div class="form-group">
                     <input type="file" name="parcel_report_image" id="parcel_report_image" class="file" data-preview-file-type="text">
+                    <a href="/media/passport_image.png" target="_blank">
+                        <img   width="25px" height="25px" src="{{parcelmainmodel.parcel_report_image.url}}" alt=""/></a>
+                    <br>
+                    <a href="{{parcelmainmodel.parcel_report_image.url}}" target="_blank" >{{parcelmainmodel.parcel_report_image.url}}</a>
                 </div>
             </div>
         </div>
@@ -207,7 +282,7 @@ label.validation-error{
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <input type="submit" onclick="event.preventDefault();onFormSubmit();sum();calculate();" value="Добавить товар">
+                    <input type="button" onclick="event.preventDefault();onFormSubmit();sum();calculate();" value="Добавить товар">
                 </div>
             </div>
         </div>
@@ -223,11 +298,22 @@ label.validation-error{
                             <th>Цена (за шт)</th>
                             <th>ТНВЭД</th>
                             <th>Вес</th>
-                            <th>Изображение</th>
                             <th>Действие</th>
                         </tr>
                         </thead>
                         <tbody>
+                        {% for parcelitem in parcelitems %}
+                            <tr>
+                            <td>{{parcelitem.prod_name}}</td>
+                            <td>{{parcelitem.prod_url}}</td>
+                            <td>{{parcelitem.prod_cnt}}</td>
+                            <td>{{parcelitem.prod_cost}}</td>
+                            <td>{{parcelitem.prod_tnved}}</td>
+                            <td>{{parcelitem.prod_weight}}</td>
+                            <td><a href="#" onClick="onEdit(this);">Редактировать</a>
+                       <a href="#" onClick="onDelete(this);">Удалить</a></td>
+                        </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -236,16 +322,28 @@ label.validation-error{
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <textarea class="form-control" name="parcel_description" id="parcel_description" rows="3" placeholder="Введите коментарии"></textarea>
+                    <textarea class="form-control" name="parcel_description" id="parcel_description" rows="3" placeholder="Введите коментарии" >{{parcelmainmodel.parcel_description}}</textarea>
                 </div>
             </div>
 
         </div>
-        <button type="submit">Сохранить</button>
+        <button type="submit" id="save">Сохранить</button>
     </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
+function eventstatus()
+{
+if (document.getElementById('standard4').value == 16)
+{
+var r = confirm("Вы согласны изять деньги у клиента за перевозку?");
+if (r == true) {
+
+} else {
+
+}
+}
+}
     const form = document.getElementById('myForm');
     form.addEventListener('submit', submitHandler);
     function submitHandler(e) {
@@ -291,7 +389,7 @@ label.validation-error{
 
         $.ajax({
             type        : 'POST',
-            url         : '{% url 'addparcel' %}',
+            url         : '{% url 'editparcel' id=parcelmainmodel.id %}',
             headers:{
                 "X-CSRFToken": token
                 },
@@ -301,6 +399,8 @@ label.validation-error{
             processData: false,
             success     : successFunction
         });
+
+
     }
 
     function successFunction(msg) {

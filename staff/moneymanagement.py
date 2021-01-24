@@ -98,7 +98,10 @@ def deletemoney(request, uniq_id):
 def customeraccounthistoryview(request, id):
     customeraccounthistoryview = CustomerAccountHistory.objects.get(pk=id)
     customerLFName = User.objects.get(pk=customeraccounthistoryview.user_id)
-    courierLFName = User.objects.get(pk=customeraccounthistoryview.courier_id)
+    if customeraccounthistoryview.courier_id != '00':
+        courierLFName = User.objects.get(pk=customeraccounthistoryview.courier_id)
+    else:
+        courierLFName = 'Hech kim'
     staffLFName = User.objects.get(pk=customeraccounthistoryview.staff_id)
     return render(request, 'staff/modal/customeraccounthistorymodal.html', {
         "customeraccounthistoryview": customeraccounthistoryview,

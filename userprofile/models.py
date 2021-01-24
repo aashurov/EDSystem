@@ -37,8 +37,8 @@ class UserProfile(models.Model):
     is_official = models.BooleanField(default=True)
     role = models.CharField(max_length=50, choices=Roles, default='клиент')
     avatar_image = models.ImageField(upload_to='photos/%Y/%m/%d/', default='avatar.png')
-    passport_image = models.ImageField(upload_to='photos/%Y/%m/%d/', default='passport_image.png')
-    passport_image_behind = models.ImageField(upload_to='photos/%Y/%m/%d/', default='passport_image_behind.png')
+    passport_image = models.ImageField(upload_to='photos/%Y/%m/%d/', default='no-photo.png')
+    passport_image_behind = models.ImageField(upload_to='photos/%Y/%m/%d/', default='no-photo.png')
 
 
 

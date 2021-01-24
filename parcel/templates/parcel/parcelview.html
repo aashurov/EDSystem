@@ -1,96 +1,187 @@
 {% extends 'base_STAFF.html' %}
 {% block sidebar %}
 <div class="col">
-    Список посылок
+    <!--    Информация об отправителе и получателе-->
+
 </div>
 {% endblock %}
 {% block content %}
 <div class="col">
-                        <table class="table table-sm">
-                        <thead>
-                        <tr>
-                            <th>ФИО получателя</th>
-                            <th>Адрес получателя</th>
-                            <th>Паспорт получателя</th>
-                            <th>ФИО отправителя</th>
-                            <th>Адрес отправителя</th>
-                            <th>Паспорт отправителя</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <td>ФИО получателя</td>
-                            <td>Адрес получателя</td>
-                            <td>Паспорт получателя</td>
-                            <td>ФИО отправителя</td>
-                            <td>Адрес отправителя</td>
-                            <td>Паспорт отправителя</td>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm">
-                        <thead>
-                        <tr>
-                            <th>Накладная</th>
-                            <th>Длина </th>
-                            <th>Ширина </th>
-                            <th>Высота </th>
-                            <th>Габарит </th>
-                            <th>Вес </th>
-                            <th>Стоимость </th>
-                            <th>Статус </th>
-                            <th>Дата </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <td>Номер посылки</td>
-                            <td>Длина </td>
-                            <td>Ширина </td>
-                            <td>Высота </td>
-                            <td>Габарит </td>
-                            <td>Вес </td>
-                            <td>Стоимость </td>
-                            <td>Статус </td>
-                            <td>Дата </td>
-                        </tbody>
-                    </table>
-                    <label>Содиржимое посылки: </label><br>
-                    <table class="table table-sm">
-                        <thead>
-                        <tr>
-                            <th>Название</th>
-                            <th>Ссылка на товар</th>
-                            <th>Количество</th>
-                            <th>Цена (за шт)</th>
-                            <th>ТНВЭД</th>
-                            <th>Вес</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <td>Название</td>
-                            <td>Ссылка на товар</td>
-                            <td>Количество</td>
-                            <td>Цена (за шт)</td>
-                            <td>ТНВЭД</td>
-                            <td>Вес</td>
-                        </tbody>
-                    </table>
-                    <label>Содиржимое посылки: </label><br>
-                    <table class="table table-sm">
-                        <thead>
-                        <tr>
-                            <th>Статус посылки</th>
-                            <th>Дата</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <td>Статус посылки</td>
-                            <td>Дата</td>
-                        </tbody>
-                    </table>
+    <br>
+    <label>Информация об получателе</label> <a data-toggle="tooltip" data-placement="top" title="Редактировать посылку" href="{% url 'editparcel' id=parcelmainmodel.id %}"><i class="fa fa-pencil"></i></a><br>
+
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th>ФИО получателя</th>
+            <th>Адрес получателя (1)</th>
+            <th>Адрес получателя (2)</th>
+            <th>Контакт получателя</th>
+            <th>Паспорт получателя</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{parcelmainmodel.recipient.userprofile.uniq_id}} {{parcelmainmodel.recipient.last_name}}
+                {{parcelmainmodel.recipient.first_name}}
+            </td>
+            <td>{{parcelmainmodel.recipient.userprofile.address_first}}</td>
+            <td>{{parcelmainmodel.recipient.userprofile.address_second}}</td>
+            <td>{{parcelmainmodel.recipient.userprofile.phone_number}}</td>
+            <td><a href="{{parcelmainmodel.recipient.userprofile.passport_image.url}}" target="_blank"><img
+                    src="{{parcelmainmodel.recipient.userprofile.passport_image.url}}" width="25px" height="25px"></a>
+                <a href="{{parcelmainmodel.recipient.userprofile.passport_image_behind.url}}" target="_blank"><img
+                        src="{{parcelmainmodel.recipient.userprofile.passport_image_behind.url}}" width="25px"
+                        height="25px"> </a></td>
+        </tbody>
+    </table>
+    <label>Информация об отправителе </label><br>
+
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th>ФИО отправителя</th>
+            <th>Адрес получателя (1)</th>
+            <th>Адрес получателя (2)</th>
+            <th>Контакт получателя</th>
+            <th>Паспорт отправителя</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{parcelmainmodel.sender.userprofile.uniq_id}} {{parcelmainmodel.sender.last_name}}
+                {{parcelmainmodel.sender.first_name}}
+            </td>
+            <td>{{parcelmainmodel.sender.userprofile.address_first}}</td>
+            <td>{{parcelmainmodel.sender.userprofile.address_second}}</td>
+            <td>{{parcelmainmodel.sender.userprofile.phone_number}}</td>
+            <td><a href="{{parcelmainmodel.sender.userprofile.passport_image.url}}" target="_blank"><img
+                    src="{{parcelmainmodel.sender.userprofile.passport_image.url}}" width="25px" height="25px"></a> <a
+                    href="{{parcelmainmodel.sender.userprofile.passport_image_behind.url}}" target="_blank"><img
+                    src="{{parcelmainmodel.sender.userprofile.passport_image_behind.url}}" width="25px" height="25px">
+            </a></td>
+
+        </tr>
+        </tbody>
+    </table>
+    <label>Менеджеры и куреры </label><br>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th>ФИО менеджер отправитель</th>
+            <th>ФИО менеджер получатель</th>
+            <th>ФИО курер забор</th>
+            <th>ФИО курер доставщик</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{parcelmainmodel.staff_sender.userprofile.uniq_id}} {{parcelmainmodel.staff_sender.userprofile.user.last_name}}
+                {{parcelmainmodel.staff_sender.userprofile.user.first_name}}
+            </td>
+               <td>{{parcelmainmodel.staff_recipient.userprofile.uniq_id}} {{parcelmainmodel.staff_recipient.userprofile.user.last_name}}
+                {{parcelmainmodel.staff_recipient.userprofile.user.first_name}}
+            </td>
+            <td>{{parcelmainmodel.courier_zabor.userprofile.uniq_id}} {{parcelmainmodel.courier_zabor.userprofile.user.last_name}}
+                {{parcelmainmodel.courier_zabor.userprofile.user.first_name}}
+            </td>
+                <td>{{parcelmainmodel.courier_dostavka.userprofile.uniq_id}} {{parcelmainmodel.courier_dostavka.userprofile.user.last_name}}
+                {{parcelmainmodel.courier_dostavka.userprofile.user.first_name}}
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <label>Общая информация о посылки </label><br>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th>Накладная</th>
+            <th>Длина</th>
+            <th>Ширина</th>
+            <th>Высота</th>
+            <th>Габарит</th>
+            <th>Вес</th>
+            <th>Стоимость</th>
+            <th>Статус</th>
+            <th>Дата</th>
+            <th>Изображение</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <td>{{parcelmainmodel.uniq_id}}</td>
+        <td>{{parcelmainmodel.parcel_length}}</td>
+        <td>{{parcelmainmodel.parcel_width}}</td>
+        <td>{{parcelmainmodel.parcel_height}}</td>
+        <td>{{parcelmainmodel.parcel_dimension}}</td>
+        <td>{{parcelmainmodel.parcel_weight}}</td>
+        <td>{{parcelmainmodel.parcel_cost}}</td>
+        <td>{{parcelmainmodel.parcel_status}}</td>
+        <td>{{parcelmainmodel.date_created|date:"d.m.Y" }}</td>
+        <td><a href="{{parcelmainmodel.parcel_image.url}}" target="_blank"><img
+                src="{{parcelmainmodel.parcel_image.url}}" width="25px" height="25px"></a><a
+                href="{{parcelmainmodel.parcel_report_image.url}}" target="_blank"><img
+                src="{{parcelmainmodel.parcel_report_image.url}}" width="25px" height="25px"></a></td>
+        </tbody>
+    </table>
+    <label>Содержимое посылки </label><br>
+    <table class="table table-sm">
+        <thead>
+
+        <tr>
+            <th>№</th>
+
+            <th>Название</th>
+            <th>Ссылка на товар</th>
+            <th>Количество</th>
+            <th>Цена (за шт)</th>
+            <th>ТНВЭД</th>
+            <th>Вес</th>
+            <th>Дата</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for parcelitem in parcelitems %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{parcelitem.prod_name}}</td>
+            <td>{{parcelitem.prod_url}}</td>
+            <td>{{parcelitem.prod_cnt}}</td>
+            <td>{{parcelitem.prod_cost}}</td>
+            <td>{{parcelitem.prod_tnved}}</td>
+            <td>{{parcelitem.prod_weight}}</td>
+            <td>{{parcelitem.date_created|date:"d.m.Y" }}</td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <label>История статуса посылки </label><br>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>Статус посылки</th>
+            <th>Дата</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for parcelstatushistory in parcelstatushistorys %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{parcelstatushistory.parcel_status.parcel_status}}</td>
+            <td>{{parcelstatushistory.date_created|date:"d.m.Y" }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
     <div id="modal-div"></div>
 
 </div>
 {% load static %}
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
-<script src="{% static 'modalview.js' %}"> </script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{% static 'modalview.js' %}"></script>
 {% endblock %}
 
