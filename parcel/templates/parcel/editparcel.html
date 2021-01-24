@@ -2,10 +2,9 @@
 {% load static %}
 {% block sidebar %}
 <div class="col">
-    Добавить посылку
+    Редактирование посылку
 </div>
 {% endblock %}
-
 {% block content %}
 <style>
 label.validation-error{
@@ -19,40 +18,32 @@ label.validation-error{
     border-style: double; /* Стиль линии вокруг параграфа */
     padding: 5px; /* Поля вокруг текста */
    }
-
-
-
 </style>
-
 <div class="container-fluid">
-
     <form method="POST" autocomplete="off" id="myForm" enctype="multipart/form-data">
         <input type="hidden" value="{{currency.usd_rub}}" id="usd_rub" name="usd_rub">
         <input type="hidden" value="{{currency.usd_uzs}}" id="usd_uzs" name="usd_uzs">
         {% csrf_token %}
-        <!--             {{form}}-->
-        <div class="row ">
+        <div class="row">
             <div class="col-sm ">
                 <div class="form-group">
-<!--                     <input readonly type="text" class="form-control" name="" id=""-->
-<!--                           placeholder=""  value="Отправитель: {{parcelmainmodel.sender.last_name}} {{parcelmainmodel.sender.first_name}}">-->
-
-<select name="sender_id" id="standard1" style="width: 100%" disabled="true">
-                        <option value="" disabled="disabled" >Выберите отправителя</option>
+                    <label class="form-check-label" for="standard1">Отправитель</label>
+                    <select disabled name="sender_id" id="standard1" style="width: 100%" required>
+                        <option value="" disabled="disabled" selected>Выберите отправителя</option>
                         {% for customer in customerlist %}
                         <option  value= {{ customer.user.id }} {% if customer.user.id == parcelmainmodel.sender_id %} selected="selected"{% endif %}>{{ customer.user.userprofile.uniq_id }} {{ customer.user.userprofile.phone_number}} {{ customer.user.last_name }} {{customer.user.first_name }}
                         </option>
                         {% endfor %}
                     </select>
-
                 </div>
             </div>
             <div class="col-sm">
                 <div class="form-group">
-                    <select name="recipient_id" id="standard2" style="width: 100%" disabled="true">
+                    <label class="form-check-label" for="standard2">Получатель</label>
+                    <select disabled name="recipient_id" id="standard2" style="width: 100%">
                         <option value="" disabled="disabled" selected>Выберите получателя</option>
                         {% for customer in customerlist %}
-                   <option  value= {{ customer.user.id }} {% if customer.user.id == parcelmainmodel.recipient_id %} selected="selected"{% endif %}>{{ customer.user.userprofile.uniq_id }} {{ customer.user.userprofile.phone_number}} {{ customer.user.last_name }} {{customer.user.first_name }}
+                        <option  value= {{ customer.user.id }} {% if customer.user.id == parcelmainmodel.recipient_id %} selected="selected"{% endif %}>{{ customer.user.userprofile.uniq_id }} {{ customer.user.userprofile.phone_number}} {{ customer.user.last_name }} {{customer.user.first_name }}
                         </option>
                         {% endfor %}
                     </select>
@@ -60,19 +51,63 @@ label.validation-error{
             </div>
             <div class="col-sm">
                 <div class="form-group">
-                    <select onchange="calculate();" name="parcel_plan" id="standard3" class="form-control"
-                            style="width: 100%" disabled="true">
+                    <label class="form-check-label" for="standard3">Тариф</label>
+                    <select disabled onchange="calculate();" name="parcel_plan" id="standard3" class="form-control"
+                            style="width: 100%">
                         <option value="" disabled="disabled" selected>Выберите тариф</option>
                         {% for parcelplan in parcelplans %}
-                        <option value={{ parcelplan.id }} {% if parcelplan.id == parcelmainmodel.parcel_plan_id %} selected="selected"{% endif %}>{{ parcelplan.parcel_name }} ({{ parcelplan.parcel_price}} $)
-
-
+                         <option value={{ parcelplan.id }} {% if parcelplan.id == parcelmainmodel.parcel_plan_id %} selected="selected"{% endif %}>{{ parcelplan.parcel_name }} ({{ parcelplan.parcel_price}} $)
                         </option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
-               <div class="col-sm">
+        </div>
+        <div class="row">
+            <div class="col-sm">
+            <div class="form-check">
+               <input disabled onchange="calculate();" type="checkbox" class="form-check-input" id="parcel_zabor"
+                           name="parcel_zabor" value= {{ parcelmainmodel.parcel_zabor}} {% if parcelmainmodel.parcel_zabor == 'on' %} checked="checked" {% endif %}>
+                    <label class="form-check-label" for="parcel_zabor">Забор посылки</label>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-check">
+                      <input disabled onchange="calculate();" type="checkbox" class="form-check-input" id="parcel_dostavka"
+                           name="parcel_dostavka" value= {{ parcelmainmodel.parcel_dostavka}} {% if parcelmainmodel.parcel_dostavka == 'on' %} checked="checked" {% endif %}>
+                    <label class="form-check-label" for="parcel_dostavka">Доставка</label>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-check">
+                    <input disabled  type="checkbox" class="form-check-input" id="parcel_getmoney_foritem"
+                           name="parcel_getmoney_foritem" value= {{ parcelmainmodel.parcel_getmoney_foritem}} {% if parcelmainmodel.parcel_getmoney_foritem == 'on' %} checked="checked" {% endif %}>
+                    <label class="form-check-label" for="parcel_getmoney_foritem">Изять за товар</label>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <select name="parcel_zabor_courier_id" id="standard5" class="form-control" style="width: 100%">
+                        <option value="" disabled="disabled" selected>Курера для забора</option>
+                        {% for parcel_courier in parcel_couriers %}
+                        <option value= {{ parcel_courier.user.id }} {% if parcel_courier.user.id == parcelmainmodel.courier_zabor_id %} selected="selected"{% endif %}> {{ parcel_courier.user.last_name }} {{parcel_courier.user.first_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <select name="parcel_dostavka_courier_id" id="standard6" class="form-control" style="width: 100%">
+                        <option value="" disabled="disabled" selected>Курера для доставки</option>
+                       {% for parcel_courier in parcel_couriers %}
+                        <option value= {{ parcel_courier.user.id }} {% if parcel_courier.user.id == parcelmainmodel.courier_dostavka_id %} selected="selected"{% endif %}> {{ parcel_courier.user.last_name }} {{parcel_courier.user.first_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm">
                 <div class="form-group">
                     <select onchange="eventstatus();"  name="parcel_status" id="standard4" class="form-control"
                             style="width: 100%">
@@ -84,87 +119,19 @@ label.validation-error{
                     </select>
                 </div>
             </div>
-
-
-<!--            <div class="col-sm">-->
-<!--                <div class="form-check">-->
-<!--                    &lt;!&ndash;                                      {{ form.parcel_dostavka }}&ndash;&gt;-->
-<!--                    <input onchange="calculate();" type="checkbox" class="form-check-input" id="parcel_zabor"-->
-<!--                           name="parcel_zabor">-->
-<!--                    <label class="form-check-label" for="parcel_zabor">Забор посылки</label>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-sm">-->
-<!--                <div class="form-check">-->
-<!--                    &lt;!&ndash;                      {{ form.parcel_dostavka }}&ndash;&gt;-->
-<!--                    <input onchange="calculate();" type="checkbox" class="form-check-input" id="parcel_dostavka"-->
-<!--                           name="parcel_dostavka">-->
-<!--                    <label class="form-check-label" for="parcel_dostavka">Доставка</label>-->
-<!--                </div>-->
-<!--            </div>-->
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                <div class="form-check">
-                    <!--                                      {{ form.parcel_dostavka }}-->
-
-                    <input onchange="calculate();" type="checkbox" class="form-check-input" id="parcel_zabor"
-                           name="parcel_zabor" value= {{ parcelmainmodel.parcel_zabor}} {% if parcelmainmodel.parcel_zabor == 'on' %} checked="checked" {% endif %}>
-                    <label class="form-check-label" for="parcel_zabor">Забор посылки</label>
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="form-check">
-                    <!--                      {{ form.parcel_dostavka }}-->
-                    <input onchange="calculate();" type="checkbox" class="form-check-input" id="parcel_dostavka"
-                           name="parcel_dostavka" value= {{ parcelmainmodel.parcel_dostavka}} {% if parcelmainmodel.parcel_dostavka == 'on' %} checked="checked" {% endif %}>
-                    <label class="form-check-label" for="parcel_dostavka">Доставка</label>
-                </div>
-            </div>
-  <div class="col-sm">
-                <div class="form-check">
-                    <!--                      {{ form.parcel_dostavka }}-->
-                    <input   type="checkbox" class="form-check-input" id="parcel_getmoney_foritem"
-                           name="parcel_getmoney_foritem" value= {{ parcelmainmodel.parcel_getmoney_foritem}} {% if parcelmainmodel.parcel_getmoney_foritem == 'on' %} checked="checked" {% endif %}>
-                    <label class="form-check-label" for="parcel_getmoney_foritem">Изять за товар</label>
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="form-group">
-                    <select name="parcel_zabor_courier_id" id="standard5" class="form-control"
-                            style="width: 100%">
-                        <option value="" disabled="disabled" selected>Курера для забора</option>
-                        {% for parcel_courier in parcel_couriers %}
-                        <option  value= {{ parcel_courier.user.id }} {% if parcel_courier.user.id == parcelmainmodel.courier_zabor_id %} selected="selected"{% endif %}>   {{ parcel_courier.user.last_name }} {{parcel_courier.user.first_name }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="form-group">
-                    <select   name="parcel_dostavka_courier_id" id="standard6" class="form-control" style="width: 100%">
-                        <option value="" disabled="disabled" selected>Курера для доставки</option>
-                        {% for parcel_courier in parcel_couriers %}
-                         <option  value= {{ parcel_courier.user.id }} {% if parcel_courier.user.id == parcelmainmodel.courier_dostavka_id %} selected="selected"{% endif %}>   {{ parcel_courier.user.last_name }} {{parcel_courier.user.first_name }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
         </div>
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <!--                {{ form.parcel_length }}-->
-                    <input readonly type="text" class="form-control" name="parcel_length" id="parcel_length"
+                    <label class="form-check-label" for="parcel_length">Длина: (см)</label>
+                   <input readonly type="text" class="form-control" name="parcel_length" id="parcel_length"
                            placeholder="Длина: (см)" onchange="calculate();" onkeyup="calculate();"
                            onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_length}}">
                 </div>
             </div>
             <div class="col-sm">
                 <div class="form-group">
-                    <!--                {{form.parcel_width}}-->
+                    <label class="form-check-label" for="parcel_width">Ширина: (см)</label>
                     <input readonly type="text" class="form-control" name="parcel_width" id="parcel_width"
                            placeholder="Ширина: (см)" onchange="calculate();" onkeyup="calculate();"
                            onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_width}}">
@@ -172,15 +139,15 @@ label.validation-error{
             </div>
             <div class="col-sm">
                 <div class="form-group">
-                    <!--                {{form.parcel_height}}-->
-                    <input readonly type="text" class="form-control" name="parcel_height" id="parcel_height"
+                    <label class="form-check-label" for="parcel_height">Высота: (см)</label>
+                <input readonly type="text" class="form-control" name="parcel_height" id="parcel_height"
                            placeholder="Высота: (см)" onchange="calculate();" onkeyup="calculate();"
                            onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_height}}">
                 </div>
             </div>
             <div class="col-sm">
                 <div class="form-group">
-                    <!--                {{form.parcel_dimension}}-->
+                    <label class="form-check-label" for="parcel_dimension">Габарит: (см)</label>
                     <input readonly type="text" class="form-control" name="parcel_dimension" id="parcel_dimension"
                            placeholder="Габарит: (см)" onkeypress='return event.charCode >= 48 && event.charCode <= 57'
                            min="1" value="{{parcelmainmodel.parcel_dimension}}">
@@ -188,114 +155,85 @@ label.validation-error{
             </div>
             <div class="col-sm">
                 <div class="form-group">
-                    <!--                {{form.parcel_weight}}-->
+                    <label class="form-check-label" for="parcel_weight">Весь: (кг)</label>
                     <input onkeyup="calculate();" onchange="calculate();" type="text" class="form-control"
                            name="parcel_weight" id="parcel_weight" placeholder="Весь: (кг)" readonly
                            onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_weight}}">
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <!--                {{form.parcel_cost}}-->
-                    <input readonly type="text" class="form-control" name="parcel_cost" id="parcel_cost" placeholder="Цена: ($)"
+                    <label class="form-check-label" for="parcel_zabor_cost">Забор посылки: ($)</label>
+                    <input readonly type="text" class="form-control" name="parcel_zabor_cost" id="parcel_zabor_cost" placeholder="Забор посылки: ($)"
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_zabor_cost}}">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <label class="form-check-label" for="parcel_dostavka_cost">Доставка посылки: ($)</label>
+                    <input readonly type="text" class="form-control" name="parcel_dostavka_cost"
+                           id="parcel_dostavka_cost" placeholder=""
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_dostavka_cost}}">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <label class="form-check-label" for="parcel_procent_prod_cost">Процент за товар: ($)</label>
+
+                    <input readonly type="text" class="form-control" name="parcel_procent_prod_cost"
+                           id="parcel_procent_prod_cost" placeholder=""
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_procent_prod_cost}}">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <label class="form-check-label" for="parcel_item_total_cost">Стоимость товара: ($)</label>
+                    <input readonly type="text" class="form-control" name="parcel_item_total_cost" id="parcel_item_total_cost"
+                           placeholder=""
+                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" onchange="setvalues();" value="{{parcelmainmodel.parcel_item_total_cost}}">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <label class="form-check-label" for="parcel_cost">Стоимость перевозки: ($)</label>
+                    <input type="text" class="form-control" name="parcel_cost" id="parcel_cost" placeholder=""
                            onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" value="{{parcelmainmodel.parcel_cost}}">
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm">
+        <div class="col-sm">
                 <div class="form-group">
+                    <label class="form-check-label" for="parcel_image">Изображение посылки</label>
                     <input type="file" name="parcel_image" id="parcel_image" class="file" data-preview-file-type="text" value="{{parcelmainmodel.parcel_image.url}}">
                     <a href="/media/passport_image.png" target="_blank">
                         <img   width="25px" height="25px" src="{{parcelmainmodel.parcel_image.url}}" alt=""/></a>
-                    <br>
                     <a href="{{parcelmainmodel.parcel_image.url}}" target="_blank" >{{parcelmainmodel.parcel_image.url}}</a>
                 </div>
             </div>
-            <div class="col-sm">
+        <div class="col-sm">
                 <div class="form-group">
-                    <input type="file" name="parcel_report_image" id="parcel_report_image" class="file" data-preview-file-type="text">
+                    <label class="form-check-label" for="parcel_report_image">Изображение накладного</label>
+<input type="file" name="parcel_report_image" id="parcel_report_image" class="file" data-preview-file-type="text">
                     <a href="/media/passport_image.png" target="_blank">
                         <img   width="25px" height="25px" src="{{parcelmainmodel.parcel_report_image.url}}" alt=""/></a>
-                    <br>
                     <a href="{{parcelmainmodel.parcel_report_image.url}}" target="_blank" >{{parcelmainmodel.parcel_report_image.url}}</a>
                 </div>
             </div>
         </div>
-
-        <label class="validation-error hide" id="fullNameValidationError">Это поле обязательно к заполнению.</label>
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <input class="form-control" type="text" id="prod_name" data-bind="textInput: prod_name"
-                           placeholder="Оригинальное название из карточки товара">
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="form-group">
-                    <input class="form-control" placeholder="Ссылка на товар (https://www...)" type="text"
-                           id="prod_url" data-bind="textInput: prod_url">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                <div class="form-group">
-                    <input class="form-control" placeholder="Количество (шт)" type="text" id="prod_cnt"
-                           data-bind="textInput: prod_cnt"
-                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="form-group">
-                    <input class="form-control" placeholder="Цена за шт (руб)" type="text" id="prod_cost"
-                           data-bind="textInput: prod_cost"
-                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="form-group">
-                    <input class="form-control" placeholder="ТНВЭД" type="text" id="prod_tnved"
-                           data-bind="textInput: prod_tnved"
-                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="form-group">
-                    <input class="form-control" placeholder="Вес: (кг)" type="text" id="prod_weight"
-                           data-bind="textInput: prod_weight"
-                           onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
-                </div>
-            </div>
-        </div>
-<!--        <div class="row">-->
-<!--            <div class="col-sm">-->
-<!--                <div class="form-group row">-->
-<!--                    <div class="col-sm">-->
-<!--                        <input type="file" name="image[]" id="prod_images" class="file" data-preview-file-type="text">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-sm">-->
-<!--            </div>-->
-<!--        </div>-->
-        <div class="row">
-            <div class="col-sm">
-                <div class="form-group">
-                    <input type="button" onclick="event.preventDefault();onFormSubmit();sum();calculate();" value="Добавить товар">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                <div class="form-group">
-                    <table class="table table-sm" id="employeeList">
+                    <table class="table table-sm table-bordered" id="employeeList">
                         <thead>
                         <tr>
                             <th>Название</th>
                             <th>Ссылка на товар</th>
                             <th>Количество</th>
                             <th>Цена (за шт)</th>
+                            <th>Общая сумма</th>
                             <th>ТНВЭД</th>
                             <th>Вес</th>
                             <th>Действие</th>
@@ -308,10 +246,11 @@ label.validation-error{
                             <td>{{parcelitem.prod_url}}</td>
                             <td>{{parcelitem.prod_cnt}}</td>
                             <td>{{parcelitem.prod_cost}}</td>
+                            <td>{{parcelitem.prod_total_cost}}</td>
                             <td>{{parcelitem.prod_tnved}}</td>
                             <td>{{parcelitem.prod_weight}}</td>
-                            <td><a href="#" onClick="onEdit(this);">Редактировать</a>
-                       <a href="#" onClick="onDelete(this);">Удалить</a></td>
+                            <td><a href="#" onClick="onEdit(this);"><i class="fa fa-pencil"></i></a>
+                       <a href="#" onClick="onDelete(this);"><i class="fa fa-trash"></i></a></td>
                         </tr>
                         {% endfor %}
                         </tbody>
@@ -319,31 +258,88 @@ label.validation-error{
                 </div>
             </div>
         </div>
+        <div  id="myDIV" style='display:none'>
+        <label class="validation-error hide" id="fullNameValidationError">Это поле обязательно к заполнению.</label>
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <textarea class="form-control" name="parcel_description" id="parcel_description" rows="3" placeholder="Введите коментарии" >{{parcelmainmodel.parcel_description}}</textarea>
+                    <label class="form-check-label" for="prod_name">Оригинальное название из карточки товара</label>
+                    <input class="form-control input-sm" type="text" id="prod_name" data-bind="textInput: prod_name" placeholder="">
                 </div>
             </div>
-
+            <div class="col-sm">
+                <div class="form-group">
+                    <label class="form-check-label" for="prod_url">Ссылка на товар (https://www...)</label>
+                    <input class="form-control" placeholder="" type="text" id="prod_url" data-bind="textInput: prod_url">
+                </div>
+            </div>
         </div>
-        <button type="submit" id="save">Сохранить</button>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <label class="form-check-label" for="prod_cnt">Количество (шт)</label>
+                    <input class="form-control" placeholder="" type="text" id="prod_cnt" data-bind="textInput: prod_cnt" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <label class="form-check-label" for="prod_cost">Цена за шт ($)</label>
+                    <input class="form-control" placeholder="" type="text" id="prod_cost" data-bind="textInput: prod_cost" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <label class="form-check-label" for="prod_tnved">ТНВЭД</label>
+                    <input class="form-control" placeholder="" type="text" id="prod_tnved" data-bind="textInput: prod_tnved" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <label class="form-check-label" for="prod_weight">Вес: (кг)</label>
+                    <input class="form-control" placeholder="" type="text" id="prod_weight" data-bind="textInput: prod_weight" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <input type="button" onclick="event.preventDefault();onFormSubmit();sum();calculate();setvalues();" value="Сохранить"> <input type="button" onclick="divShow() " value="Отмена">
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <input type="button" onclick="divShow();" value="Добавить товар" id="AddItem">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <textarea class="form-control" name="parcel_description" id="parcel_description" rows="3" placeholder="Введите коментарии">{{parcelmainmodel.parcel_description}}</textarea>
+                </div>
+            </div>
+        </div>
+        <button type="submit">Сохранить</button>
     </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
+
 function eventstatus()
 {
-if (document.getElementById('standard4').value == 16)
-{
-var r = confirm("Вы согласны изять деньги у клиента за перевозку?");
-if (r == true) {
+        if (document.getElementById('standard4').value == 16)
+        {
+        var r = confirm("Вы согласны изять деньги у клиента за перевозку?");
+        if (r == true) {
+        }
+        else {
+        }
+}
+}
 
-} else {
-
-}
-}
-}
     const form = document.getElementById('myForm');
     form.addEventListener('submit', submitHandler);
     function submitHandler(e) {
@@ -399,8 +395,6 @@ if (r == true) {
             processData: false,
             success     : successFunction
         });
-
-
     }
 
     function successFunction(msg) {
@@ -413,8 +407,504 @@ if (r == true) {
 
 
 
+
+
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/fileinput.min.js"></script>
-<script src="{% static 'calculate.js' %}"></script>
+<!--<script src="{% static 'calculate.js' %}"></script>-->
+<style>
+    .divon {
+  display: none;
+}
+</style>
+<script>
+function divShow() {
+  var div = document.getElementById("myDIV");
+  var btn = document.getElementById("AddItem");
+  if (div.style.display !== "none")
+         {
+             div.style.display = "none";
+             btn.style.display = "block";
+
+         }
+         else
+         {
+           div.style.display = "block";
+           btn.style.display = "none";
+
+         }
+}
+function setcourierzabor()
+{
+if (document.getElementById('parcel_zabor').checked == true){
+alert('Во избежание ошибки в системе Просим определить курера для забора посылки');}
+}
+function setcourierdostavka()
+{
+if (document.getElementById('parcel_dostavka').checked == true){
+alert('Во избежание ошибки в системе Просим определить курера для доставки посылки');
+}
+}
+
+function setvalues()
+{
+if (document.getElementById('parcel_getmoney_foritem').checked == true)
+{
+    var x = (parseFloat(document.getElementById('parcel_item_total_cost').value)*1)/100
+    document.getElementById('parcel_procent_prod_cost').value = x;
+}
+else
+{
+document.getElementById('parcel_procent_prod_cost').value = 0;
+}
+}
+
+
+    function calculate()
+{
+    var parcel_length = parseFloat(document.getElementById('parcel_length').value);
+    var parcel_width = parseFloat(document.getElementById('parcel_width').value);
+    var parcel_height = parseFloat(document.getElementById('parcel_height').value);
+    var parcel_weight = parseFloat(document.getElementById('parcel_weight').value);
+    var overallWeight = (parcel_length*parcel_width*parcel_height)/6000;
+    var plan = document.getElementById('standard3').value;
+    var parcel_cost = parseFloat(document.getElementById('parcel_cost').value);
+    var zabor = 0;
+    var dostavka = 0;
+    var pricePlan = 0;
+    document.getElementById('parcel_dimension').value = overallWeight.toFixed(2).replace(/\.0+$/,'');
+
+<!-- Ekonom Moskva->Tashkent-->
+    if (plan == '1')
+    {
+        if (document.getElementById('parcel_zabor').checked == true) {
+            zabor = 6;
+            document.getElementById('parcel_zabor_cost').value = 6;
+
+        } else if (document.getElementById('parcel_zabor').checked == false) {
+            zabor = 0;
+            document.getElementById('parcel_zabor_cost').value = 0;
+        }
+        if (document.getElementById('parcel_dostavka').checked == true) {
+            dostavka = 2;
+            document.getElementById('parcel_dostavka_cost').value = 2;
+        } else if (document.getElementById('parcel_dostavka').checked == false) {
+            dostavka = 0;
+            document.getElementById('parcel_dostavka_cost').value = 0;
+        }
+
+        pricePlan = 6;
+        if (document.getElementById('parcel_weight').value == '')
+        {
+            parcel_weight = 2;
+            if (overallWeight > parcel_weight) {
+            var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            } else if (overallWeight < parcel_weight) {
+            var price = parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+            }
+        }
+        else
+        {
+        if (overallWeight > parcel_weight) {
+            var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            } else if (overallWeight < parcel_weight) {
+            var price = parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            }
+        }
+
+    }
+
+<!-- Ekonom Tashkent->Moscow-->
+    else if (plan == '2')
+    {
+        if (document.getElementById('parcel_zabor').checked == true) {
+            zabor = 2;
+            document.getElementById('parcel_zabor_cost').value = 2;
+        } else if (document.getElementById('parcel_zabor').checked == false) {
+            zabor = 0;
+            document.getElementById('parcel_zabor_cost').value = 0;
+        }
+        if (document.getElementById('parcel_dostavka').checked == true) {
+            dostavka = 6;
+            document.getElementById('parcel_dostavka_cost').value = 6;
+        } else if (document.getElementById('parcel_dostavka').checked == false) {
+            dostavka = 0;
+            document.getElementById('parcel_dostavka_cost').value = 0;
+        }
+
+        pricePlan = 6;
+        if (document.getElementById('parcel_weight').value == '')
+        {
+            parcel_weight = 2;
+            if (overallWeight > parcel_weight) {
+            var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            } else if (overallWeight < parcel_weight) {
+            var price = parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+            }
+        }
+        else
+        {
+        if (overallWeight > parcel_weight) {
+            var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            } else if (overallWeight < parcel_weight) {
+            var price = parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+            }
+        }
+
+    }
+
+
+<!-- Standart Moskva->Tashkent-->
+    if (plan == '3')
+    {
+        if (document.getElementById('parcel_zabor').checked == true) {
+            zabor = 6;
+            document.getElementById('parcel_zabor_cost').value = 6;
+        } else if (document.getElementById('parcel_zabor').checked == false) {
+            zabor = 0;
+            document.getElementById('parcel_zabor_cost').value = 0;
+        }
+        if (document.getElementById('parcel_dostavka').checked == true) {
+            dostavka = 2;
+            document.getElementById('parcel_dostavka_cost').value = 2;
+        } else if (document.getElementById('parcel_dostavka').checked == false) {
+            dostavka = 0;
+            document.getElementById('parcel_dostavka_cost').value = 0;
+        }
+
+        pricePlan = 12;
+        if (document.getElementById('parcel_weight').value == '')
+        {
+            parcel_weight = 1;
+            if (overallWeight > parcel_weight) {
+            var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            } else if (overallWeight < parcel_weight) {
+            var price = parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+            }
+        }
+        else
+        {
+        if (overallWeight > parcel_weight) {
+            var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            } else if (overallWeight < parcel_weight) {
+            var price = parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+            }
+        }
+
+    }
+
+<!-- Standart Tashkent->Moscow-->
+    else if (plan == '4')
+    {
+        if (document.getElementById('parcel_zabor').checked == true) {
+            zabor = 2;
+            document.getElementById('parcel_zabor_cost').value = 2;
+        } else if (document.getElementById('parcel_zabor').checked == false) {
+            zabor = 0;
+            document.getElementById('parcel_zabor_cost').value = 0;
+        }
+        if (document.getElementById('parcel_dostavka').checked == true) {
+            dostavka = 6;
+            document.getElementById('parcel_dostavka_cost').value = 6;
+        } else if (document.getElementById('parcel_dostavka').checked == false) {
+            dostavka = 0;
+            document.getElementById('parcel_dostavka_cost').value = 0;
+        }
+
+        pricePlan = 11;
+        if (document.getElementById('parcel_weight').value == '')
+        {
+            parcel_weight = 1;
+
+            if (overallWeight > parcel_weight) {
+            var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            } else if (overallWeight < parcel_weight) {
+            var price = parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+            }
+        }
+        else
+        {
+        if (overallWeight > parcel_weight) {
+            var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            } else if (overallWeight < parcel_weight) {
+            var price = parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+            }
+        }
+
+    }
+
+
+<!-- UltraSrochni Moskva->Tashkent-->
+    if (plan == '5')
+    {
+        if (document.getElementById('parcel_zabor').checked == true) {
+            zabor = 6;
+            document.getElementById('parcel_zabor_cost').value = 6;
+        } else if (document.getElementById('parcel_zabor').checked == false) {
+            zabor = 0;
+            document.getElementById('parcel_zabor_cost').value = 0;
+        }
+        if (document.getElementById('parcel_dostavka').checked == true) {
+            dostavka = 2;
+            document.getElementById('parcel_dostavka_cost').value = 2;
+        } else if (document.getElementById('parcel_dostavka').checked == false) {
+            dostavka = 0;
+            document.getElementById('parcel_dostavka_cost').value = 0;
+        }
+
+        pricePlan = 30;
+        if (document.getElementById('parcel_weight').value == '')
+        {
+            parcel_weight = 1;
+
+            if (overallWeight > parcel_weight) {
+            var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            } else if (overallWeight < parcel_weight) {
+            var price = parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+            }
+        }
+        else
+        {
+        if (overallWeight > parcel_weight) {
+            var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            } else if (overallWeight < parcel_weight) {
+            var price = parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+            }
+        }
+
+    }
+
+<!-- Standart Tashkent->Moscow-->
+    else if (plan == '6')
+    {
+        if (document.getElementById('parcel_zabor').checked == true) {
+            zabor = 2;
+            document.getElementById('parcel_zabor_cost').value = 2;
+        } else if (document.getElementById('parcel_zabor').checked == false) {
+            zabor = 0;
+            document.getElementById('parcel_zabor_cost').value = 0;
+        }
+        if (document.getElementById('parcel_dostavka').checked == true) {
+            dostavka = 6;
+            document.getElementById('parcel_dostavka_cost').value = 6;
+        } else if (document.getElementById('parcel_dostavka').checked == false) {
+            dostavka = 0;
+            document.getElementById('parcel_dostavka_cost').value = 0;
+        }
+
+        pricePlan = 30;
+        if (document.getElementById('parcel_weight').value == '')
+        {
+            parcel_weight = 1;
+
+            if (overallWeight > parcel_weight) {
+            var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            } else if (overallWeight < parcel_weight) {
+            var price = parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+            }
+        }
+        else
+        {
+        if (overallWeight > parcel_weight) {
+            var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+
+            } else if (overallWeight < parcel_weight) {
+            var price = parcel_weight * pricePlan + zabor + dostavka;
+            document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
+            }
+        }
+
+    }
+}
+
+
+var selectedRow = null
+var sumVall = 0;
+function sum(){
+var table = document.getElementById("employeeList"), sumVal = 0, costVal=0;
+            for(var i = 1; i < table.rows.length; i++)
+            {
+                sumVal = sumVal + parseInt(table.rows[i].cells[6].innerHTML);
+                costVal = costVal + parseInt(table.rows[i].cells[4].innerHTML);
+            }
+            document.getElementById("parcel_weight").value = sumVal;
+            document.getElementById("parcel_item_total_cost").value = costVal;
+
+            sumVall = sumVal;
+            costVal = costVal;
+}
+
+function onFormSubmit() {
+    if (validate()) {
+        var formData = readFormData();
+        if (selectedRow == null)
+            insertNewRecord(formData);
+        else
+            updateRecord(formData);
+        resetForm();
+    }
+}
+
+function readFormData() {
+    var formData = {};
+    formData["prod_name"] = document.getElementById("prod_name").value;
+    formData["prod_url"] = document.getElementById("prod_url").value;
+    formData["prod_cnt"] = document.getElementById("prod_cnt").value;
+    formData["prod_cost"] = document.getElementById("prod_cost").value;
+    formData["prod_total_cost"] = parseFloat(document.getElementById("prod_cnt").value) * parseFloat(document.getElementById("prod_cost").value);
+    formData["prod_tnved"] = document.getElementById("prod_tnved").value;
+    formData["prod_weight"] = document.getElementById("prod_weight").value;
+//    formData["prod_images"] = $('#prod_images').prop('files')[0];
+    return formData;
+}
+
+function insertNewRecord(data) {
+    var table = document.getElementById("employeeList").getElementsByTagName('tbody')[0];
+    var newRow = table.insertRow(table.length);
+    cell1 = newRow.insertCell(0);
+    cell1.innerHTML = data.prod_name;
+
+    cell2 = newRow.insertCell(1);
+    cell2.innerHTML = data.prod_url;
+
+    cell3 = newRow.insertCell(2);
+    cell3.innerHTML = data.prod_cnt;
+
+    cell4 = newRow.insertCell(3);
+    cell4.innerHTML = data.prod_cost;
+
+    cell5 = newRow.insertCell(4);
+    cell5.innerHTML = data.prod_total_cost;
+
+    cell6 = newRow.insertCell(5);
+    cell6.innerHTML = data.prod_tnved;
+
+    cell7 = newRow.insertCell(6);
+    cell7.innerHTML = data.prod_weight;
+
+    cell7 = newRow.insertCell(7);
+    cell7.innerHTML = `<a href="#" onClick="onEdit(this); divShow();"><i class="fa fa-pencil"></i></a>
+                       <a href="#" onClick="onDelete(this)"><i class="fa fa-trash"></i></a>`;
+                       calculate();
+                       setvalues();
+
+
+
+}
+
+function resetForm() {
+    document.getElementById("prod_name").value = "";
+    document.getElementById("prod_url").value = "";
+    document.getElementById("prod_cnt").value = "";
+    document.getElementById("prod_cost").value = "";
+    document.getElementById("prod_tnved").value = "";
+    document.getElementById("prod_weight").value = "";
+
+    selectedRow = null;
+}
+
+function onEdit(td) {
+    selectedRow = td.parentElement.parentElement;
+    document.getElementById("prod_name").value = selectedRow.cells[0].innerHTML;
+    document.getElementById("prod_url").value = selectedRow.cells[1].innerHTML;
+    document.getElementById("prod_cnt").value = selectedRow.cells[2].innerHTML;
+    document.getElementById("prod_cost").value = selectedRow.cells[3].innerHTML;
+    document.getElementById("prod_tnved").value = selectedRow.cells[5].innerHTML;
+    document.getElementById("prod_weight").value = selectedRow.cells[6].innerHTML;
+
+}
+function updateRecord(formData) {
+    selectedRow.cells[0].innerHTML = formData.prod_name;
+    selectedRow.cells[1].innerHTML = formData.prod_url;
+    selectedRow.cells[2].innerHTML = formData.prod_cnt;
+    selectedRow.cells[3].innerHTML = formData.prod_cost;
+    selectedRow.cells[4].innerHTML = formData.prod_total_cost;
+    selectedRow.cells[5].innerHTML = formData.prod_tnved;
+    selectedRow.cells[6].innerHTML = formData.prod_weight;
+//    selectedRow.cells[6].innerHTML = formData.prod_images;
+
+}
+
+function onDelete(td) {
+var table = document.getElementById('employeeList');
+    if (confirm('Вы уверены, что хотите удалить эту запись ?')) {
+        row = td.parentElement.parentElement;
+        var newsum1= parseInt(table.rows[row.rowIndex].cells[6].innerHTML);
+        var newsum2= parseInt(table.rows[row.rowIndex].cells[4].innerHTML);
+        document.getElementById("employeeList").deleteRow(row.rowIndex);
+        var newsum = parseInt(document.getElementById("parcel_weight").value) - newsum1;
+        var newsum3 = parseInt(document.getElementById("parcel_item_total_cost").value) - newsum2;
+
+        if(newsum == 0)
+        {
+        document.getElementById("parcel_weight").value = '';
+        }
+        else{
+        document.getElementById("parcel_weight").value = newsum;
+        }
+        if(newsum3 == 0)
+        {
+           document.getElementById("parcel_item_total_cost").value = '';
+        }
+        else
+        {
+        document.getElementById("parcel_item_total_cost").value = newsum3;
+
+        }
+        calculate();
+        setvalues();
+        resetForm();
+    }
+}
+function validate() {
+    isValid = true;
+    if (document.getElementById("prod_name").value == "") {
+        isValid = false;
+        document.getElementById("fullNameValidationError").classList.remove("hide");
+    } else {
+        isValid = true;
+        if (!document.getElementById("fullNameValidationError").classList.contains("hide"))
+            document.getElementById("fullNameValidationError").classList.add("hide");
+           divShow();
+    }
+    return isValid;
+}
+
+</script>
 {% endblock %}
 

@@ -39,14 +39,14 @@ class ParcelMain(models.Model):
     parcel_plan = models.ForeignKey(ParcelPlan, on_delete=models.CASCADE, unique=False,  null=True, related_name='parcel_plan')
     parcel_cost = models.FloatField(max_length=255, default='00')
     parcel_item_total_cost = models.FloatField(max_length=255, default='00')
-    parcel_getmoney_foritem = models.CharField(max_length=255, default='00')
+    parcel_getmoney_foritem = models.CharField(max_length=255, default='off')
     parcel_zabor_cost = models.FloatField(max_length=255, default='00')
     parcel_dostavka_cost = models.FloatField(max_length=255, default='00')
     parcel_procent_prod_cost = models.FloatField(max_length=255, default='00')
     parcel_from = models.CharField(max_length=255, default='00')
     parcel_status = models.ForeignKey(ParcelStatusName, on_delete=models.CASCADE, unique=False, null=True, related_name='parcel_status_current')
-    parcel_zabor = models.CharField(max_length=255, default='00')
-    parcel_dostavka = models.CharField(max_length=255, default='00')
+    parcel_zabor = models.CharField(max_length=255, default='off')
+    parcel_dostavka = models.CharField(max_length=255, default='off')
     parcel_length = models.FloatField(max_length=50, default='00')
     parcel_width = models.FloatField(max_length=50, default='00')
     parcel_height = models.FloatField(max_length=50, default='00')
@@ -96,4 +96,5 @@ class ParcelImages(models.Model):
 
     def __str__(self):
         return str(self.parcel_image)
+
 

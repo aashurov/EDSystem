@@ -8,9 +8,9 @@
 {% block content %}
 <div class="col">
     <br>
-    <label>Информация об получателе</label> <a data-toggle="tooltip" data-placement="top" title="Редактировать посылку" href="{% url 'editparcel' id=parcelmainmodel.id %}"><i class="fa fa-pencil"></i></a><br>
+    <label>Информация об получателе</label> {{parcelmainmodel.uniq_id}} <a data-toggle="tooltip" data-placement="top" title="Редактировать посылку" href="{% url 'editparcel' id=parcelmainmodel.id %}"><i class="fa fa-pencil"></i></a><br>
 
-    <table class="table table-sm">
+    <table class="table table-sm table-bordered">
         <thead>
         <tr>
             <th>ФИО получателя</th>
@@ -36,8 +36,7 @@
         </tbody>
     </table>
     <label>Информация об отправителе </label><br>
-
-    <table class="table table-sm">
+    <table class="table table-sm table-bordered">
         <thead>
         <tr>
             <th>ФИО отправителя</th>
@@ -65,7 +64,7 @@
         </tbody>
     </table>
     <label>Менеджеры и куреры </label><br>
-    <table class="table table-sm">
+    <table class="table table-sm table-bordered">
         <thead>
         <tr>
             <th>ФИО менеджер отправитель</th>
@@ -93,7 +92,7 @@
         </tbody>
     </table>
     <label>Общая информация о посылки </label><br>
-    <table class="table table-sm">
+    <table class="table table-sm table-bordered">
         <thead>
         <tr>
             <th>Накладная</th>
@@ -102,7 +101,7 @@
             <th>Высота</th>
             <th>Габарит</th>
             <th>Вес</th>
-            <th>Стоимость</th>
+            <th>Направление</th>
             <th>Статус</th>
             <th>Дата</th>
             <th>Изображение</th>
@@ -116,7 +115,7 @@
         <td>{{parcelmainmodel.parcel_height}}</td>
         <td>{{parcelmainmodel.parcel_dimension}}</td>
         <td>{{parcelmainmodel.parcel_weight}}</td>
-        <td>{{parcelmainmodel.parcel_cost}}</td>
+        <td>{{parcelmainmodel.parcel_from}}</td>
         <td>{{parcelmainmodel.parcel_status}}</td>
         <td>{{parcelmainmodel.date_created|date:"d.m.Y" }}</td>
         <td><a href="{{parcelmainmodel.parcel_image.url}}" target="_blank"><img
@@ -125,8 +124,27 @@
                 src="{{parcelmainmodel.parcel_report_image.url}}" width="25px" height="25px"></a></td>
         </tbody>
     </table>
+    <label>Стоимость услуги</label><br>
+    <table class="table table-sm table-bordered">
+        <thead>
+        <tr>
+            <th>Стоимость товара</th>
+            <th>Процент от товара</th>
+            <th>Стоимость забора</th>
+            <th>Стомость доставки</th>
+            <th>Стоимость перевозки</th>
+        </tr>
+        </thead>
+        <tbody>
+        <td>{{parcelmainmodel.parcel_item_total_cost}}</td>
+        <td>{{parcelmainmodel.parcel_procent_prod_cost}}</td>
+        <td>{{parcelmainmodel.parcel_zabor_cost}}</td>
+        <td>{{parcelmainmodel.parcel_dostavka_cost}}</td>
+        <td>{{parcelmainmodel.parcel_cost}}</td>
+        </tbody>
+    </table>
     <label>Содержимое посылки </label><br>
-    <table class="table table-sm">
+    <table class="table table-sm table-bordered">
         <thead>
 
         <tr>
@@ -159,7 +177,7 @@
         </tbody>
     </table>
     <label>История статуса посылки </label><br>
-    <table class="table table-sm">
+    <table class="table table-sm table-bordered">
         <thead>
         <tr>
             <th>№</th>
@@ -175,6 +193,19 @@
             <td>{{parcelstatushistory.date_created|date:"d.m.Y" }}</td>
         </tr>
         {% endfor %}
+        </tbody>
+    </table>
+    <label>Коментарий </label><br>
+    <table class="table table-sm table-bordered">
+        <thead>
+        <tr>
+            <th>Коментарий</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{parcelmainmodel.parcel_description}}</td>
+        </tr>
         </tbody>
     </table>
     <div id="modal-div"></div>

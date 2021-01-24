@@ -5,17 +5,18 @@
 </div>
 {% endblock %}
 {% block content %}
+
 <div class="col">
-    <table id="example" class="display compact" style="width:100%">
+    <table id="example" class="display compact table-bordered" style="width:100%">
         <thead>
         <tr>
-            <th>№</th>
-            <th>Накладная</th>
+            <th width="1%">№</th>
+            <th width="5%">Накладная</th>
             <th>Получатель</th>
-            <th>Направление</th>
-            <th>Стоимость</th>
+            <th width="12%">Направление</th>
+            <th width="9%">Стоимость</th>
             <th>Статус</th>
-            <th>Дата</th>
+            <th width="11%">Дата</th>
             <th>..</th>
         </tr>
         </thead>
@@ -25,12 +26,12 @@
             <td>{{ forloop.counter}}</td>
             <td>{{ parcelmainmodel.uniq_id }} </td>
             <td>{{ parcelmainmodel.sender.userprofile.uniq_id }} {{ parcelmainmodel.sender.last_name }} {{ parcelmainmodel.sender.first_name }} </td>
-<!--            <td>{{ parcelmainmodel.recipient.userprofile.uniq_id }} {{ parcelmainmodel.recipient.last_name }} {{ parcelmainmodel.recipient.first_name }}</td>-->
             <td>{{ parcelmainmodel.parcel_from}}</td>
             <td style='text-align:center;vertical-align:middle'>{{ parcelmainmodel.parcel_cost}}</td>
             <td>{{ parcelmainmodel.parcel_status}}</td>
             <td>{{ parcelmainmodel.date_created|date:"d.m.Y" }} <img src="{{parcelmainmodel.parcel_image.url}}" width="25px" height="25px"><img src="{{parcelmainmodel.parcel_report_image.url}}" width="25px" height="25px"></td>
             <td>
+                <a data-toggle="tooltip" data-placement="top" title="Распечатать чек" href="#"><i class="fa fa-print"></i></a>
             <a data-toggle="tooltip" data-placement="top" title="Быстрый просмотр" class="open-modal" href="{% url 'parcelview' id=parcelmainmodel.id %}" ><i class="fa fa-eye"></i></a>
                 <a data-toggle="tooltip" data-placement="top" title="Редактировать посылку" href="{% url 'editparcel' id=parcelmainmodel.id %}"><i class="fa fa-pencil"></i></a>
                 <a data-toggle="tooltip" data-placement="top" title="Удалить посылку" href="{% url 'deleteparcel' id=parcelmainmodel.id %}"><i class="fa fa-trash"></i></a>
@@ -40,7 +41,6 @@
         </tbody>
     </table>
     <div id="modal-div"></div>
-
 </div>
 {% load static %}
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>

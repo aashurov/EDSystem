@@ -79,13 +79,13 @@ label.validation-error{
             <div class="col-sm">
             <div class="form-check">
                     <input onchange="calculate();setcourierzabor();" type="checkbox" class="form-check-input" id="parcel_zabor"
-                           name="parcel_zabor">
+                           name="parcel_zabor_checkbox">
                     <label class="form-check-label" for="parcel_zabor">Забор посылки</label>
                 </div>
             </div>
             <div class="col-sm">
                 <div class="form-check">
-                    <input onchange="calculate();setcourierdostavka();" type="checkbox" class="form-check-input" id="parcel_dostavka" name="parcel_dostavka">
+                    <input onchange="calculate();setcourierdostavka();" type="checkbox" class="form-check-input" id="parcel_dostavka" name="parcel_dostavka_checkbox">
                     <label class="form-check-label" for="parcel_dostavka">Доставка</label>
                 </div>
             </div>
@@ -221,7 +221,7 @@ label.validation-error{
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <table class="table table-sm" id="employeeList">
+                    <table class="table table-sm table-bordered" id="employeeList">
                         <thead>
                         <tr>
                             <th>Название</th>
@@ -365,19 +365,12 @@ label.validation-error{
             success     : successFunction
         });
     }
-
     function successFunction(msg) {
         if (msg.message === 'success') {
             alert('Сохранено!');
             window.location.href = '{% url 'listparcel'%}';
             }
     }
-
-
-
-
-
-
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/fileinput.min.js"></script>
 <!--<script src="{% static 'calculate.js' %}"></script>-->
@@ -455,8 +448,8 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
             document.getElementById('parcel_zabor_cost').value = 0;
         }
         if (document.getElementById('parcel_dostavka').checked == true) {
-            dostavka = 6;
-            document.getElementById('parcel_dostavka_cost').value = 6;
+            dostavka = 2;
+            document.getElementById('parcel_dostavka_cost').value = 2;
         } else if (document.getElementById('parcel_dostavka').checked == false) {
             dostavka = 0;
             document.getElementById('parcel_dostavka_cost').value = 0;
@@ -466,15 +459,12 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
         if (document.getElementById('parcel_weight').value == '')
         {
             parcel_weight = 2;
-//            document.getElementById('parcel_weight').value = 2;
             if (overallWeight > parcel_weight) {
             var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             } else if (overallWeight < parcel_weight) {
             var price = parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
             }
         }
@@ -482,12 +472,10 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
         {
         if (overallWeight > parcel_weight) {
             var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             } else if (overallWeight < parcel_weight) {
             var price = parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             }
@@ -506,8 +494,8 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
             document.getElementById('parcel_zabor_cost').value = 0;
         }
         if (document.getElementById('parcel_dostavka').checked == true) {
-            dostavka = 2;
-            document.getElementById('parcel_dostavka_cost').value = 2;
+            dostavka = 6;
+            document.getElementById('parcel_dostavka_cost').value = 6;
         } else if (document.getElementById('parcel_dostavka').checked == false) {
             dostavka = 0;
             document.getElementById('parcel_dostavka_cost').value = 0;
@@ -517,15 +505,12 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
         if (document.getElementById('parcel_weight').value == '')
         {
             parcel_weight = 2;
-//            document.getElementById('parcel_weight').value = 2;
             if (overallWeight > parcel_weight) {
             var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             } else if (overallWeight < parcel_weight) {
             var price = parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
             }
         }
@@ -533,12 +518,10 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
         {
         if (overallWeight > parcel_weight) {
             var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             } else if (overallWeight < parcel_weight) {
             var price = parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
             }
         }
@@ -557,8 +540,8 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
             document.getElementById('parcel_zabor_cost').value = 0;
         }
         if (document.getElementById('parcel_dostavka').checked == true) {
-            dostavka = 6;
-            document.getElementById('parcel_dostavka_cost').value = 6;
+            dostavka = 2;
+            document.getElementById('parcel_dostavka_cost').value = 2;
         } else if (document.getElementById('parcel_dostavka').checked == false) {
             dostavka = 0;
             document.getElementById('parcel_dostavka_cost').value = 0;
@@ -568,15 +551,12 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
         if (document.getElementById('parcel_weight').value == '')
         {
             parcel_weight = 1;
-//            document.getElementById('parcel_weight').value = 1;
             if (overallWeight > parcel_weight) {
             var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             } else if (overallWeight < parcel_weight) {
             var price = parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
             }
         }
@@ -584,12 +564,10 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
         {
         if (overallWeight > parcel_weight) {
             var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             } else if (overallWeight < parcel_weight) {
             var price = parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
             }
         }
@@ -607,8 +585,8 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
             document.getElementById('parcel_zabor_cost').value = 0;
         }
         if (document.getElementById('parcel_dostavka').checked == true) {
-            dostavka = 2;
-            document.getElementById('parcel_dostavka_cost').value = 2;
+            dostavka = 6;
+            document.getElementById('parcel_dostavka_cost').value = 6;
         } else if (document.getElementById('parcel_dostavka').checked == false) {
             dostavka = 0;
             document.getElementById('parcel_dostavka_cost').value = 0;
@@ -618,16 +596,13 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
         if (document.getElementById('parcel_weight').value == '')
         {
             parcel_weight = 1;
-//                        document.getElementById('parcel_weight').value = 1;
 
             if (overallWeight > parcel_weight) {
             var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             } else if (overallWeight < parcel_weight) {
             var price = parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
             }
         }
@@ -635,12 +610,10 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
         {
         if (overallWeight > parcel_weight) {
             var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             } else if (overallWeight < parcel_weight) {
             var price = parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
             }
         }
@@ -659,8 +632,8 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
             document.getElementById('parcel_zabor_cost').value = 0;
         }
         if (document.getElementById('parcel_dostavka').checked == true) {
-            dostavka = 6;
-            document.getElementById('parcel_dostavka_cost').value = 6;
+            dostavka = 2;
+            document.getElementById('parcel_dostavka_cost').value = 2;
         } else if (document.getElementById('parcel_dostavka').checked == false) {
             dostavka = 0;
             document.getElementById('parcel_dostavka_cost').value = 0;
@@ -670,16 +643,13 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
         if (document.getElementById('parcel_weight').value == '')
         {
             parcel_weight = 1;
-//                        document.getElementById('parcel_weight').value = 1;
 
             if (overallWeight > parcel_weight) {
             var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             } else if (overallWeight < parcel_weight) {
             var price = parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
             }
         }
@@ -687,12 +657,10 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
         {
         if (overallWeight > parcel_weight) {
             var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             } else if (overallWeight < parcel_weight) {
             var price = parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
             }
         }
@@ -710,8 +678,8 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
             document.getElementById('parcel_zabor_cost').value = 0;
         }
         if (document.getElementById('parcel_dostavka').checked == true) {
-            dostavka = 2;
-            document.getElementById('parcel_dostavka_cost').value = 2;
+            dostavka = 6;
+            document.getElementById('parcel_dostavka_cost').value = 6;
         } else if (document.getElementById('parcel_dostavka').checked == false) {
             dostavka = 0;
             document.getElementById('parcel_dostavka_cost').value = 0;
@@ -721,16 +689,13 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
         if (document.getElementById('parcel_weight').value == '')
         {
             parcel_weight = 1;
-//                        document.getElementById('parcel_weight').value = 1;
 
             if (overallWeight > parcel_weight) {
             var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             } else if (overallWeight < parcel_weight) {
             var price = parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
             }
         }
@@ -738,12 +703,10 @@ document.getElementById('parcel_procent_prod_cost').value = 0;
         {
         if (overallWeight > parcel_weight) {
             var price = (overallWeight - parcel_weight) * 2 + parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
 
             } else if (overallWeight < parcel_weight) {
             var price = parcel_weight * pricePlan + zabor + dostavka;
-//            document.getElementById('parcel_cost').value = Math.round(price);
             document.getElementById('parcel_cost').value = price.toFixed(2).replace(/\.0+$/,'');
             }
         }
@@ -778,10 +741,7 @@ function onFormSubmit() {
         resetForm();
     }
 }
-//function filenameget() {
-//var tt = $('#prod_images').prop('files')[0];
-//alert(tt);
-//}
+
 function readFormData() {
     var formData = {};
     formData["prod_name"] = document.getElementById("prod_name").value;
@@ -791,7 +751,6 @@ function readFormData() {
     formData["prod_total_cost"] = parseFloat(document.getElementById("prod_cnt").value) * parseFloat(document.getElementById("prod_cost").value);
     formData["prod_tnved"] = document.getElementById("prod_tnved").value;
     formData["prod_weight"] = document.getElementById("prod_weight").value;
-
 //    formData["prod_images"] = $('#prod_images').prop('files')[0];
     return formData;
 }
@@ -824,7 +783,6 @@ function insertNewRecord(data) {
     cell7.innerHTML = `<a href="#" onClick="onEdit(this); divShow();"><i class="fa fa-pencil"></i></a>
                        <a href="#" onClick="onDelete(this)"><i class="fa fa-trash"></i></a>`;
                        calculate();
-<!--                       document.getElementById("parcel_procent_prod_cost").value = 100;-->
                        setvalues();
 
 
@@ -908,11 +866,6 @@ function validate() {
     }
     return isValid;
 }
-
-
-
-
-
 
 </script>
 
