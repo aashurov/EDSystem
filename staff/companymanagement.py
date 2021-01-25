@@ -13,7 +13,7 @@ def companycreate(request):
     companyexpenses.usd = 0
     companyexpenses.save()
     companyaccount = CompanyAccount()
-    companyaccount.usd = 10000
+    companyaccount.usd = 0
     companyaccount.save()
     return redirect('staff')
 
